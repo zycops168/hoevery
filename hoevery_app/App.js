@@ -10,7 +10,7 @@ import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import googleMap from './src/screen/googleMap';
 import detialCar from './src/screen/detailCar';
-// test github
+// test github form dev branch
 
 const Stack = createStackNavigator();
 function MyStack() {
