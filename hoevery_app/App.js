@@ -10,6 +10,7 @@ import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import googleMap from './src/screen/googleMap';
 import detialCar from './src/screen/detailCar';
+import AddCar from './src/screen/addCar';
 // test github
 
 const Stack = createStackNavigator();
@@ -45,6 +46,10 @@ function MyStack() {
         name="detialCar"
         component={detialCar}
         // options={{title: 'HomeScreen'}}
+      />
+      <Stack.Screen
+        name="AddCar"
+        component={AddCar}
       />
     </Stack.Navigator>
   );

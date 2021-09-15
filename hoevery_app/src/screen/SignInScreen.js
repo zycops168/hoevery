@@ -22,6 +22,7 @@ import {styles} from '../style';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
+import AddCar from './addCar';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -104,7 +105,7 @@ const SignInScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#5F9595" barStyle="light-content" />
+      <StatusBar backgroundColor="#F1CA89" barStyle="light-content" />
       <View style={styles.backgound}>
         <View style={styles.textHeader}>
           <Text style={styles.text_header1}>WELCOME</Text>
@@ -122,7 +123,7 @@ const SignInScreen = ({navigation}) => {
             Registering to this website,
             {'\n'} you accept our {'\n'}
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => {}} style={{}}>
+              <TouchableOpacity onPress={() => {navigation.navigate('AddCar');}} style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',

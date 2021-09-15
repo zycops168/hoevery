@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   backgound: {
     flex: 10,
-    backgroundColor: '#5F9595',
+    backgroundColor: '#F1CA89',
   },
   body: {
     flex: 1,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     padding: 5,
-    backgroundColor: '#4C8181',
+    backgroundColor: '#CC9B6D',
   },
   text_header1: {
     color: '#fff',
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   homeScreen: {
     margin: 10,
-  }
+  },
 });
 
 export { styles }
