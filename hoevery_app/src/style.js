@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
   },
+  // theme color
   backgound: {
     flex: 10,
     backgroundColor: '#5F9595',
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 5,
     backgroundColor: '#4C8181',
+    top: -20
   },
   text_header1: {
     color: '#fff',

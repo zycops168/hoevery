@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker, Callout, Polygon, Circle} from 'react-native-maps';
 
 export default class googleMap extends Component {
   render() {
@@ -22,6 +22,19 @@ export default class googleMap extends Component {
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}>
+
+          <Marker
+            coordinate={{latitude: 13.943206, longitude: 100.6516846}}
+            image={require('../../images/banner/user_onMap.png')}
+            title="Excavator01"
+            description="tel: 082-1234567"></Marker>
+          <Circle
+            center={{latitude: 13.943206, longitude: 100.6516846}}
+            radius={1500}
+            fillColor={'rgba(200, 300, 200, 0.5)'}
+            strokeWidth={0}
+          />
+
           <Marker
             coordinate={{latitude: 13.9411105, longitude: 100.6403282}}
             image={require('../../images/banner/map_mark.png')}
