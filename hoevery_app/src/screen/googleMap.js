@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
 
-export default class googleMap extends Component {
-  render() {
+// export default class googleMap extends Component {
+const  googleMap= ({navigation}) => {
     return (
       <View style={styles.container}>
         <MapView
@@ -26,7 +26,10 @@ export default class googleMap extends Component {
             coordinate={{latitude: 13.9411105, longitude: 100.6403282}}
             image={require('../../images/banner/map_mark.png')}
             title="Excavator01"
-            description="tel: 082-1234567"></Marker>
+            description="tel: 082-1234567"
+            onCalloutPress={() => navigation.navigate('total')}>
+
+            </Marker>
 
           <Marker
             coordinate={{latitude: 13.9364533, longitude: 100.641779}}
@@ -53,7 +56,7 @@ export default class googleMap extends Component {
       </View>
     );
   }
-}
+
 
 const styles = StyleSheet.create({
   map: {
@@ -99,3 +102,5 @@ const styles = StyleSheet.create({
     height: 80,
   },
 });
+
+export default googleMap;

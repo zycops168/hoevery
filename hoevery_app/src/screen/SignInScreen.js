@@ -22,6 +22,7 @@ import {styles} from '../style';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
+import AddCar from './addCar';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -99,12 +100,12 @@ const SignInScreen = ({navigation}) => {
         }
       })
       // .catch(error => alert('error', error));
-    navigation.navigate('googleMap');
+    navigation.navigate('mainPage');
   };
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#5F9595" barStyle="light-content" />
+      <StatusBar backgroundColor="#F1CA89" barStyle="light-content" />
       <View style={styles.backgound}>
         <View style={styles.textHeader}>
           <Text style={styles.text_header1}>WELCOME</Text>
@@ -157,7 +158,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#CC9B6D',
                   }}>
                   Username
                 </Text>
@@ -165,7 +166,7 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="user"
-                    color="#5F9595"
+                    color="#CC9B6D"
                     size={20}
                   />
                   <TextInput
@@ -185,7 +186,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#CC9B6D',
                     marginTop: 5,
                   }}>
                   Password
@@ -194,7 +195,7 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="lock"
-                    color="#5F9595"
+                    color="#CC9B6D"
                     size={20}
                   />
                   <TextInput
@@ -233,7 +234,7 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={['#5F9595', '#375F5F']}
+                      colors={['#CC9B6D', '#F1CA89']}
                       style={styles.signIn}>
                       <Text style={[styles.textSignIn, {color: '#ffff'}]}>
                         Sign In
