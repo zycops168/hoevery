@@ -2,57 +2,67 @@ import React, {useState} from 'react'
 import { StyleSheet, Text, View, TouchableOpacity,FlatList} from 'react-native'
 import Icon from  'react-native-vector-icons/dist/FontAwesome'
 import uuid from 'uuid-random'
-export default function AddCar({navigation}) {
+export default function AddCar({navigation,item}) {
 
-    const [item, setItem] = useState([
-        {id: uuid(), text: "รถเบ๊น"},
-        {id: uuid(), text: "รถเก๋ง"},
-        {id: uuid(), text: "จักรยาน"},
-        {id: uuid(), text: "มอไซด์"},
-        {id: uuid(), text: "สามล้อ"},
-        {id: uuid(), text: "สิบล้อ"}
+    const [items, setItems] = useState([
+        {id: uuid(), text: "รถเบ๊น"}
     ])
-    const [text, setText] = useState('');
-    const onChange = textValue => setText(textValue);
 
+  
     return (
         <View style={styles.screen}>
                <View style={styles.viewList}>
-               <TouchableOpacity style={styles.header}>
-                 <Text style={styles.text}> MY EXCAVATOR</Text>
-                 <Icon name="plus" size={20}/>
+               <TouchableOpacity  style={styles.header}>
+                 <Text style={styles.text}>  MY EXCAVATOR</Text>
                </TouchableOpacity>
-        
-                  <FlatList data={item}
+                  <FlatList data={items}
                     renderItem={({item}) => (    
                     <TouchableOpacity style={styles.listitem}>
-                        <View style={styles.listview}>
-                         <Text style={styles.listtext}>{item.text}</Text>
+                        <View style={styles.listview}>                            
+                            <Text style={styles.listtext}>
+                            <Icon name="edit" size={18}/>   
+                                    {item.text}
+                            <Icon name='remove' size={20} color='red'
+                 onPress={() => deleteItem(item.id)}/>   
+                            </Text>
                         </View>
                             </TouchableOpacity>)}/> 
                          </View>
-                        <View>
-                        <TouchableOpacity style={styles.roundButton1} 
-                        onPress={()=> navigation.navigate('detail')}>
-                            <Icon name="plus" size={30}/>
+                        <TouchableOpacity style={styles.footer}
+                        onPress={()=> navigation.navigate('detailCar')}>
+                           <Text style={styles.textaddbtn}> ADD NEW EXCAVATOR </Text>                          
                         </TouchableOpacity>
-                    </View>
+                        <View style={styles.pad_bot}>
+                            <Text>-</Text>
+                        </View>
            </View>
     )
 }
 
 const styles = StyleSheet.create({
+    pad_bot:{      
+        backgroundColor:'white',
+        alignSelf:'stretch'
+    },
+    footer:{
+        flex:0.4,
+        backgroundColor: '#F1CA89',
+        justifyContent: 'center',
+        alignSelf:'stretch',
+        borderRadius:12
+    },
     roundButton1: {
         width: 100,
-        height: 100,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
-        borderRadius: 80,
+        alignSelf:'stretch',
+        paddingBottom: 20,
+         borderRadius: 80,
         backgroundColor: 'orange',
-        position: 'absolute',
-        right:20,
-        bottom: 20
+        
+        // position: 'absolute',
+        // right:20,
+        // bottom: 20
       },
         add: {
           fontSize:30
@@ -61,48 +71,55 @@ const styles = StyleSheet.create({
             flex: 1,
             justifyContent: 'flex-end',
             alignItems: 'flex-end',
-            padding: Platform.OS === 'ios' ? 25 :15,
+            padding: Platform.OS === 'ios' ? 25 :0,
            // paddingBottom: 40
-            backgroundColor:'black'
+            backgroundColor:'white'
           },
           header : {
-            width:"80%",
-            height:50,
-            flex :1,
-            backgroundColor:'#CC9B6D',
+            flex :0.2,
+            backgroundColor:'#fff8dc',
+            justifyContent: 'center',
             alignItems: 'center',
-            alignSelf:  'center',
-            borderRadius: 30
-            
-        
+            alignSelf:  'stretch',
+            borderRadius: 13,
           },
           viewList: {
             width:"100%",
-            height:50,
+            height:20,
             flex:5,
-            backgroundColor: '#ffffe0',
-            borderRadius:20
+            backgroundColor: 'white',
+          
             
           },
           text: {
-            padding:20,
-            fontSize: 30,
+            padding:5,
+            fontSize: 18,
+            fontWeight: 'bold',
+            alignSelf:'center',
+            color:'#2f4f4f'
+          },
+          textaddbtn: {
+            padding:15,
+            fontSize: 16,
             justifyContent: 'center',
-            alignSelf:'center'
+            alignSelf:'center',
+            color:'#2f4f4f'
           },
           listitem: {
             padding:20,
-            backgroundColor: '#ffffe0',
-            //borderBottomWidth: 1
-           alignSelf:'center',
+            backgroundColor: 'white',
+           alignSelf:'stretch',
+           borderBottomWidth: 1,
+           borderColor: '#eee'
+          
            
         },
         listview: {
-           flexDirection: 'column',
-           justifyContent: "space-between",
+           flexDirection: 'row',
+           justifyContent: 'space-between',
         },
         listtext: {
-           fontSize: 20
+           fontSize: 16
         }  
 
 

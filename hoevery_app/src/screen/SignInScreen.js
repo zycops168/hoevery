@@ -100,7 +100,7 @@ const SignInScreen = ({navigation}) => {
         }
       })
       // .catch(error => alert('error', error));
-    navigation.navigate('googleMap');
+    navigation.navigate('mainPage');
   };
 
   return (
@@ -123,7 +123,7 @@ const SignInScreen = ({navigation}) => {
             Registering to this website,
             {'\n'} you accept our {'\n'}
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => {navigation.navigate('AddCar');}} style={{}}>
+              <TouchableOpacity onPress={() => {}} style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -158,7 +158,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#CC9B6D',
                   }}>
                   Username
                 </Text>
@@ -166,7 +166,7 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="user"
-                    color="#5F9595"
+                    color="#CC9B6D"
                     size={20}
                   />
                   <TextInput
@@ -186,7 +186,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#CC9B6D',
                     marginTop: 5,
                   }}>
                   Password
@@ -195,7 +195,7 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="lock"
-                    color="#5F9595"
+                    color="#CC9B6D"
                     size={20}
                   />
                   <TextInput
@@ -234,7 +234,7 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={['#5F9595', '#375F5F']}
+                      colors={['#CC9B6D', '#F1CA89']}
                       style={styles.signIn}>
                       <Text style={[styles.textSignIn, {color: '#ffff'}]}>
                         Sign In
