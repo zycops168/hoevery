@@ -11,6 +11,7 @@ import {
   TextInput,
   ActivityIndicator,
   StatusBar,
+  ScrollView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
@@ -65,33 +66,34 @@ const SignInScreen = ({navigation}) => {
   const [isSelected, setSelection] = React.useState(false);
 
   const login = () => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+    // var myHeaders = new Headers();
+    // myHeaders.append('Content-Type', 'application/json');
 
-    var raw = JSON.stringify({
-      username: data.username,
-      password: data.password,
-    });
+    // var raw = JSON.stringify({
+    //   username: data.username,
+    //   password: data.password,
+    // });
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-    fetch('', requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        try {
-          const responseJson = JSON.parse(result);
+    // var requestOptions = {
+    //   method: 'POST',
+    //   headers: myHeaders,
+    //   body: raw,
+    //   redirect: 'follow',
+    // };
+    // fetch('', requestOptions)
+    //   .then(response => response.text())
+    //   .then(result => {
+    //     try {
+    //       const responseJson = JSON.parse(result);
 
-          if (responseJson._uuid != null) {
-            var user = new UserModel();
-            user.uuid = responseJson._uuid;
-            user.username = responseJson.username;
-            user.role = responseJson.role;
-            user.access_token = responseJson.access_token;
+    //       if (responseJson._uuid != null) {
+    //         var user = new UserModel();
+    //         user.uuid = responseJson._uuid;
+    //         user.username = responseJson.username;
+    //         user.role = responseJson.role;
+    //         user.access_token = responseJson.access_token;
 
+<<<<<<< HEAD
             UserController.setListUser(user);
             navigation.navigate('HomeScreen');
           }
@@ -101,12 +103,33 @@ const SignInScreen = ({navigation}) => {
       })
       // .catch(error => alert('error', error));
     navigation.navigate('mainPage');
+=======
+    //         UserController.setListUser(user);
+    //         navigation.navigate('HomeScreen');
+    //       }
+    //     } catch (err) {
+    //       alert(result);
+    //     }
+    //   })
+    // .catch(error => alert('error', error));
+    navigation.navigate('googleMap');
+>>>>>>> 5ec8228ebe40f513c89cfe10b3ae3a2b768387a5
   };
 
   return (
     <View style={styles.container}>
+<<<<<<< HEAD
       <StatusBar backgroundColor="#F1CA89" barStyle="light-content" />
       <View style={styles.backgound}>
+=======
+      {/* Theme color => StatusBar */}
+      <StatusBar backgroundColor="#5F9595" barStyle="light-content" />
+      <ScrollView
+        keyboardDismissMode={'on-drag'}
+        stickyHeaderIndices={[2]}
+        scrollEnabled={false}
+        style={styles.backgound}>
+>>>>>>> 5ec8228ebe40f513c89cfe10b3ae3a2b768387a5
         <View style={styles.textHeader}>
           <Text style={styles.text_header1}>WELCOME</Text>
           <Text style={styles.text_header1}>TO</Text>
@@ -247,7 +270,9 @@ const SignInScreen = ({navigation}) => {
                   <Text style={{fontSize: 14, margin: 5, color: '#828282'}}>
                     Not a member ?
                   </Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')} style={{}}>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('SignUpScreen')}
+                    style={{}}>
                     <Text
                       style={{
                         fontSize: 14,
@@ -263,45 +288,45 @@ const SignInScreen = ({navigation}) => {
             </View>
           </View>
         </Animatable.View>
-      </View>
-      <View style={styles.footer}>
-        <View style={{}}>
-          <Text
-            style={{
-              color: '#fff',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: 15,
-              paddingTop: 5,
-            }}>
-            FIND US ON
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 10,
-            }}>
-            <Image
-              style={styles.icon}
-              source={require('../../images/icon-png-facebook.png')}
-            />
-            <Image
-              style={styles.icon}
-              source={require('../../images/icon-png-line.png')}
-            />
-            <Image
-              style={styles.icon}
-              source={require('../../images/icon-png-youtube.png')}
-            />
-            <Image
-              style={styles.icon}
-              source={require('../../images/icon-png-twitter.png')}
-            />
+        <View style={styles.footer}>
+          <View style={{}}>
+            <Text
+              style={{
+                color: '#fff',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                fontSize: 15,
+                paddingTop: 5,
+              }}>
+              FIND US ON
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 10,
+              }}>
+              <Image
+                style={styles.icon}
+                source={require('../../images/icon-png-facebook.png')}
+              />
+              <Image
+                style={styles.icon}
+                source={require('../../images/icon-png-line.png')}
+              />
+              <Image
+                style={styles.icon}
+                source={require('../../images/icon-png-youtube.png')}
+              />
+              <Image
+                style={styles.icon}
+                source={require('../../images/icon-png-twitter.png')}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
