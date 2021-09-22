@@ -8,4 +8,4 @@
 
 <h1> Hardware </h1>
 <h2>Diagram</h2>
-<img src="diagram.jpg" width="500">
+<img src="hw/diagram.jpg" width="500">
