@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   // theme color
   backgound: {
     flex: 10,
-    backgroundColor: '#F1CA89',
+    backgroundColor: '#eeeeeeee',
   },
   body: {
     flex: 1,
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 1.22,
-
     elevation: 2,
   },
 
@@ -104,21 +103,20 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     padding: 5,
-<<<<<<< HEAD
-    backgroundColor: '#CC9B6D',
-=======
-    backgroundColor: '#4C8181',
+    backgroundColor: 'gold',
     top: -20
->>>>>>> 5ec8228ebe40f513c89cfe10b3ae3a2b768387a5
   },
   text_header1: {
-    color: '#fff',
+    color: '#362222',
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 36,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: 4, height: 2},
+    textShadowRadius: 12
   },
   text_header2: {
-    color: '#fff',
+    color: '#362222',
     textAlign: 'center',
     fontSize: 14,
     paddingBottom: 20,
