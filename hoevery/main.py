@@ -32,7 +32,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# @app.get("/.*", include_in_schema=False)
+# def root():
+#     return HTMLResponse(pkg_resources.resource_string(__name__, 'static/index.html'))
 
 #IMPORT login_router
 from routers.user import router as user_router

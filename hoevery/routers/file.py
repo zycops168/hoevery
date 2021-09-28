@@ -9,10 +9,10 @@ from starlette.responses import StreamingResponse
 
 from routers.import_excel import *
 
-import pandas as pd
+#import pandas as pd
 import openpyxl
-import xlrd
-import xlsxwriter
+#import xlrd
+#import xlsxwriter
 import pyexcel as p
 from io import BytesIO
 
@@ -32,7 +32,7 @@ def rqp2dict(request):
 
 
 @router.post("/upload-file")
-async def create_upload_file(username:str = "username_file" ,uploaded_file: UploadFile = File(...)):
+async def create_upload_file(username:str = "username_file", uploaded_file: UploadFile = File(...)):
     file_location = f"files/upload/{username}_{uploaded_file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(uploaded_file.file.read())
@@ -40,17 +40,19 @@ async def create_upload_file(username:str = "username_file" ,uploaded_file: Uplo
 
 
 @router.post("/upload-multi-file")
-async def upload_file(files: List[UploadFile] = File(...)):
+async def upload_file(username:str = "username_file", files: List[UploadFile] = File(...)):
+    list = []
     for img in files:
-        file_location = f"files/download/{img.filename}"
+        file_location = f"files/upload/{username}_{img.filename}"
+        list.append(f"{username}_{img.filename}")
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(img.file, buffer)
-    return {"file_name": "Good"}
+    return dict(ret=0, msg="Complete.", data={"info": f"files '{list}' saved at 'files/upload/'"})
 
 
 @router.get("/download-file/{path}")
 async def download_file(path: str):
-    return FileResponse(f"files/download/{path}", media_type='application/octet-stream',filename=f"{path}")
+    return FileResponse(f"files/upload/{path}", media_type='application/octet-stream',filename=f"{path}")
 
 
 # @router.get("/export-excel")
@@ -58,10 +60,10 @@ async def download_file(path: str):
 #     return "ok"
 
 
-@router.post("/import-excel")
+#@router.post("/import-excel")
 async def import_excel(file: UploadFile = File(...)):
     # upload file xlrd before read file.
-    file_location = f"files/download/{file.filename}"
+    file_location = f"files/upload/{file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
 
@@ -83,9 +85,9 @@ async def import_excel(file: UploadFile = File(...)):
     
     return result
 
-@router.get("/export-excel-company")
+#@router.get("/export-excel-company")
 async def export_excel(request: Request):
-    file_location = f'files/download/report_company.xls'
+    file_location = f'files/upload/report_company.xls'
     with SessionContext() as se:
         query = db.company()
         params = rqp2dict(request)
@@ -106,9 +108,9 @@ async def export_excel(request: Request):
     # return dict(ret=0, msg="Complete", data1=records_db)
 
 
-@router.get("/export-excel-department")
+#@router.get("/export-excel-department")
 async def export_excel(request: Request):
-    file_location = f'files/download/report_department.xls'
+    file_location = f'files/upload/report_department.xls'
     with SessionContext() as se:
         query = db.department()
         params = rqp2dict(request)
@@ -127,9 +129,9 @@ async def export_excel(request: Request):
         p.save_as(records=records, dest_file_name=file_location) 
     return FileResponse(file_location, media_type='application/octet-stream',filename='report_department.xls') 
 
-@router.get("/export-excel-employee")
+#@router.get("/export-excel-employee")
 async def export_excel(request: Request):
-    file_location = f'files/download/report_employee.xls'
+    file_location = f'files/upload/report_employee.xls'
     with SessionContext() as se:
         query = db.employee()
         params = rqp2dict(request)
@@ -154,7 +156,7 @@ async def export_excel(request: Request):
 # @router.post("impot-excel-pyexcel")
 async def import_excel_pyexcel(file: UploadFile = File(...)):
     # upload file xlrd before read file.
-    file_location = f"files/download/{file.filename}"
+    file_location = f"files/upload/{file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
 

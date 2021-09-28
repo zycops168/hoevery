@@ -6,3 +6,6 @@ bcrypt
 python-jose[cryptography]
 psycopg2
 gunicorn
+openpyxl
+pyexcel
+python-multipart
