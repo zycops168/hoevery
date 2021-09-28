@@ -7,30 +7,42 @@ from typing import Optional, List
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials, OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import or_
-
+import json
 import schemas
 
 router = APIRouter()
 
 @router.get("/get-car-with-type", status_code=200, tags=["TENANT"])
-def get_car_with_type(response: Response, workType: str):
+def get_car_with_type(response: Response, typeOfWork: str):
     with SessionContext() as se:
         try:
-            query = se.query(db.mycar)
+            workList = ["JOBTYPETEST", "Natural canal dredging", "Dig a common holeto make a base", "dig a canal", "dig a drainage hole", "Dig soilSoft soil", "Min soilpebblelimestonemineral rock"]
+
+            typeOfWorkDB = se.query(db.typeOfWork).filter(db.typeOfWork.name == typeOfWork).first()
+            lenOfJsonData = len(typeOfWorkDB.machine_type)
+            # print('typeOfWorkDB: ', typeOfWorkDB.machine_type)
+            # print('len of typeOfWorkDB: ', len(typeOfWorkDB.machine_type))
+            # print(f"typeOfWorkDB.machine_type['1']: {typeOfWorkDB.machine_type['1']}")
+            
+            query = se.query(db.carForRent)
             total = query.count()
-            if (workType) == 'Canal-Dreading':
-                # filter or
-                data = query.filter(or_(getattr(db.mycar, 'type') == 'Excavator', getattr(db.mycar, 'type') == 'Dragline-Excavators'))
-            elif (workType) == 'Crowded':
-                data = query.filter(or_(getattr(db.mycar, 'type') == 'Mini-Excavator', getattr(db.mycar, 'type') == 'Skid-Steer-Excavators'))
+            for i in range(len(workList)):
+                if (typeOfWorkDB.name) == workList[i]:
+                    # filter or
+                    if (lenOfJsonData) == 1 :
+                        data = query.filter((getattr(db.carForRent, 'type') == typeOfWorkDB.machine_type['1']))
+                    elif (lenOfJsonData) == 2 :
+                        data = query.filter(or_(getattr(db.carForRent, 'type') == typeOfWorkDB.machine_type['1'], getattr(db.carForRent, 'type') == typeOfWorkDB.machine_type['2']))
+                    elif (lenOfJsonData) == 3 :
+                        data = query.filter(or_(getattr(db.carForRent, 'type') == typeOfWorkDB.machine_type['1'], getattr(db.carForRent, 'type') == typeOfWorkDB.machine_type['2'],getattr(db.carForRent, 'type') == typeOfWorkDB.machine_type['3']))
             
             if not data:
                 response.status_code = status.HTTP_404_NOT_FOUND
-                return dict(ret=-1, msg=f"{workType} not found")
+                return dict(ret=-1, msg=f"{typeOfWork} not match another machine")
             
         except Exception as e:
             response.status_code = status.HTTP_404_NOT_FOUND
-            return dict(ret=-1, msg=f"{workType} not found")
+            return dict(ret=-1, msg=f"Failed, {typeOfWork} not match another machine")
         
         query_filtered = data.count()
         data = data.all()
@@ -42,8 +54,8 @@ def get_car_with_type(response: Response, workType: str):
 def get_price_with_car_selected(response: Response, car_id: int):
     with SessionContext() as se:
         try:
-            query = se.query(db.mycar)
-            carDetial = query.filter(db.mycar.id == car_id).first()
+            query = se.query(db.carForRent)
+            carDetial = query.filter(db.carForRent.id == car_id).first()
             if not carDetial:
                 response.status_code = status.HTTP_404_NOT_FOUND
                 return dict(ret=-1, msg="Can't find the car")
@@ -60,7 +72,7 @@ def get_price_with_car_selected(response: Response, car_id: int):
 def rental(response: Response, request: schemas.RentalForm):
     data = request.dict()
     with SessionContext() as se:
-        newRental = db.rental()
+        newRental = db.rentalHistory()
         for key in data:
             if hasattr(newRental, key):
                 setattr(newRental, key, data.get(key))

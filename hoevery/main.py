@@ -3,12 +3,16 @@ from fastapi import FastAPI, Depends
 from config import settings
 from config.db import *
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(
     title="TEST APIs",
     description="Test api docs.",
     version="0.1.1"
     )
+
+
 
 origins = [
     "http://localhost.tiangolo.com",
@@ -27,6 +31,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 #IMPORT login_router
 from routers.user import router as user_router
@@ -67,6 +73,14 @@ app.include_router(
     service_router, 
     prefix="/service",
     tags=["SERVICE"]
+)
+
+from routers.file import router as file_router
+#INCLUDE to app
+app.include_router(
+    file_router, 
+    prefix="/file",
+    tags=["FILE"]
 )
 
 if __name__ == "__main__":

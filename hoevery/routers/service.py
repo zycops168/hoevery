@@ -13,22 +13,22 @@ router = APIRouter()
 
 
 @router.post("/insert-job-type", tags=["SERVICE"], status_code=200)
-async def insert_job_type(request: schemas.JobTypeForm, response: Response):
+async def insert_job_type(request: schemas.WorkOfTypeForm, response: Response):
     data = request.dict()
     with SessionContext() as se:
-        alreadyJobType = se.query(db.jobtype).filter(db.jobtype.name == data['name']).first()
-        if alreadyJobType:
+        alreadyTypeOfWork = se.query(db.typeOfWork).filter(db.typeOfWork.name == data['name']).first()
+        if alreadyTypeOfWork:
             response.status_code = status.HTTP_404_NOT_FOUND
-            return dict(ret=-1, msg="Job Type already exits.")
+            return dict(ret=-1, msg=f"{data['name']} already exits.")
 
-        newJobType = db.jobtype()
+        newTypeOfWork = db.typeOfWork()
         for key in data:
-            if hasattr(newJobType, key):
-                    setattr(newJobType, key, data.get(key))
-        se.add(newJobType)
+            if hasattr(newTypeOfWork, key):
+                    setattr(newTypeOfWork, key, data.get(key))
+        se.add(newTypeOfWork)
         se.commit()
-        se.refresh(newJobType)
-        return dict(ret=0, msg="Complete.", data= f"{newJobType.name} has been saved successfully.")
+        se.refresh(newTypeOfWork)
+        return dict(ret=0, msg="Complete.", data= f"{newTypeOfWork.name} has been saved successfully.")
 
 # @router.get("", status_code=200, tags=["SERVICE"])
 # def all(response: Response):

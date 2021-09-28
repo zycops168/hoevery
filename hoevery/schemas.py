@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional, List
 
+
 class RegisterForm(BaseModel):
     username: str
     password: str
@@ -8,6 +9,7 @@ class RegisterForm(BaseModel):
     lastname: str
     tel: str
     image: str
+
     class Config:
         title = "[USER] Insert"
         schema_extra = dict(
@@ -17,9 +19,10 @@ class RegisterForm(BaseModel):
                 firstname="firstname",
                 lastname="lastname",
                 tel="0912345678",
-                image= ""
+                image="",
             )
         )
+
 
 class LoginForm(BaseModel):
     username: str = None
@@ -27,15 +30,12 @@ class LoginForm(BaseModel):
 
     class Config:
         title = "[USER] Login"
-        schema_extra = dict(
-            example=dict(
-                username="admin",
-                password="1234"
-            )
-        )
+        schema_extra = dict(example=dict(username="admin", password="1234"))
+
 
 class AddCarForm(BaseModel):
     id: str = None
+    create_by: str = None
     carname: str = None
     type: str = None
     size: str = None
@@ -48,11 +48,23 @@ class AddCarForm(BaseModel):
         title = "[LESSOR] Insert"
         schema_extra = dict(
             example=dict(
-                carname = "Excavator",
-                type = "Excavator",
-                size = "PC-30",
-                price = {'Daily':'$278.00', 'Weekly': ' $874.00', 'Monthly':'1,858.00'},
-                function = {'*OPERATING WEIGHT':'8,340LBS','MAXIMUM CUTTING HEIGHT': '16.3 FT', 'MAXIMUM DUMPING HEIGHT': '11.9FT', 'MAXIMUM DIGGING DEPTH': '11.4FT','MAXIMUM DIGGING REACH': '18.1FT','MINIMUM FRONT SWING RADIUS': '7.2FT','TRANSPORT LENGTH': '15.7FT', 'UPPER STRUCTURE WIDTH': '5.1FT', 'CANOPY': '8.2FT','CAB': '8.2FT'}
+                carname="Excavator",
+                create_by="admin",
+                type="Excavator",
+                size="PC-30",
+                price={"Daily": "$278.00", "Weekly": " $874.00", "Monthly": "1,858.00"},
+                function={
+                    "*OPERATING WEIGHT": "8,340LBS",
+                    "MAXIMUM CUTTING HEIGHT": "16.3 FT",
+                    "MAXIMUM DUMPING HEIGHT": "11.9FT",
+                    "MAXIMUM DIGGING DEPTH": "11.4FT",
+                    "MAXIMUM DIGGING REACH": "18.1FT",
+                    "MINIMUM FRONT SWING RADIUS": "7.2FT",
+                    "TRANSPORT LENGTH": "15.7FT",
+                    "UPPER STRUCTURE WIDTH": "5.1FT",
+                    "CANOPY": "8.2FT",
+                    "CAB": "8.2FT",
+                },
             )
         )
 
@@ -67,27 +79,31 @@ class MyCarForm(BaseModel):
 
     class Config:
         title = "[TENANT] Login"
-        schema_extra = dict(
-            example=dict(
-                
-            )
-        )
+        schema_extra = dict(example=dict())
 
-class JobTypeForm(BaseModel):
+
+class WorkOfTypeForm(BaseModel):
     name: str = None
+    machine_type: dict = None
 
     class Config:
         title = "[SERVICE] Insert"
         schema_extra = dict(
             example=dict(
-                name="JobType",
+                name="JOBTYPETEST",
+                machine_type={
+                    "1": "Excavator-Test",
+                    "2": "Mini-Excavator-Test",
+                    "3": "Skid-Steer-Excavators-Test",
+                },
             )
         )
+
 
 class RentalForm(BaseModel):
     car_id: int
     rental_by_id: int
-    
+
     class Config:
         title = "[TENANT] Insert"
         schema_extra = dict(
@@ -98,48 +114,50 @@ class RentalForm(BaseModel):
         )
 
 
-## demo 
+## demo
 class User(BaseModel):
-    name:str
-    email:str
-    password:str
+    name: str
+    email: str
+    password: str
+
     class Config:
         title = "[USER] Login"
         schema_extra = dict(
-            example=dict(
-                name="test",
-                email="test@gmail.com",
-                password="1234"
-            )
+            example=dict(name="test", email="test@gmail.com", password="1234")
         )
+
 
 class BlogBase(BaseModel):
     title: str
     body: str
 
+
 class Blog(BlogBase):
-    class Config():
+    class Config:
         orm_mode = True
 
+
 class ShowUser(BaseModel):
-    name:str
-    email:str
-    blogs : List[Blog] =[]
-    class Config():
+    name: str
+    email: str
+    blogs: List[Blog] = []
+
+    class Config:
         orm_mode = True
+
 
 class ShowBlog(BaseModel):
     title: str
-    body:str
+    body: str
     creator: ShowUser
 
-    class Config():
+    class Config:
         orm_mode = True
 
 
 class Login(BaseModel):
     username: str
-    password:str
+    password: str
 
 
 class Token(BaseModel):
@@ -149,7 +167,3 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     email: Optional[str] = None
-
-
-
-

@@ -8,7 +8,6 @@ from sqlalchemy.ext.declarative import declarative_base, declared_attr
 
 from sqlalchemy.sql import expression
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
-
 import sys
 
 db = sys.modules[__name__]
@@ -41,7 +40,7 @@ class SessionContext:
 #     creator = relationship("user", back_populates="blogs")
 
 class user(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'USER'
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String)
     password = Column(String)
@@ -50,13 +49,13 @@ class user(Base):
     tel = Column(String)
     image = Column(String)
     
-    mycar=relationship('mycar', back_populates="creator")
-    rental_=relationship('rental', back_populates="rental_by")
+    mycar=relationship('carForRent', back_populates="creator")
+    rental_=relationship('rentalHistory', back_populates="rental_by")
 
 
 
-class mycar(Base):
-    __tablename__ = 'mycar'
+class carForRent(Base):
+    __tablename__ = 'CAR_FOR_RENT'
     id = Column(Integer, primary_key=True, index=True)
     carname = Column(String)
     type = Column(String)
@@ -64,23 +63,24 @@ class mycar(Base):
     price = Column(JSON)
     function = Column(JSON)
     image = Column(String)
-    owner_id = Column(Integer, ForeignKey('user.id'))
+    owner_id = Column(Integer, ForeignKey('USER.id'))
 
     creator = relationship("user", back_populates="mycar")
-    car_ = relationship("rental", back_populates="car")
+    car_ = relationship("rentalHistory", back_populates="car")
 
-class jobtype(Base):
-    __tablename__ = 'jobtype'
+class typeOfWork(Base):
+    __tablename__ = 'WORK_TYPE'
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
+    machine_type = Column(JSON)
     
-class rental(Base):
-    __tablename__ = 'rental'
+class rentalHistory(Base):
+    __tablename__ = 'RENTAL_HISTORY'
     id = Column(Integer, primary_key=True, index=True)
-    car_id = Column(Integer, ForeignKey('mycar.id'))
-    rental_by_id = Column(Integer, ForeignKey('user.id'))
+    car_id = Column(Integer, ForeignKey('CAR_FOR_RENT.id'))
+    rental_by_id = Column(Integer, ForeignKey('USER.id'))
 
-    car = relationship("mycar", back_populates="car_")
+    car = relationship("carForRent", back_populates="car_")
     rental_by = relationship("user", back_populates="rental_")
     
 
