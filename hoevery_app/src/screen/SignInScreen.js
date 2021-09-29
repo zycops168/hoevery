@@ -18,12 +18,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import CheckBox from '@react-native-community/checkbox';
-
 import {styles} from '../style';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
 import AddCar from './addCar';
+import Cookie from 'react-native-cookie';
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -80,7 +80,7 @@ const SignInScreen = ({navigation}) => {
     //   body: raw,
     //   redirect: 'follow',
     // };
-    // fetch('', requestOptions)
+    // fetch('http://203.150.107.212/user/login', requestOptions)
     //   .then(response => response.text())
     //   .then(result => {
     //     try {
@@ -94,7 +94,7 @@ const SignInScreen = ({navigation}) => {
     //         user.access_token = responseJson.access_token;
 
     //         UserController.setListUser(user);
-    //         navigation.navigate('HomeScreen');
+    //         navigation.navigate('mainPage');
     //       }
     //     } catch (err) {
     //       alert(result);
@@ -102,7 +102,11 @@ const SignInScreen = ({navigation}) => {
     //   })
     // .catch(error => alert('error', error));
     navigation.navigate('mainPage');
+    
   };
+
+  Cookie.set('http://203.150.107.212/user/login', `{data.username}`, 'bar').then(() => console.log('success'));
+  Cookie.get('http://203.150.107.212/user/all').then((cookie) => console.log(cookie));
 
   return (
     <View style={styles.container}>

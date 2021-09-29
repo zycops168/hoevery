@@ -1,45 +1,70 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import {styles} from '../style';
-import { LinearProgress,Button,Overlay } from 'react-native-elements';
+import { Picker } from '@react-native-picker/picker';
+import { styles } from '../style';
+import { LinearProgress, Button, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome'
-const findCar = ({navigation}) => {
 
-    const [ pickerValue, setPickerItemValue] = useState('click..')
+const findCar = ({ navigation }) => {
 
+    const [pickerValue, setPickerItemValue] = useState('click..')
+    console.log((pickerValue));
+    const [visible, setVisible] = useState(false);
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    }
 
-  
-        const [visible, setVisible] = useState(false);
-        const toggleOverlay = () => {
-            setVisible(!visible);
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    const getExData = () => {
+        fetch(`http://203.150.107.212/tenant/get-car-with-type?workType=${pickerValue}`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        // wait write condition for check when change page
+
+        navigation.navigate('googleMap')
+
+    }
+    const Check_getExData = (pickerValue) => {
+        if (pickerValue == "none"){
+            alert("Select Type Work")
         }
-
+        else{
+            getExData()
+        }
+    }
     return (
         // all of body 3 section header/body/footer
-        <View style={styles1.container}>   
-        {/* header */}      
-            <View style={styles1.header}> 
-                    <Text style={[styles.text_header1, {color: '#362222'}]}>EASY</Text>
-                    <Text style={[styles.text_header1, {color: '#ffd700'}]}>FIND</Text>
+        <View style={styles1.container}>
+            {/* header */}
+            <View style={styles1.header}>
+                <View style={styles1.header_easy_find}>
+                <Text style={[styles.text_header1, { color: '#362222' }]}>EASY</Text> 
+                <Text style={[styles.text_header1, { color: '#ffd700' }]}>FIND</Text>
+                </View>               
             </View>
-        {/* body */}   
+            {/* body */}
             <View style={styles1.body}>
-                    <Picker style={styles1.picker}
-                        selectedValue={pickerValue}
-                        onValueChange={(itemValue) => setPickerItemValue(itemValue)}
-                    >
-                        <Picker.Item label="Select Type Job.." value="..."/>
-                        <Picker.Item label="Natural canal dredging" value="1"/>
-                        <Picker.Item label="Dig a common hole/to make a base" value="2"/>
-                        <Picker.Item label="Dig a canal" value="3"/>
-                        <Picker.Item label="Dig a drainage hole" value="5"/>
-                        <Picker.Item label="Dig soil/Soft soil" value="6"/>
-                        <Picker.Item label="Min soil/pebble/limestone/mineral rock" value="7"/>       
-                    </Picker>
-                </View>
+                <Picker style={styles1.picker}
+                    selectedValue={pickerValue}
+                    onValueChange={(itemValue) => setPickerItemValue(itemValue)}
+                >
+                    <Picker.Item label="Select Type Job.." value="none" />
+                    <Picker.Item label="Natural canal dredging" value="natual-canal-dredging" />
+                    <Picker.Item label="Dig a common hole/to make a base" value="dig-a-common-hole/makebase" />
+                    <Picker.Item label="Dig a canal" value="dig-a-canal" />
+                    <Picker.Item label="Dig a drainage hole" value="dig-a-drainage-hole" />
+                    <Picker.Item label="Dig soil/Soft soil" value="dig-soil/soft-soil" />
+                    <Picker.Item label="Min soil/pebble/limestone/mineral rock" value="min-soil/pebble/limestone/mineral-rock" />
+                    <Picker.Item label="Crowded" value="Crowded" />
+                </Picker>
+            </View>
             <View styles={styles1.body2}>
-            {/* <TouchableOpacity style={styles1.btn_readmore}
+                {/* <TouchableOpacity style={styles1.btn_readmore}
                     onPress={() => navigation.navigate('googleMap')}>
                         <Icon name="arrow-right" size={30}/>  
                     </TouchableOpacity>
@@ -47,7 +72,7 @@ const findCar = ({navigation}) => {
                         <View style={{width:50,height:50, backgroundColor:'red'}}></View>
                     </Overlay> */}
             </View>
-        {/* footer */}        
+            {/* footer */}
             <View style={styles1.footer}>
                 {/* <TouchableOpacity style={styles1.next_button}
                   onPress={()=> navigation.navigate('googleMap')}
@@ -59,14 +84,15 @@ const findCar = ({navigation}) => {
                     onPress={() => navigation.navigate('googleMap')}>
                         <Text>Next</Text>
                     </TouchableOpacity> */}
-                    <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('mainPage')}>
-                        <Icon name="arrow-left" size={30}/>  
-                    </TouchableOpacity>
-                      <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('googleMap')}>
-                        <Icon name="arrow-right" size={30}/>  
-                    </TouchableOpacity>
+                <TouchableOpacity style={styles1.btn_readmore}
+                    onPress={() => navigation.navigate('mainPage')}>    
+                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Back</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles1.btn_readmore}
+                    onPress={() => getExData(pickerValue)}>
+                    {/* <Icon name="arrow-right" size={30} /> */}
+                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Next</Text>
+                </TouchableOpacity>
             </View>
             <LinearProgress color="#ff69b4" />
         </View>
@@ -74,61 +100,76 @@ const findCar = ({navigation}) => {
 }
 
 const styles1 = StyleSheet.create({
-    container : {
-        flex:1,
+    container: {
+        flex: 1,
         backgroundColor: '#ffff'
     },
-    header : {
-        flex:0.4,
-        padding: 10
+    header: {
+        flex: 0.3,
+        padding: 10,
+        flexDirection: 'row',
+        backgroundColor: '#fff'
     },
-    body : {
-        flex: 0.5,
-        backgroundColor:'#ffff',
+    header_btn: {
+        width:50,
+        height: 50, 
+        justifyContent: 'center',
+        alignItems:'center',
+        backgroundColor: '#fff'
     },
-    body2 : {
+    header_easy_find : {
+        flex:1,
+        justifyContent: 'flex-start',
+
+
+    },
+    body: {
+        flex: 0.6,
+        backgroundColor: '#ffff',
+    },
+    body2: {
         flex: 0.1,
-        backgroundColor:'#fff',   
+        backgroundColor: '#fff',
         padding: 10,
 
     },
-    footer : {
+    footer: {
         flex: 0.08,
-        backgroundColor:'#eeee',
-        flexDirection:'row',
+        backgroundColor: '#eeee',
+        flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 10,
     },
-    picker : {
-        alignSelf:'center',
-        width:"90%",
-        height:50,
+    picker: {
+        alignSelf: 'center',
+        width: "90%",
+        height: 50,
         borderColor: 'red',
         borderWidth: 10,
-        backgroundColor:'white',
+        backgroundColor: 'white',
         borderWidth: 10,
-        borderColor:'#000'
+        borderColor: '#000',
     },
-    text_header : {
-        fontSize:20,
-        
+    text_header: {
+        fontSize: 20,
+
     },
-    next_button : {
-        flex:  0.7,
-        padding:5,
+    next_button: {
+        flex: 0.7,
+        padding: 5,
         backgroundColor: '#ffd700',
         justifyContent: 'center',
-        alignSelf:'stretch',
-        alignItems:'center',
-        borderRadius:12
+        alignSelf: 'stretch',
+        alignItems: 'center',
+        borderRadius: 12
     },
-    btn_readmore : {
+    btn_readmore: {
         backgroundColor: '#ffd700',
-        width:"25%",
+        width: "25%",
         justifyContent: 'flex-end',
         alignItems: 'center',
-        alignSelf:'flex-end',
-        padding:10,
+        alignSelf: 'flex-end',
+        padding: 10,
         borderRadius: 10,
         shadowOffset: { width: -10, height: -10 },
         shadowColor: '#000',
@@ -141,3 +182,39 @@ const styles1 = StyleSheet.create({
 
 
 export default findCar;
+
+// import React, { useEffect, useState } from 'react';
+// import { FlatList, Text, View } from 'react-native';
+
+// export default findCar = ({navigation}) => {
+//   const [isLoading, setLoading] = useState(true);
+//   const [data, setData] = useState([]);
+//   console.log(data);
+
+//   useEffect(() => {
+//     fetch('https://raw.githubusercontent.com/adhithiravi/React-Hooks-Examples/master/testAPI.json')
+//       .then((response) => response.json())
+//       .then((json) => setData(json))
+//       .catch((error) => console.error(error))
+//       .finally(() => setLoading(false));
+//   }, []);
+
+//   return (
+
+//     <View style={{ flex: 1, padding: 24 }}>
+//       {isLoading ? <Text>Loading...</Text> : 
+//       ( <View style={{ flex: 1, flexDirection: 'column', justifyContent:  'space-between'}}>
+//           <Text style={{ fontSize: 18, color: 'green', textAlign: 'center'}}>{data.title}</Text>
+//           <Text style={{ fontSize: 14, color: 'green', textAlign: 'center', paddingBottom: 10}}>Articles:</Text>
+//           <FlatList
+//             data={data.articles}
+//             keyExtractor={({ id }, index) => id}
+//             renderItem={({ item }) => (
+//               <Text>{item.id + '. ' + item.title}</Text>
+//             )}
+//           />
+//         </View>
+//       )}
+//     </View>
+//   );
+// };

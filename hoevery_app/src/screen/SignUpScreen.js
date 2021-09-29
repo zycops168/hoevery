@@ -87,7 +87,7 @@ const SignInScreen = ({navigation}) => {
       body: raw,
       redirect: 'follow',
     };
-    fetch('', requestOptions)
+    fetch('http://203.150.107.212/user/register', requestOptions)
       .then(response => response.text())
       .then(result => {
         try {
@@ -110,10 +110,10 @@ const SignInScreen = ({navigation}) => {
     // .catch(error => alert('error', error));
     navigation.navigate('HomeScreen');
   };
-
+  
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#5F9595" barStyle="light-content" />
+      <StatusBar backgroundColor="#eeeeee" barStyle="light-content" />
       <ScrollView style={styles.backgound}>
         <View style={styles.textHeader}>
           <Text style={[styles.text_header1, {marginBottom: 10}]}>
@@ -129,7 +129,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#362222',
                   }}>
                   Username
                 </Text>
@@ -147,7 +147,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#362222',
                   }}>
                   Firstname
                 </Text>
@@ -166,7 +166,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#362222',
                   }}>
                   Lastname
                 </Text>
@@ -185,7 +185,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#362222',
                     marginTop: 5,
                   }}>
                   Password
@@ -212,7 +212,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#362222',
                     marginTop: 5,
                   }}>
                   Confirm Password
@@ -239,7 +239,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#5F9595',
+                    color: '#362222',
                     marginTop: 5,
                   }}>
                   Tel
@@ -266,9 +266,9 @@ const SignInScreen = ({navigation}) => {
                   style={{marginTop: 10}}>
                   <View>
                     <LinearGradient
-                      colors={['#5F9595', '#375F5F']}
+                      colors={['#ffd700', '#ffffff']}
                       style={styles.signIn}>
-                      <Text style={[styles.textSignIn, {color: '#ffff'}]}>
+                      <Text style={[styles.textSignIn, {color: '#362222'}]}>
                         Sign Up
                       </Text>
                     </LinearGradient>
