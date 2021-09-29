@@ -13,7 +13,6 @@ app = FastAPI(
     )
 
 
-
 origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
@@ -33,9 +32,13 @@ app.add_middleware(
 )
 
 # app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 # @app.get("/.*", include_in_schema=False)
-# def root():
-#     return HTMLResponse(pkg_resources.resource_string(__name__, 'static/index.html'))
+@app.get("/",)
+def root():
+    return FileResponse('static/index.html')
+    # return HTMLResponse(pkg_resources.resource_string(__name__, 'static/index.html'))
+
 
 #IMPORT login_router
 from routers.user import router as user_router
@@ -85,6 +88,9 @@ app.include_router(
     prefix="/file",
     tags=["FILE"]
 )
+
+
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host=settings.HOST, port=settings.PORT, reload=True)

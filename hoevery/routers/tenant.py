@@ -67,15 +67,39 @@ def get_price_with_car_selected(response: Response, car_id: int):
 
         return dict(ret=0, msg="Complete.", data=carDetial.price)
 
+@router.get("/get-detail", status_code=200, tags=["TENANT"])
+def get_detail_select_car(response: Response, car_id: int):
+    with SessionContext() as se:
+        try:
+            query = se.query(db.carForRent)
+            carDetial = query.filter(db.carForRent.id == car_id).first()
+            if not carDetial:
+                response.status_code = status.HTTP_404_NOT_FOUND
+                return dict(ret=-1, msg="Can't find the car")
+            
+        except Exception as e:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return dict(ret=-1, msg="Error")
+        
+        username = se.query(db.user).filter(db.user.id == carDetial.owner_id).first()
+        return dict(ret=0, msg="Complete.", data=dict(provider=username.username, 
+            carname=carDetial.carname, type=carDetial.type, size=carDetial.size, price=carDetial.price, function=carDetial.function, image=carDetial.image))
+
 
 @router.post("/rental", status_code=200, tags=["TENANT"])
 def rental(response: Response, request: schemas.RentalForm):
     data = request.dict()
     with SessionContext() as se:
         newRental = db.rentalHistory()
+        rental_by_id = se.query(db.user).filter(db.user.username == data['rental_by']).first()
+        print(rental_by_id.id)
         for key in data:
-            if hasattr(newRental, key):
-                setattr(newRental, key, data.get(key))
+            if hasattr(newRental, key): 
+                print("key", key)
+                if(key == 'rental_by'):
+                    setattr(newRental, 'rental_by_id', rental_by_id.id)
+                else:
+                    setattr(newRental, key, data.get(key))
 
         se.add(newRental)
         se.commit()

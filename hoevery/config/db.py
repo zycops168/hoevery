@@ -63,6 +63,8 @@ class carForRent(Base):
     price = Column(JSON)
     function = Column(JSON)
     image = Column(String)
+    latitude = Column(Float)
+    longitude = Column(Float)
     owner_id = Column(Integer, ForeignKey('USER.id'))
 
     creator = relationship("user", back_populates="mycar")

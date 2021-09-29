@@ -102,14 +102,14 @@ class WorkOfTypeForm(BaseModel):
 
 class RentalForm(BaseModel):
     car_id: int
-    rental_by_id: int
+    rental_by: str
 
     class Config:
         title = "[TENANT] Insert"
         schema_extra = dict(
             example=dict(
                 car_id=1,
-                rental_by_id=1,
+                rental_by="admin",
             )
         )
 
