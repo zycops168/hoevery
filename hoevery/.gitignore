@@ -1,3 +1,4 @@
 .env
 blog-env
 __pycache__
+/static/index.html
