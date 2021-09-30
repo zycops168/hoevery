@@ -3,14 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableOpacityBase }
 import { styles } from '../style';
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 import { SpeedDial, LinearProgress } from 'react-native-elements';
-import Cookie from 'react-native-cookie';
 
 
 const mainPage = ({ navigation }) => {
 
     const [open, setOpen] = useState(false)
-    Cookie.get('http://203.150.107.212/user/all').then((cookie) => console.log(cookie));
-
     return (
         // all of body is header/body/footer
         <View style={styles1.container}>

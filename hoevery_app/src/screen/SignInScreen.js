@@ -23,7 +23,7 @@ import {styles} from '../style';
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
 import AddCar from './addCar';
-import Cookie from 'react-native-cookie';
+
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -104,9 +104,6 @@ const SignInScreen = ({navigation}) => {
     navigation.navigate('mainPage');
     
   };
-
-  Cookie.set('http://203.150.107.212/user/login', `{data.username}`, 'bar').then(() => console.log('success'));
-  Cookie.get('http://203.150.107.212/user/all').then((cookie) => console.log(cookie));
 
   return (
     <View style={styles.container}>

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity,FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { LinearProgress, Button, Overlay } from 'react-native-elements';
-// import { Slider } from 'react-native-elements';
-// import {Icon} from 'react-native-vector-icons';
+
 export default function total({ navigation }) {
 
     const [CarId, setCarId] = useState([{}])

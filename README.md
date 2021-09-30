@@ -4,8 +4,3 @@
 <img src="ref/NEO6.JPG" width="500">
 <p>กล่องใส่อุปกรณ์ esp32</p>
 <img src="ref/esp32.png" width="500">
-
-
-<h1> Hardware </h1>
-<h2>Diagram</h2>
-<img src="hw/diagram.jpg" width="500">
