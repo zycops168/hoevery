@@ -238,3 +238,6 @@ export default mainPage;
 //      </TouchableOpacity>   
 //     </View> 
 //  </View>
+
+
+
