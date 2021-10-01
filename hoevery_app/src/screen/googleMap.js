@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState,useEffect} from 'react';
 import {
   Text,
   View,
@@ -18,27 +18,26 @@ const googleMap = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [exData, setExData] = useState([{}]);
 
-  var raw = "";
 
-  var requestOptions = {
-    method: 'GET',
-    body: raw,
-    redirect: 'follow'
-  };
-  const getExData = (rusult) => {
-    fetch("http://203.150.107.212/lessor", requestOptions)
+
+  const getExData = () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    fetch("http://203.150.107.212/tenant/get-car-with-type?typeOfWork=dig%20a%20canal", requestOptions)
       .then(response => response.text())
-      .then(result => {
-        console.log(result);
-        var data = JSON.parse(result)
-        setExData(data); 
+      .then(result => { console.log(result);
+        var data = JSON.parse(result);
+        setExData(data); alert((data.data.row[1].owner_id))
       })
       .catch(error => console.log('error', error));
-    setLoading(false);
   }
-
-
-
+  useEffect(() => {
+    getExData();
+    //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
+    //  return () => clearInterval(dataInterval);
+  }, []);
 
 
   return (
@@ -104,51 +103,35 @@ const googleMap = ({ navigation }) => {
             </Marker>
           </MapView>
           {/*  under googleMap */}
+
           <View style={styles1.body_text}>
             <View style={styles1.body_text_inside}>
-              <FlatList
+              {/* <FlatList
                 data={exData}
-                keyExtractor={({ id }, index) => id}
                 renderItem={({ item }) => (
-                  <Text style={{fontSize: 18,fontWeight:'bold',color:'#2f4f4f'}}> EX ID : {item.msg} </Text>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#2f4f4f' }}> EX ID : {item.data} </Text>
                 )}
-              />
+              /> */}            
+              {/* <Text> See Job : {exData.data.row[1].price.Daily}</Text> */}
+             
+              {/* <Text> {exData.data.row}</Text> */}
             </View>
           </View>
           <View style={styles1.body_text}>
             <View style={styles1.body_text_inside}>
-              <FlatList
+              {/* <FlatList
                 data={exData}
                 keyExtractor={({ id }, index) => id}
                 renderItem={({ item }) => (
-                  <Text style={{fontSize: 18,fontWeight:'bold',color:'#2f4f4f'}}> EX : {item.data} </Text>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#2f4f4f' }}> Type job : {item.data} </Text>
                 )}
-              />
+              /> */}
             </View>
           </View>
           {/* <Text style={{fontSize:20,fontWeight:'bold', alignSelf:'flex-start'}}>   Provider : </Text>
         <Text style={{fontSize:20,fontWeight:'bold', alignSelf:'flex-start'}}>   Customer : </Text> */}
           <Text> Type job : </Text>
         </View>
-
-        {/* <View style={styles1.body_text_box}>
-          <ScrollView style={styles1.scroll_view} >
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-          <Text>Text</Text>
-
-          </ScrollView> */}
-        {/* </View> */}
       </View>
       <View style={styles1.footer}>
         <TouchableOpacity style={styles1.btn_readmore}
@@ -212,7 +195,7 @@ const styles1 = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: '#ffd700',
     flex: 0.1,
     shadowColor: 'black'
   },

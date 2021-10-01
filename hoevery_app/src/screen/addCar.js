@@ -7,21 +7,24 @@ export default function AddCar({ navigation, item }) {
   const [items, setItems] = useState([
     { id: uuid(), text: "รถเบ๊น" }
   ])
+  const [Id_user, setId_user] = useState();
   const [isLoading, setLoading] = useState(true);
-  const [exData, setExData] = useState([{}]);
+  const [exData, setExData] = useState({});
 
-  var requestOptions = {
-    method: 'GET',
-    redirect: 'follow'
-  };
+
   // wait  parse parameter on line 19
   const getExData = () => {
-    fetch(`http://203.150.107.212/lessor/my-product?username==${Id_user}`, requestOptions) // not defined Id_user
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+
+    fetch("http://203.150.107.212/lessor/my-product?username=charmuar", requestOptions)
       .then(response => response.text())
       .then(result => {
-        console.log(result);
-        var data = JSON.parse(result)
-        setExData(data); alert((data.username))
+        console.log(result)
+        var data = JSON.parse(result);
+        setExData(data); // alert((data.data.row[1].price.Daily))
       })
       .catch(error => console.log('error', error));
     setLoading(false);
@@ -48,16 +51,12 @@ export default function AddCar({ navigation, item }) {
       {/* body */}
       <View style={styles.body}>
         <View style={styles.body_fetch}>
-          {isLoading ? <ActivityIndicator /> : (
-            <FlatList
-              data={exData}
-              keyExtractor={({ id }, index) => id}
-              renderItem={({ item }) => (
-                <Text>{item.username + '. ' + item.lastname} {item.tel} </Text>
-              )}
-            />
-
-          )}
+             {/* <Text style={styles.text_fetch}> ID :{exData.data.row[1].id}</Text> 
+             <Text style={styles.text_fetch}> Type :{exData.data.row[1].type}</Text>
+              <Text style={styles.text_fetch}> Function : {exData.data.row[1].function.Type}, {exData.data.row[1].function.WeightAll} kg</Text> 
+              <Text style={styles.text_fetch}> {exData.data.row[1].function.WeightAll} kg</Text> 
+              <Text style={styles.text_fetch}> {exData.data.row[1].function.Engine}</Text> 
+              <Text style={styles.text_fetch}> {exData.data.row[1].function.HorsePower}</Text>  */}
         </View>
       </View>
       {/* footer */}
@@ -105,7 +104,8 @@ const styles = StyleSheet.create({
   // another style 
   body_fetch: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#eee',
+    padding: 20,
 
   },
   item: {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#EEEEEE',
+    backgroundColor: '#ffd700',
     borderRadius: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -158,6 +158,10 @@ const styles = StyleSheet.create({
   },
   listtext: {
     fontSize: 16
+  },
+  text_fetch :{
+    fontSize: 20,
+    
   }
 
 

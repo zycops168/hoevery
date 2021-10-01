@@ -20,12 +20,11 @@ const findCar = ({ navigation }) => {
     };
 
     const getExData = () => {
-        fetch(`http://203.150.107.212/tenant/get-car-with-type?workType=${pickerValue}`, requestOptions)
+        fetch(`http://203.150.107.212/tenant/get-car-with-type?typeOfWork=${pickerValue}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
         // wait write condition for check when change page
-
         navigation.navigate('googleMap')
 
     }
@@ -54,12 +53,13 @@ const findCar = ({ navigation }) => {
                     onValueChange={(itemValue) => setPickerItemValue(itemValue)}
                 >
                     <Picker.Item label="Select Type Job.." value="none" />
-                    <Picker.Item label="Natural canal dredging" value="natual-canal-dredging" />
-                    <Picker.Item label="Dig a common hole/to make a base" value="dig-a-common-hole/makebase" />
-                    <Picker.Item label="Dig a canal" value="dig-a-canal" />
-                    <Picker.Item label="Dig a drainage hole" value="dig-a-drainage-hole" />
-                    <Picker.Item label="Dig soil/Soft soil" value="dig-soil/soft-soil" />
-                    <Picker.Item label="Min soil/pebble/limestone/mineral rock" value="min-soil/pebble/limestone/mineral-rock" />
+                    <Picker.Item label="Natural canal dredging" value="Natural canal dredging" />
+                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />
+                    <Picker.Item label="Dig soil/Soft soil" value="Dig soilSoft soil"/>
+                    <Picker.Item label="Dig a canal" value="digACanal" />
+                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />                
+                    <Picker.Item label="Min soil pebble limestone mineral rock" value="Min soil pebble limestone mineral rock" />
+                    <Picker.Item label="Move dispose material in a place where space is limited" value="Move dispose material in a place where space is limited" />
                     <Picker.Item label="Crowded" value="Crowded" />
                 </Picker>
             </View>
@@ -74,22 +74,12 @@ const findCar = ({ navigation }) => {
             </View>
             {/* footer */}
             <View style={styles1.footer}>
-                {/* <TouchableOpacity style={styles1.next_button}
-                  onPress={()=> navigation.navigate('googleMap')}
-                >
-                    <Text style={{fontSize:18, alignSelf:'center'}}> Next </Text>
-                </TouchableOpacity> */}
-
-                {/* <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('googleMap')}>
-                        <Text>Next</Text>
-                    </TouchableOpacity> */}
                 <TouchableOpacity style={styles1.btn_readmore}
                     onPress={() => navigation.navigate('mainPage')}>    
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Back</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => getExData(pickerValue)}>
+                    onPress={() => Check_getExData(pickerValue)}>
                     {/* <Icon name="arrow-right" size={30} /> */}
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Next</Text>
                 </TouchableOpacity>
