@@ -1,5 +1,16 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Image,
+  TextInput,
+  Modal,
+  FlatList,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
 
 export default class extends Component {
   render() {
