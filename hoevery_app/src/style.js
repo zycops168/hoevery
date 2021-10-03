@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 4, height: 2},
     textShadowRadius: 12
   },
+  
   text_header2: {
     color: '#362222',
     textAlign: 'center',
@@ -122,6 +123,12 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     marginTop: 20,
     marginTop: 20,
+  },
+  text_content_header: {
+    color: '#070707',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 36,
   },
   text_footer: {
     color: '#05375a',

@@ -15,6 +15,7 @@ import mainPage from './src/screen/mainPage';
 import findCar from './src/screen/findCar';
 import total from './src/screen/total'
 import inSpect from './src/screen/inSpect'
+import listCar from './src/screen/listCar'
 // test github
 
 const Stack = createStackNavigator();
@@ -71,6 +72,11 @@ function MyStack() {
         name="inSpect"
         component={inSpect}
       />
+      <Stack.Screen
+        name="listCar"
+        component={listCar}
+      />
+      
     </Stack.Navigator>
   );
 }

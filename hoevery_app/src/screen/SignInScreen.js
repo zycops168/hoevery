@@ -184,7 +184,7 @@ const SignInScreen = ({navigation}) => {
                   <TextInput
                     style={styles.textInput}
                     placeholder=" *Username"
-                    autoCapitalize="none"
+                    // autoCapitalize="none"
                     onChangeText={val => textInputChange(val)}
                     value={data.username}
                   />
@@ -213,7 +213,7 @@ const SignInScreen = ({navigation}) => {
                   <TextInput
                     style={styles.textInput}
                     placeholder=" *Password"
-                    autoCapitalize="none"
+                    // autoCapitalize="none"
                     secureTextEntry={data.secureTextEntry ? true : false}
                     onChangeText={val => handlePasswordChange(val)}
                     value={data.password}
@@ -298,19 +298,19 @@ const SignInScreen = ({navigation}) => {
               }}>
               <Image
                 style={styles.icon}
-                source={require('../../images/icon-png-facebook.png')}
+                source={require('../../assets/images/icon-png-facebook.png')}
               />
               <Image
                 style={styles.icon}
-                source={require('../../images/icon-png-line.png')}
+                source={require('../../assets/images/icon-png-line.png')}
               />
               <Image
                 style={styles.icon}
-                source={require('../../images/icon-png-youtube.png')}
+                source={require('../../assets/images/icon-png-youtube.png')}
               />
               <Image
                 style={styles.icon}
-                source={require('../../images/icon-png-twitter.png')}
+                source={require('../../assets/images/icon-png-twitter.png')}
               />
             </View>
           </View>

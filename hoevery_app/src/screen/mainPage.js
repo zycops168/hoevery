@@ -33,7 +33,7 @@ const mainPage = ({ navigation }) => {
                         onPress={() => {}}>
                         <Image
                             style={styles1.pic_main}
-                            source={require('../../images/type_ex/1_crawler.png')}
+                            source={require('../../assets/images/type_ex/1_crawler.png')}
                             onPress={() => { }}
                             borderRadius={10}
                         />
@@ -43,7 +43,7 @@ const mainPage = ({ navigation }) => {
                         onPress={() => { }}>
                         <Image
                             style={styles1.pic_main}
-                            source={require('../../images/type_ex/2_dragline.png')}
+                            source={require('../../assets/images/type_ex/2_dragline.png')}
                             onPress={() => { }}
                             borderRadius={10}
                         />
@@ -53,7 +53,7 @@ const mainPage = ({ navigation }) => {
                         onPress={() => { }}>
                         <Image
                             style={styles1.pic_main}
-                            source={require('../../images/type_ex/3_suction.png')}
+                            source={require('../../assets/images/type_ex/3_suction.png')}
                             onPress={() => { }}
                             borderRadius={10}
                         />
@@ -66,7 +66,7 @@ const mainPage = ({ navigation }) => {
                         onPress={() => { }}>
                         <Image
                             style={styles1.pic_main}
-                            source={require('../../images/type_ex/4_skid_steel.png')}
+                            source={require('../../assets/images/type_ex/4_skid_steel.png')}
                             onPress={() => { }}
                             borderRadius={10}
                         />
@@ -76,7 +76,7 @@ const mainPage = ({ navigation }) => {
                         onPress={() => { }}>
                         <Image
                             style={styles1.pic_main}
-                            source={require('../../images/type_ex/5_long_reach.png')}
+                            source={require('../../assets/images/type_ex/5_long_reach.png')}
                             onPress={() => { }}
                             borderRadius={10}
                         />
@@ -86,7 +86,7 @@ const mainPage = ({ navigation }) => {
                         onPress={() => { }}>
                         <Image
                             style={styles1.pic_main}
-                            source={require('../../images/type_ex/6_mini_crawler.png')}
+                            source={require('../../assets/images/type_ex/6_mini_crawler.png')}
                             onPress={() => { }}
                             borderRadius={10}
                         />

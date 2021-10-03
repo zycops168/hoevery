@@ -1,4 +1,4 @@
-import React, { Component, useState,useEffect} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -7,38 +7,48 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  FlatList
+  FlatList,
+  ActivityIndicator,
 } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker, Callout, Polygon, Circle } from 'react-native-maps';
-import { LinearProgress, Overlay } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome'
+import MapView, {
+  PROVIDER_GOOGLE,
+  Marker,
+  Callout,
+  Polygon,
+  Circle,
+} from 'react-native-maps';
+import {LinearProgress, Overlay} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 // export default class googleMap extends Component {
-const googleMap = ({ navigation }) => {
-
-  const [isLoading, setLoading] = useState(true);
+const googleMap = ({navigation}) => {
+  const [isLoading, setLoading] = useState(false);
   const [exData, setExData] = useState([{}]);
-
-
 
   const getExData = () => {
     var requestOptions = {
       method: 'GET',
-      redirect: 'follow'
+      redirect: 'follow',
     };
-    fetch("http://203.150.107.212/tenant/get-car-with-type?typeOfWork=dig%20a%20canal", requestOptions)
+
+    fetch(
+      'http://203.150.107.212/tenant/get-car-with-type?typeOfWork=dig%20a%20canal',
+      requestOptions,
+    )
       .then(response => response.text())
-      .then(result => { console.log(result);
+      .then(result => {
+        setLoading(true);
+        console.log(result);
         var data = JSON.parse(result);
-        setExData(data); alert((data.data.row[1].owner_id))
+        setExData(data);
+        // setLoading(false);
       })
       .catch(error => console.log('error', error));
-  }
+  };
   useEffect(() => {
     getExData();
     //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
     //  return () => clearInterval(dataInterval);
   }, []);
-
 
   return (
     <View style={styles1.container}>
@@ -58,42 +68,37 @@ const googleMap = ({ navigation }) => {
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}>
-
             <Marker
-              coordinate={{ latitude: 13.943206, longitude: 100.6516846 }}
-              image={require('../../images/banner/user_onMap.png')}
+              coordinate={{latitude: 13.943206, longitude: 100.6516846}}
+              image={require('../../assets/images/banner/user_onMap.png')}
               title="Excavator01"
               description="tel: 082-1234567"></Marker>
             <Circle
-              center={{ latitude: 13.943206, longitude: 100.6516846 }}
+              center={{latitude: 13.943206, longitude: 100.6516846}}
               radius={1500}
               fillColor={'rgba(200, 300, 200, 0.5)'}
               strokeWidth={0}
             />
 
             <Marker
-              coordinate={{ latitude: 13.9411105, longitude: 100.6403282 }}
-              image={require('../../images/banner/map_mark.png')}
+              coordinate={{latitude: 13.9411105, longitude: 100.6403282}}
+              image={require('../../assets/images/banner/map_mark.png')}
               title="Excavator01"
               description="tel: 082-1234567"
-              onCalloutPress={() => navigation.navigate('inSpect')}>
-
-            </Marker>
+              onCalloutPress={() => navigation.navigate('inSpect')}></Marker>
 
             <Marker
-              coordinate={{ latitude: 13.9364533, longitude: 100.641779 }}
-              image={require('../../images/banner/map_mark.png')}
+              coordinate={{latitude: 13.9364533, longitude: 100.641779}}
+              image={require('../../assets/images/banner/map_mark.png')}
               title="Excavator02"
               description="tel: 082-1234567">
-
               <Callout tooltip>
                 <View>
                   <View style={styles.bubble}>
                     <Text style={styles.name}>Excavator02</Text>
-                    {/* <Text>A short description</Text> */}
                     <Image
                       style={styles.image}
-                      source={require('../../images/excavators/excavator2.jpg')}
+                      source={require('../../assets/images/excavators/excavator2.jpg')}
                     />
                   </View>
                   <View style={styles.arrowBorder} />
@@ -109,11 +114,10 @@ const googleMap = ({ navigation }) => {
               {/* <FlatList
                 data={exData}
                 renderItem={({ item }) => (
-                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#2f4f4f' }}> EX ID : {item.data} </Text>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#2f4f4f' }}> EX ID : {item.data.row[1].price.Daily} </Text>
                 )}
-              /> */}            
+              />          */}
               {/* <Text> See Job : {exData.data.row[1].price.Daily}</Text> */}
-             
               {/* <Text> {exData.data.row}</Text> */}
             </View>
           </View>
@@ -123,7 +127,7 @@ const googleMap = ({ navigation }) => {
                 data={exData}
                 keyExtractor={({ id }, index) => id}
                 renderItem={({ item }) => (
-                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#2f4f4f' }}> Type job : {item.data} </Text>
+                  <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#2f4f4f' }}> Type job : {item.data.row[1]} </Text>
                 )}
               /> */}
             </View>
@@ -134,7 +138,8 @@ const googleMap = ({ navigation }) => {
         </View>
       </View>
       <View style={styles1.footer}>
-        <TouchableOpacity style={styles1.btn_readmore}
+        <TouchableOpacity
+          style={styles1.btn_readmore}
           onPress={() => navigation.navigate('inSpect')}>
           <Icon name="arrow-right" size={30} />
         </TouchableOpacity>
@@ -142,12 +147,11 @@ const googleMap = ({ navigation }) => {
       <LinearProgress color="#ff69b4" />
     </View>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   map: {
-    height: '65%'
+    height: '65%',
   },
   // Callout bubble
   bubble: {
@@ -197,12 +201,12 @@ const styles1 = StyleSheet.create({
   header: {
     backgroundColor: '#ffd700',
     flex: 0.1,
-    shadowColor: 'black'
+    shadowColor: 'black',
   },
   header_text: {
     fontSize: 24,
     alignSelf: 'center',
-    padding: 10
+    padding: 10,
   },
   body: {
     flex: 0.85,
@@ -238,7 +242,7 @@ const styles1 = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 1.22,
     elevation: 50,
-    borderRadius: 10
+    borderRadius: 10,
   },
   textaddbtn: {
     padding: 7,
@@ -249,13 +253,13 @@ const styles1 = StyleSheet.create({
   },
   btn_readmore: {
     backgroundColor: '#ffd700',
-    width: "25%",
+    width: '25%',
     justifyContent: 'flex-end',
     alignItems: 'center',
     alignSelf: 'flex-end',
     padding: 10,
     borderRadius: 10,
-    shadowOffset: { width: -10, height: -10 },
+    shadowOffset: {width: -10, height: -10},
     shadowColor: '#000',
     shadowOpacity: 2.0,
     shadowRadius: 2.0,
@@ -269,12 +273,12 @@ const styles1 = StyleSheet.create({
     alignItems: 'center',
   },
   body_text_inside: {
-    width: "90%",
-    height: "80%",
+    width: '90%',
+    height: '80%',
     borderRadius: 10,
     backgroundColor: '#eee',
     padding: 10,
-  }
-})
+  },
+});
 
 export default googleMap;
