@@ -113,6 +113,14 @@ class RentalForm(BaseModel):
             )
         )
 
+class InsertImageCarForm(BaseModel):
+    id: int
+    username: str
+
+    class Config:
+        title = "[FILE] Insert Image Car"
+        schema_extra = dict(example=dict(id="1", username="admin"))
+
 
 ## demo
 class User(BaseModel):

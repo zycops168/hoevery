@@ -1,0 +1,40 @@
+ประเภทงานตามเว็บไซต์ทั่วไปที่รับ   
+- ขุดคูระบายน้ำ  dig a drainage hole
+- ขุดหลุมทั่วไปทำฐาน  - Dig a common holeto make a base
+- ตัดพุ่มไ้ม้  - cut the bush
+- เหมืองแร่  Mining - Mining
+- ยกท่อวางท่อ  - Pipe liftinglaying pipe
+- ขุดลอกคลอง  dig a canal
+- อื่นๆโปรดระบุ  OtherPleasr specify
+- 
+
+ประเภทงานตามบทวิจัย
+- ขุดลอกคลองธรรมชาติ (ไม่แน่ใจแตกต่ากับขุดลอกคลองส่งน้ำไหม)  Natural canal dredging. 
+- ขุดหลุมทั่วไปทำฐาน  - Dig a common holeto make a base
+- ขุดลอกคลองส่งน้ำระบายน้ำ  dig a canal
+- ขุดคูหนองบึง  dig a drainage hole
+- ขุดดินดินอ่อน(งานเขื่อน)  Dig soilSoft soil
+- ขุดดินหินกรวดลูกรังปนแร่หินปูน  Min soilpebblelimestonemineral rock
+- ขนย้ายกำจัดวัสดุ ในสถานที่พื้นที่จำกัด  movedisposematerial in a place where space is limited
+- 
+เอารถมา map type work 
+
+Natural canal dredging
+Suction
+
+Dig a common holeto make a base 
+Crawler
+
+dig a canal
+Long Reach   Crawler
+
+dig a drainage hole
+Long Reach  Suction  Crawler
+
+Dig soilSoft soil
+Long Reach   Suction
+
+Min soilpebblelimestonemineral rock
+Dragline 
+
+mov

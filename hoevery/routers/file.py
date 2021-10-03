@@ -33,17 +33,40 @@ def rqp2dict(request):
 
 @router.post("/upload-file")
 async def create_upload_file(username:str = "username_file", uploaded_file: UploadFile = File(...)):
-    file_location = f"files/upload/{username}_{uploaded_file.filename}"
+    file_location = f"static/files/upload/{username}_{uploaded_file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(uploaded_file.file.read())
     return dict(ret=0, msg="Complete.", data={"info": f"file '{uploaded_file.filename}' saved at '{file_location}'"})
+
+@router.put("/upload-file-car")
+async def create_upload_file(car_id:int, username:str = "username_file", uploaded_file: UploadFile = File(...)):
+    with SessionContext() as se:
+        try: 
+            file_location = f"static/files/upload/{username}_{uploaded_file.filename}"
+            with open(file_location, "wb+") as file_object:
+                file_object.write(uploaded_file.file.read())
+
+            upImageCar = se.query(db.carForRent).filter(db.carForRent.id == car_id).first()
+            if upImageCar:
+                if car_id != None:
+                    if hasattr(upImageCar, 'id'):
+                        setattr(upImageCar, 'id', car_id)
+                    if hasattr(upImageCar, 'image'):
+                        setattr(upImageCar, 'image', f"{username}_{uploaded_file.filename}")
+
+                se.commit()
+                se.refresh(upImageCar)
+            return dict(ret=0, msg="Complete.", data={"info": f"file '{uploaded_file.filename}' saved at '{file_location}'"})
+        
+        except Exception as e:
+            return dict(ret=-1, msg=f"upload failed: {e}")
 
 
 @router.post("/upload-multi-file")
 async def upload_file(username:str = "username_file", files: List[UploadFile] = File(...)):
     list = []
     for img in files:
-        file_location = f"files/upload/{username}_{img.filename}"
+        file_location = f"static/files/upload/{username}_{img.filename}"
         list.append(f"{username}_{img.filename}")
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(img.file, buffer)
@@ -52,7 +75,7 @@ async def upload_file(username:str = "username_file", files: List[UploadFile] = 
 
 @router.get("/download-file/{path}")
 async def download_file(path: str):
-    return FileResponse(f"files/upload/{path}", media_type='application/octet-stream',filename=f"{path}")
+    return FileResponse(f"static/files/upload/{path}", media_type='application/octet-stream',filename=f"{path}")
 
 
 # @router.get("/export-excel")
@@ -63,7 +86,7 @@ async def download_file(path: str):
 #@router.post("/import-excel")
 async def import_excel(file: UploadFile = File(...)):
     # upload file xlrd before read file.
-    file_location = f"files/upload/{file.filename}"
+    file_location = f"static/files/upload/{file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
 
@@ -87,7 +110,7 @@ async def import_excel(file: UploadFile = File(...)):
 
 #@router.get("/export-excel-company")
 async def export_excel(request: Request):
-    file_location = f'files/upload/report_company.xls'
+    file_location = f'static/files/upload/report_company.xls'
     with SessionContext() as se:
         query = db.company()
         params = rqp2dict(request)
@@ -110,7 +133,7 @@ async def export_excel(request: Request):
 
 #@router.get("/export-excel-department")
 async def export_excel(request: Request):
-    file_location = f'files/upload/report_department.xls'
+    file_location = f'static/files/upload/report_department.xls'
     with SessionContext() as se:
         query = db.department()
         params = rqp2dict(request)
@@ -131,7 +154,7 @@ async def export_excel(request: Request):
 
 #@router.get("/export-excel-employee")
 async def export_excel(request: Request):
-    file_location = f'files/upload/report_employee.xls'
+    file_location = f'static/files/upload/report_employee.xls'
     with SessionContext() as se:
         query = db.employee()
         params = rqp2dict(request)
@@ -156,7 +179,7 @@ async def export_excel(request: Request):
 # @router.post("impot-excel-pyexcel")
 async def import_excel_pyexcel(file: UploadFile = File(...)):
     # upload file xlrd before read file.
-    file_location = f"files/upload/{file.filename}"
+    file_location = f"static/files/upload/{file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
 
