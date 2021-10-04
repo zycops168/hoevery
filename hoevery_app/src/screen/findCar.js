@@ -25,14 +25,14 @@ const findCar = ({ navigation }) => {
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
         // wait write condition for check when change page
-        navigation.navigate('googleMap')
+        navigation.navigate('getDetail')
 
     }
     const Check_getExData = (pickerValue) => {
-        if (pickerValue == "none"){
+        if (pickerValue == "none") {
             alert("Select Type Work")
         }
-        else{
+        else {
             getExData()
         }
     }
@@ -42,9 +42,9 @@ const findCar = ({ navigation }) => {
             {/* header */}
             <View style={styles1.header}>
                 <View style={styles1.header_easy_find}>
-                <Text style={[styles.text_header1, { color: '#362222' }]}>EASY</Text> 
-                <Text style={[styles.text_header1, { color: '#ffd700' }]}>FIND</Text>
-                </View>               
+                    <Text style={[styles.text_header1, { color: '#362222' }]}>EASY</Text>
+                    <Text style={[styles.text_header1, { color: '#ffd700' }]}>FIND</Text>
+                </View>
             </View>
             {/* body */}
             <View style={styles1.body}>
@@ -55,9 +55,9 @@ const findCar = ({ navigation }) => {
                     <Picker.Item label="Select Type Job.." value="none" />
                     <Picker.Item label="Natural canal dredging" value="Natural canal dredging" />
                     <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />
-                    <Picker.Item label="Dig soil/Soft soil" value="Dig soilSoft soil"/>
+                    <Picker.Item label="Dig soil/Soft soil" value="Dig soilSoft soil" />
                     <Picker.Item label="Dig a canal" value="digACanal" />
-                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />                
+                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />
                     <Picker.Item label="Min soil pebble limestone mineral rock" value="Min soil pebble limestone mineral rock" />
                     <Picker.Item label="Move dispose material in a place where space is limited" value="Move dispose material in a place where space is limited" />
                     <Picker.Item label="Crowded" value="Crowded" />
@@ -75,7 +75,7 @@ const findCar = ({ navigation }) => {
             {/* footer */}
             <View style={styles1.footer}>
                 <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('mainPage')}>    
+                    onPress={() => navigation.navigate('mainPage')}>
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Back</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles1.btn_readmore}
@@ -98,23 +98,24 @@ const styles1 = StyleSheet.create({
         flex: 0.3,
         padding: 10,
         flexDirection: 'row',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        justifyContent: 'space-between',
     },
     header_btn: {
-        width:50,
-        height: 50, 
+        width: 50,
+        height: 50,
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         backgroundColor: '#fff'
     },
-    header_easy_find : {
-        flex:1,
+    header_easy_find: {
+        flex: 1,
         justifyContent: 'flex-start',
 
 
     },
     body: {
-        flex: 0.6,
+        flex: 0.65,
         backgroundColor: '#ffff',
     },
     body2: {
@@ -124,10 +125,10 @@ const styles1 = StyleSheet.create({
 
     },
     footer: {
-        flex: 0.08,
+        flex: 0.1,
         backgroundColor: '#eeee',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         padding: 10,
     },
     picker: {

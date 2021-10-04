@@ -8,13 +8,16 @@ import { styles } from '../style';
 import SignInScreen from './src/screen/SignInScreen';
 import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
-import googleMap from './src/screen/googleMap';
+import getDetail from './src/screen/getDetail';
 import detailCar from './src/screen/detailCar';
 import AddCar from './src/screen/addCar';
 import mainPage from './src/screen/mainPage';
 import findCar from './src/screen/findCar';
-import total from './src/screen/total'
-import inSpect from './src/screen/inSpect'
+import total from './src/screen/total';
+import inSpect from './src/screen/inSpect';
+import comfirm from './src/screen/comfirm';
+import payment from './src/screen/payment';
+import notify from './src/screen/nofity';
 // test github
 
 const Stack = createStackNavigator();
@@ -42,8 +45,8 @@ function MyStack() {
       // options={{title: 'HomeScreen'}}
       />
       <Stack.Screen
-        name="googleMap"
-        component={googleMap}
+        name="getDetail"
+        component={getDetail}
       // options={{title: 'HomeScreen'}}
       />
       <Stack.Screen
@@ -70,6 +73,18 @@ function MyStack() {
       <Stack.Screen
         name="inSpect"
         component={inSpect}
+      />
+      <Stack.Screen
+        name="comfirm"
+        component={comfirm}
+      />
+      <Stack.Screen
+        name="payment"
+        component={payment}
+      />
+      <Stack.Screen
+        name="notify"
+        component={notify}
       />
     </Stack.Navigator>
   );

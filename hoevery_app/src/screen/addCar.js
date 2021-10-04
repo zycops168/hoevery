@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Profiler } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, ActivityIndicator, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import uuid from 'uuid-random'
@@ -45,12 +45,25 @@ export default function AddCar({ navigation, item }) {
             onPress={() => navigation.navigate('mainPage')}>
             <Icon name="arrow-left" size={30} />
           </TouchableOpacity>
-          <Text style={styles.text}>                   MY EXCAVATOR</Text>
+          <Text style={styles.text}>MY EXCAVATOR</Text>
+          <TouchableOpacity styles={{}}
+            onPress={() => navigation.navigate('notify')}>
+            <Icon name="bell" size={30} />
+          </TouchableOpacity>
         </View>
       </View>
       {/* body */}
       <View style={styles.body}>
         <View style={styles.body_fetch}>
+        <FlatList data={items}
+                    renderItem={({item}) => (    
+                    <TouchableOpacity style={styles.listitem}>
+                        <View style={styles.listview}>                            
+                            <Text style={styles.listtext}>
+                                    {item.text}                          
+                            </Text>
+                        </View>
+                            </TouchableOpacity>)}/> 
              {/* <Text style={styles.text_fetch}> ID :{exData.data.row[1].id}</Text> 
              <Text style={styles.text_fetch}> Type :{exData.data.row[1].type}</Text>
               <Text style={styles.text_fetch}> Function : {exData.data.row[1].function.Type}, {exData.data.row[1].function.WeightAll} kg</Text> 
@@ -140,7 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#ffd700',
     borderRadius: 10,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   text: {
@@ -166,3 +179,4 @@ const styles = StyleSheet.create({
 
 
 })
+
