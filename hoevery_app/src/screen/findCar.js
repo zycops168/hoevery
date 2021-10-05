@@ -5,48 +5,109 @@ import { styles } from '../style';
 import { LinearProgress, Button, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-const findCar = ({ navigation }) => {
 
+const findCar = ({ navigation }) => {
     const [pickerValue, setPickerItemValue] = useState('click..')
     console.log((pickerValue));
     const [visible, setVisible] = useState(false);
-    const toggleOverlay = () => {
-        setVisible(!visible);
-    }
+    const toggleOverlay = () => { setVisible(!visible); }
 
+    const Header = () => {
+        return (
+            <View style={styles1.header}>
+                <View style={styles1.header_easy_find}>
+                    <TouchableOpacity styles={{}}
+                        onPress={() => navigation.navigate('mainPage')}>
+                        <Icon name="arrow-left" size={30} />
+                    </TouchableOpacity>
+                    <Text style={[styles.text_header1, { color: '#362222' }]}>EASY</Text>
+                    <Text style={[styles.text_header1, { color: '#ffd700' }]}>FIND</Text>
+                </View>
+            </View>
+        )
+    }
+    const Body_dropdown_find = () => {
+        return (
+            <View style={styles1.body}>
+                <Picker style={styles1.picker}
+                    selectedValue={pickerValue}
+                    onValueChange={(itemValue) => setPickerItemValue(itemValue)}>
+                    <Picker.Item label="Select Type Job.." value="none" />
+                    <Picker.Item label="Natural canal dredging" value="Natural canal dredging" />
+                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />
+                    <Picker.Item label="Dig soil/Soft soil" value="Dig soilSoft soil" />
+                    <Picker.Item label="Dig a canal" value="digACanal" />
+                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />
+                    <Picker.Item label="Min soil pebble limestone mineral rock" value="Min soil pebble limestone mineral rock" />
+                    <Picker.Item label="Move dispose material in a place where space is limited" value="Move dispose material in a place where space is limited" />
+                    <Picker.Item label="Crowded" value="Crowded" />
+                </Picker>
+            </View>
+        )
+    }
+    const Body_find_btn = () => {
+        return (
+            <View styles={styles1.body2}>
+                {/* <TouchableOpacity style={styles1.btn_readmore}
+            onPress={() => navigation.navigate('googleMap')}>
+                <Icon name="arrow-right" size={30}/>  
+            </TouchableOpacity>
+            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+                <View style={{width:50,height:50, backgroundColor:'red'}}></View>
+            </Overlay> */}
+                <TouchableOpacity style={styles1.btn_readmore}
+                    onPress={() => Check_getExData(pickerValue)}>
+                    {/* <Icon name="arrow-right" size={30} /> */}
+                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Find</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+    const Footer = () => {
+        return (
+            <View style={styles1.footer}>
+                {/* <TouchableOpacity style={styles1.btn_readmore}
+            onPress={() => Check_getExData(pickerValue)}>
+            {/* <Icon name="arrow-right" size={30} /> 
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Next</Text>
+        </TouchableOpacity> */}
+                <LinearProgress color="#ff69b4" />
+            </View>
+
+        )
+    }
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
-
     const getExData = () => {
         fetch(`http://203.150.107.212/tenant/get-car-with-type?typeOfWork=${pickerValue}`, requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
         // wait write condition for check when change page
+<<<<<<< HEAD
         navigation.navigate('googleMap')
 
+=======
+        navigation.navigate('getDetail')
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
     }
-    const Check_getExData = (pickerValue) => {
-        if (pickerValue == "none"){
-            alert("Select Type Work")
+    const Check_getExData = () => {
+        if (pickerValue == 'none') {
+            alert('please select type job..')
         }
-        else{
-            getExData()
+        else {
+            getExData();
         }
     }
     return (
         // all of body 3 section header/body/footer
         <View style={styles1.container}>
             {/* header */}
-            <View style={styles1.header}>
-                <View style={styles1.header_easy_find}>
-                <Text style={[styles.text_header1, { color: '#362222' }]}>EASY</Text> 
-                <Text style={[styles.text_header1, { color: '#ffd700' }]}>FIND</Text>
-                </View>               
-            </View>
+            <Header />
             {/* body */}
+<<<<<<< HEAD
             <View style={styles1.body}>
                 <Picker style={styles1.picker}
                     selectedValue={pickerValue}
@@ -85,6 +146,12 @@ const findCar = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             <LinearProgress color="#ff69b4" />
+=======
+            <Body_dropdown_find />
+            <Body_find_btn />
+            {/* footer */}
+            <Footer />
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
         </View>
     )
 }
@@ -98,36 +165,38 @@ const styles1 = StyleSheet.create({
         flex: 0.3,
         padding: 10,
         flexDirection: 'row',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        justifyContent: 'space-between',
     },
     header_btn: {
-        width:50,
-        height: 50, 
+        width: 50,
+        height: 50,
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         backgroundColor: '#fff'
     },
-    header_easy_find : {
-        flex:1,
+    header_easy_find: {
+        flex: 1,
         justifyContent: 'flex-start',
-
-
     },
     body: {
-        flex: 0.6,
+        flex: 0.65,
         backgroundColor: '#ffff',
     },
     body2: {
-        flex: 0.1,
-        backgroundColor: '#fff',
+        flex: 0.5,
+        flexDirection: 'row',
+        backgroundColor: 'red',
+        justifyContent: 'space-around',
+        alignItems: 'center',
         padding: 10,
 
     },
     footer: {
-        flex: 0.08,
-        backgroundColor: '#eeee',
+        flex: 0.05,
+        backgroundColor: '#fff',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         padding: 10,
     },
     picker: {
@@ -155,17 +224,13 @@ const styles1 = StyleSheet.create({
     },
     btn_readmore: {
         backgroundColor: '#ffd700',
-        width: "25%",
-        justifyContent: 'flex-end',
+        width: 80,
+        height: 80,
+        justifyContent: 'center',
         alignItems: 'center',
-        alignSelf: 'flex-end',
+        alignSelf: 'center',
         padding: 10,
-        borderRadius: 10,
-        shadowOffset: { width: -10, height: -10 },
-        shadowColor: '#000',
-        shadowOpacity: 2.0,
-        shadowRadius: 2.0,
-        elevation: 50,
+        borderRadius: 50,
     },
 
 })
@@ -173,6 +238,7 @@ const styles1 = StyleSheet.create({
 
 export default findCar;
 
+//example fetchdata api
 // import React, { useEffect, useState } from 'react';
 // import { FlatList, Text, View } from 'react-native';
 

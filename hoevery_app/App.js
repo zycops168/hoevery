@@ -8,13 +8,20 @@ import { styles } from '../style';
 import SignInScreen from './src/screen/SignInScreen';
 import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
-import googleMap from './src/screen/googleMap';
+import getDetail from './src/screen/getDetail';
 import detailCar from './src/screen/detailCar';
 import AddCar from './src/screen/addCar';
 import mainPage from './src/screen/mainPage';
 import findCar from './src/screen/findCar';
+<<<<<<< HEAD
 import total from './src/screen/total'
 import inSpect from './src/screen/inSpect'
+=======
+import total from './src/screen/total';
+import inSpect from './src/screen/inSpect';
+import payment from './src/screen/payment';
+import notify from './src/screen/nofity';
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
 // test github
 
 const Stack = createStackNavigator();
@@ -42,8 +49,13 @@ function MyStack() {
       // options={{title: 'HomeScreen'}}
       />
       <Stack.Screen
+<<<<<<< HEAD
         name="googleMap"
         component={googleMap}
+=======
+        name="getDetail"
+        component={getDetail}
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
       // options={{title: 'HomeScreen'}}
       />
       <Stack.Screen
@@ -70,6 +82,17 @@ function MyStack() {
       <Stack.Screen
         name="inSpect"
         component={inSpect}
+<<<<<<< HEAD
+=======
+      />
+      <Stack.Screen
+        name="payment"
+        component={payment}
+      />
+      <Stack.Screen
+        name="notify"
+        component={notify}
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
       />
     </Stack.Navigator>
   );

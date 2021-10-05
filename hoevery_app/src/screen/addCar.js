@@ -1,18 +1,105 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Profiler } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, ActivityIndicator, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import uuid from 'uuid-random'
 export default function AddCar({ navigation, item }) {
 
   const [items, setItems] = useState([
-    { id: uuid(), text: "รถเบ๊น" }
+    { id: uuid(), text: "รถเบ๊น" },
+
   ])
   const [Id_user, setId_user] = useState();
   const [isLoading, setLoading] = useState(true);
   const [exData, setExData] = useState({});
+<<<<<<< HEAD
 
 
   // wait  parse parameter on line 19
+  const getExData = () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+
+    fetch("http://203.150.107.212/lessor/my-product?username=charmuar", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log(result)
+        var data = JSON.parse(result);
+        setExData(data); // alert((data.data.row[1].price.Daily))
+      })
+      .catch(error => console.log('error', error));
+    setLoading(false);
+  }
+  useEffect(() => {
+    getExData();
+    //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
+    //  return () => clearInterval(dataInterval);
+=======
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
+
+
+  const Header = () => {
+    return (
+      <View style={styles.header}>
+        <View style={styles.header_text}>
+          <TouchableOpacity styles={{}}
+            onPress={() => navigation.navigate('mainPage')}>
+            <Icon name="arrow-left" size={30} />
+          </TouchableOpacity>
+          <Text style={styles.text}>MY EXCAVATOR</Text>
+          <TouchableOpacity styles={{}}
+            onPress={() => navigation.navigate('notify')}>
+            <Icon name="bell" size={30} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+  const Body = () => {
+    return (
+      <View style={styles.body}>
+        <View style={styles.body_fetch}>
+<<<<<<< HEAD
+             {/* <Text style={styles.text_fetch}> ID :{exData.data.row[1].id}</Text> 
+             <Text style={styles.text_fetch}> Type :{exData.data.row[1].type}</Text>
+              <Text style={styles.text_fetch}> Function : {exData.data.row[1].function.Type}, {exData.data.row[1].function.WeightAll} kg</Text> 
+              <Text style={styles.text_fetch}> {exData.data.row[1].function.WeightAll} kg</Text> 
+              <Text style={styles.text_fetch}> {exData.data.row[1].function.Engine}</Text> 
+              <Text style={styles.text_fetch}> {exData.data.row[1].function.HorsePower}</Text>  */}
+=======
+
+          <FlatList data={items}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={styles.listitem}>
+                <View style={styles.listview}>
+                  <Text style={styles.listtext}>
+                    {item.text}
+                  </Text>
+                </View>
+              </TouchableOpacity>)} />
+          {/* <Text style={styles.text_fetch}> ID :{exData.data.row[1].id}</Text> 
+           <Text style={styles.text_fetch}> Type :{exData.data.row[1].type}</Text>
+            <Text style={styles.text_fetch}> Function : {exData.data.row[1].function.Type}, {exData.data.row[1].function.WeightAll} kg</Text> 
+            <Text style={styles.text_fetch}> {exData.data.row[1].function.WeightAll} kg</Text> 
+            <Text style={styles.text_fetch}> {exData.data.row[1].function.Engine}</Text> 
+            <Text style={styles.text_fetch}> {exData.data.row[1].function.HorsePower}</Text>  */}
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
+        </View>
+      </View>
+    )
+  }
+  const Footer = () => {
+    return (
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.footer_btn}
+          onPress={() => navigation.navigate('detailCar')}>
+          <Text style={styles.textaddbtn}> ADD NEW EXCAVATOR </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   const getExData = () => {
     var requestOptions = {
       method: 'GET',
@@ -39,33 +126,11 @@ export default function AddCar({ navigation, item }) {
   return (
     <View style={styles.container}>
       {/* header */}
-      <View style={styles.header}>
-        <View style={styles.header_text}>
-          <TouchableOpacity styles={{}}
-            onPress={() => navigation.navigate('mainPage')}>
-            <Icon name="arrow-left" size={30} />
-          </TouchableOpacity>
-          <Text style={styles.text}>                   MY EXCAVATOR</Text>
-        </View>
-      </View>
+      <Header />
       {/* body */}
-      <View style={styles.body}>
-        <View style={styles.body_fetch}>
-             {/* <Text style={styles.text_fetch}> ID :{exData.data.row[1].id}</Text> 
-             <Text style={styles.text_fetch}> Type :{exData.data.row[1].type}</Text>
-              <Text style={styles.text_fetch}> Function : {exData.data.row[1].function.Type}, {exData.data.row[1].function.WeightAll} kg</Text> 
-              <Text style={styles.text_fetch}> {exData.data.row[1].function.WeightAll} kg</Text> 
-              <Text style={styles.text_fetch}> {exData.data.row[1].function.Engine}</Text> 
-              <Text style={styles.text_fetch}> {exData.data.row[1].function.HorsePower}</Text>  */}
-        </View>
-      </View>
+      <Body />
       {/* footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footer_btn}
-          onPress={() => navigation.navigate('detailCar')}>
-          <Text style={styles.textaddbtn}> ADD NEW EXCAVATOR </Text>
-        </TouchableOpacity>
-      </View>
+      <Footer />
     </View>
   )
 }
@@ -140,7 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#ffd700',
     borderRadius: 10,
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   text: {
@@ -159,10 +224,17 @@ const styles = StyleSheet.create({
   listtext: {
     fontSize: 16
   },
+<<<<<<< HEAD
   text_fetch :{
     fontSize: 20,
     
+=======
+  text_fetch: {
+    fontSize: 20,
+
+>>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
   }
 
 
 })
+
