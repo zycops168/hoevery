@@ -15,7 +15,6 @@ import mainPage from './src/screen/mainPage';
 import findCar from './src/screen/findCar';
 import total from './src/screen/total';
 import inSpect from './src/screen/inSpect';
-import comfirm from './src/screen/comfirm';
 import payment from './src/screen/payment';
 import notify from './src/screen/nofity';
 // test github
@@ -73,10 +72,6 @@ function MyStack() {
       <Stack.Screen
         name="inSpect"
         component={inSpect}
-      />
-      <Stack.Screen
-        name="comfirm"
-        component={comfirm}
       />
       <Stack.Screen
         name="payment"

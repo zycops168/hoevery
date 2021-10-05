@@ -183,7 +183,7 @@ const getDetail = ({ navigation }) => {
         </View>
         <View style={styles1.body_text}>
           <View style={styles1.body_text_inside}>
-            <Text style={styles1.text_inside}> Price :</Text>
+            <Text style={styles1.text_inside}> Detail :</Text>
             {/* <Text>{exData.data.row[2].price.Daily}</Text> */}
             {/* <Text style={styles1.text_2inside}> Daily :
               <Text>  {exData.data.row[2].price.Daily}</Text>
@@ -208,7 +208,11 @@ const getDetail = ({ navigation }) => {
           onPress={toggleOverlay}>
           {/* <Icon name="arrow-right" size={30} /> */}
           <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Accept</Text>
-          <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+          <Overlay isVisible={visible} onBackdropPress={toggleOverlay}
+          overlayStyle={{
+            backgroundColor:'#eee',
+            borderRadius: 100,
+          }}>
             <View style={styles1.overlay_container}>
               <TouchableOpacity onPress={onChangepage}>
                 <ActivityIndicator size="large" color="#362222" />
@@ -375,11 +379,12 @@ const styles1 = StyleSheet.create({
     color: '#2f4f4f'
   },
   overlay_container: {
-    width: 320,
-    height: 150,
+    width: 200,
+    height: 200,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
+    borderRadius: 100,
   },
   text_loading: {
     fontSize: 22,

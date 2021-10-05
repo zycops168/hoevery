@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 
@@ -7,9 +7,9 @@ export default function nofity({ navigation }) {
     const toggleOverlay = () => {
         setVisible(!visible);
     };
-    return (
-        <View style={styles.container}>
-            {/* header */}
+
+    const Header = () => {
+        return (
             <View style={styles.header}>
                 <View style={styles.header_text}>
                     <TouchableOpacity styles={{}}
@@ -23,14 +23,30 @@ export default function nofity({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-            {/* body */}
+        )
+    }
+    const Body = () => {
+        return (
             <View style={styles.body}>
 
             </View>
-            {/* footere */}
+        )
+    }
+    const Footer = () => {
+        return (
             <View style={styles.footer}>
 
             </View>
+        )
+    }
+    return (
+        <View style={styles.container}>
+            {/* header */}
+            <Header />
+            {/* body */}
+            <Body />
+            {/* footere */}
+            <Footer />
         </View>
     )
 }
