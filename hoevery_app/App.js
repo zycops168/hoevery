@@ -16,6 +16,8 @@ import findCar from './src/screen/findCar';
 import total from './src/screen/total'
 import inSpect from './src/screen/inSpect'
 import listCar from './src/screen/listCar'
+import payment from './src/screen/payment'
+import afterPayment from './src/screen/afterPayment'
 // test github
 
 const Stack = createStackNavigator();
@@ -75,6 +77,14 @@ function MyStack() {
       <Stack.Screen
         name="listCar"
         component={listCar}
+      />
+      <Stack.Screen
+        name="payment"
+        component={payment}
+      />
+      <Stack.Screen
+        name="afterPayment"
+        component={afterPayment}
       />
       
     </Stack.Navigator>

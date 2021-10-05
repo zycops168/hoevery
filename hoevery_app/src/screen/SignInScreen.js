@@ -135,7 +135,7 @@ const SignInScreen = ({navigation}) => {
             Registering to this website,
             {'\n'} you accept our {'\n'}
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => {}} style={{}}>
+              <TouchableOpacity onPress={() => {navigation.navigate('afterPayment')}} style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -246,7 +246,7 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={['#ffd700','#ffffff']}
+                      colors={['#ffd700','#F5E487']}
                       style={styles.signIn}>
                       <Text style={[styles.textSignIn, {color: '#362222'}]}>
                         Sign In

@@ -12,9 +12,11 @@ import {
 import {ListItem, SearchBar, Avatar} from 'react-native-elements';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import TouchableScale from 'react-native-touchable-scale'; 
+import TouchableScale from 'react-native-touchable-scale';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {styles} from '../style';
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 import WorkController from '../controller/WorkController';
 
@@ -25,7 +27,7 @@ const RenderHeader = () => {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#eeeeee',
+        backgroundColor: COLORS.primary,
         padding: 10,
         height: 80,
       }}>
@@ -43,7 +45,7 @@ const RenderHeader = () => {
         <Text
           style={{
             marginTop: 3,
-            color: '#ffd700',
+            color: COLORS.white,
             fontSize: 20,
             fontWeight: 'bold',
             fontFamily: 'Cochin',
@@ -53,7 +55,7 @@ const RenderHeader = () => {
       </View>
       {/* Image */}
       <TouchableOpacity onPress={() => {}}>
-        <Feather style={{}} name="filter" color="#ffd700" size={25} />
+        <Feather style={{}} name="filter" color={COLORS.white} size={25} />
       </TouchableOpacity>
     </View>
   );
@@ -137,45 +139,115 @@ export default class listCar extends Component {
   render() {
     return (
       <View style={styles_local.container}>
-        <StatusBar backgroundColor="#eeeeee" barStyle="light-content" />
-        <View>
-          <RenderHeader />
-        </View>
-        <View style={styles_local.content}>
-          <FlatList
-            data={this.state.data}
-            keyExtractor={(x, i) => i}
-            keyboardDismissMode="on-drag"
-            showsVerticalScrollIndiactor={false}
-            ItemSeparatorComponent={this.renderSeparator}
-            // ListHeaderComponent={this.renderHeader}
-            ListFooterComponent={this.renderFooter}
-            renderItem={({item}) => (
-              <ListItem
-                Component={TouchableScale}
-                friction={90} //
-                tension={100} // These props are passed to the parent component (here TouchableScale)
-                activeScale={0.95}
-                // bottomDivider>
-                >
-                <Avatar
-                  size="large"
-                  source={{
-                    uri: `http://203.150.107.212/static/files/upload/${item.image}`,
-                  }}
-                  rounded
-                  title="img"
-                  onPress={() => console.log('Freature => Pop image')}
-                />
-                <ListItem.Content>
-                  <ListItem.Title>{item.type}</ListItem.Title>
-                  <ListItem.Subtitle>{'location: 0.6 km'}</ListItem.Subtitle>
-                </ListItem.Content>
-                <ListItem.Chevron color="#ffd700" />
-              </ListItem>
-            )}
+        <LinearGradient
+          colors={[COLORS.primary, COLORS.lightYellow]}
+          style={{flex: 1}}>
+          <StatusBar
+            backgroundColor={COLORS.primary}
+            barStyle="light-content"
           />
-        </View>
+
+          {/* <RenderHeader /> */}
+          <View style={{flexDirection: 'row'}}>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: SIZES.padding * 0,
+                marginBottom: SIZES.padding * 1,
+                paddingHorizontal: SIZES.padding * 2,
+              }}
+              onPress={() => this.props.navigation.goBack()}>
+              <Image
+                source={icons.back}
+                resizeMode="contain"
+                style={{width: 20, height: 20, tintColor: COLORS.white}}
+              />
+
+              <Text
+                style={{
+                  marginLeft: SIZES.padding * 1.5,
+                  color: COLORS.white,
+                  ...FONTS.h4,
+                }}>
+                Back
+              </Text>
+            </TouchableOpacity>
+            <Text
+              style={{
+                flexDirection: 'row',
+                color: COLORS.white,
+                ...FONTS.h3,
+                fontWeight: 'bold',
+                right: -15,
+                top: 5,
+              }}>
+              Search excavator
+            </Text>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: SIZES.padding * 0,
+                marginBottom: SIZES.padding * 1,
+                paddingHorizontal: SIZES.padding * 2,
+              }}
+              onPress={() => console.log('press filter button')}>
+              <Image
+                source={icons.search}
+                resizeMode="contain"
+                style={{
+                  width: 30,
+                  height: 30,
+                  tintColor: COLORS.white,
+                  marginLeft: SIZES.padding * 5,
+                }}
+              />
+              
+            </TouchableOpacity>
+          </View>
+          <View style={styles_local.content}>
+            <FlatList
+              data={this.state.data}
+              keyExtractor={(x, i) => i}
+              keyboardDismissMode="on-drag"
+              showsVerticalScrollIndiactor={false}
+              ItemSeparatorComponent={this.renderSeparator}
+              // ListHeaderComponent={this.renderHeader}
+              ListFooterComponent={this.renderFooter}
+              renderItem={({item}) => (
+                // <TouchableOpacity>
+                <ListItem
+                  Component={TouchableScale}
+                  friction={90} //
+                  tension={100} // These props are passed to the parent component (here TouchableScale)
+                  activeScale={0.95}
+                  // bottomDivider>
+                  onPress={() =>
+                    this.props.navigation.navigate('payment', {
+                      price_type: 'daily',
+                      price_total: item.price.Daily,
+                    })
+                  }>
+                  <Avatar
+                    size="large"
+                    source={{
+                      uri: `http://203.150.107.212/static/files/upload/${item.image}`,
+                    }}
+                    rounded
+                    title="img"
+                    onPress={() => console.log('Freature => Pop image')}
+                  />
+                  <ListItem.Content>
+                    <ListItem.Title>{item.type}</ListItem.Title>
+                    <ListItem.Subtitle>{'location: 0.6 km'}</ListItem.Subtitle>
+                  </ListItem.Content>
+                  <ListItem.Chevron color="#ffd700" />
+                </ListItem>
+              )}
+            />
+          </View>
+        </LinearGradient>
       </View>
     );
   }
