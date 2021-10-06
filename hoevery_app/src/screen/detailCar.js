@@ -1,133 +1,166 @@
-import React, {useState} from 'react'
+import React, {useState, createRef} from 'react'
 import { StyleSheet, Text, View,TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import Icon from  'react-native-vector-icons/dist/FontAwesome'
 import {styles} from '../style';
 import {Picker} from '@react-native-picker/picker';
-const  detailCar = ({addItem}) => { 
-    const [text_excavator_name, setText_excavator_name] = useState();
+import { Input } from 'react-native-elements';
+
+const  detailCar = ({addItem,navigation}) => { 
+    const [text_excavator_name, setText_excavator_name] = useState("");
+    const [ pickerValue, setPickerItemValue] = useState('click..')
+
     const onChange = textValue => setText_excavator_name(textValue);
-    return (
-        <View style={styles.container}>
-          {/* header */}
-            <View style={styles1.header}>
-                <View style={styles1.btnboxtext}>
-                  <Text style={styles1.text_header}> Add a new  information </Text>                          
+    return (    
+            <View style={styles.container}>
+                <View style={styles1.header}>
+                <View style={styles1.header_text}>
+                   <Text style={styles1.text_header}> Add a new  information </Text>                          
+                 </View>
+                </View>
+                <View style={styles1.body}>
+                <ScrollView style={styles1.scroll_view}>
+                <Input
+                                 placeholder=""
+                                 label="Excacator name :"
+                                 renderErrorMessage={true}
+                                 leftIcon={{ type: 'font-awesome', name: 'bus' }}
+                                 onChangeText={onChange}>
+                </Input>
+                <Input
+                                 placeholder="example : pc-30"
+                                 label="Size :"
+                                 renderErrorMessage={true}
+                                 leftIcon={{ type: 'font-awesome', name: 'expand' }}
+                                 onChangeText={onChange}> 
+               </Input>
+              <Text style={{fontSize:16, fontWeight:'bold',color:'#a9a9a9'}}>  Type of excavator : </Text> 
+                <Picker style={styles1.picker}
+                        selectedValue={pickerValue}
+                        onValueChange={(itemValue) => setPickerItemValue(itemValue)}>
+                        <Picker.Item label="Crawler" value="..."/>
+                        <Picker.Item label="Drag Line" value="1"/>
+                        <Picker.Item label="Suction" value="2"/>
+                        <Picker.Item label="Skid Steel" value="3"/>
+                        <Picker.Item label="Long Reach" value="5"/>
+                        <Picker.Item label="Mini Crawler" value="6"/>     
+                    </Picker>
+             <Text style={{fontSize:20, fontWeight:'bold',color:'#000'}}>  Price : </Text> 
+                <Input
+                                 placeholder=" xxxxxx $"
+                                 label="Daily"
+                                 renderErrorMessage={true}
+                                 leftIcon={{ type: 'font-awesome', name: 'money' }}
+                                 onChangeText={onChange}
+                ></Input>
+                <Input
+                                 placeholder=" xxxxxx $"
+                                 label="Weekly"
+                                 renderErrorMessage={true}
+                                 leftIcon={{ type: 'font-awesome', name: 'money' }}
+                                 onChangeText={onChange}
+                ></Input>
+                <Input
+                                 placeholder=" xxxxxx $"
+                                 label="Monthly"
+                                 renderErrorMessage={true}
+                                 leftIcon={{ type: 'font-awesome', name: 'money' }}
+                                 keyboardType='decimal-pad'
+                                 onChangeText={onChange}
+                ></Input>
+               <Input
+                                 placeholder="Example:  
+                                 OPERATING WEIGHT: 8,340LBS /
+                                 MAXIMUM CUTTING HEIGHT: 16.3 FT /
+                                 MAXIMUM DUMPING HEIGHT: 11.9FT /
+                                 MAXIMUM DIGGING DEPTH: 11.4FT /
+                                 MAXIMUM DIGGING REACH: 18.1FT / 
+                                 MINIMUM FRONT SWING RADIUS 7.2FT /
+                                 TRANSPORT LENGTH: 15.7FT /
+                                 UPPER STRUCTURE WIDTH: 5.1FT /
+                                 CANOPY: 8.2FT /
+                                 CAB: 8.2FT
+                                 "
+                                 label="Function"
+                                 renderErrorMessage={true}
+                                 leftIcon={{ type: 'font-awesome', name: 'gear' }}
+                                fontSize={15}
+                                 onChangeText={onChange}
+                                 multiline={true}
+                                 numberOfLines={10}
+                ></Input> 
+                </ScrollView>
+                </View>
+                <View style={styles1.footer}>
+                 <TouchableOpacity style={styles1.next_button}
+                // onPress={() => addItem(text)}
+                onPressOut={() => {navigation.navigate('AddCar')}}
+                >
+                    <Text style={{fontSize:18}}>SAVE</Text>                
+                 </TouchableOpacity> 
                 </View>
             </View>
-          {/* body  */}
-            <View style={{backgroundColor: 'white',flex:0.1}}></View>
-               <View styles={styles1.body}> 
-               <View styles={styles1.box_view}>
-                        <View style={styles1.infobox1}>          
-                                <Text style={styles1.inputtext}>Excavator name (type of excavator) </Text>
-                                <TextInput style={styles1.inputtext} placeholder="Enter Car Name"
-                                 onChangeText={onChange}/>
-                                <Text style={styles1.inputtext}>Version of excavator</Text>
-                                <TextInput style={styles1.inputtext} placeholder="Enter version.."
-                                 onChangeText={onChange}/>
-                                <Text style={styles1.inputtext}>Car brand </Text>
-                                <TextInput style={styles1.inputtext} placeholder="Enter Car brand"
-                                 onChangeText={onChange}/>
-                                <Text style={styles1.inputtext}>Head drill  </Text>
-                                <TextInput style={styles1.inputtext} placeholder="Enter Head drill"
-                                 onChangeText={onChange}/>  
-                        </View>                    
-                </View>                     
-             </View> 
-         {/* footer */}
-          <View style={{backgroundColor: 'white',flex:0.1}}></View>
-            <View style={styles1.footer}> 
-            <TouchableOpacity style={styles1.marginbtn}
-             onPress={() => ({})}
-                        // onPress={()=> navigation.navigate('detailCar')}
-                        >
-                  <Text style={styles.textsavebtn}> SAVE </Text>                          
-                </TouchableOpacity>
-            </View>
-
-            {/* <TextInput 
-                style={styles.input} onChangeText={onChange}
-                placeholder='Please enter 0-9'
-                placeholderTextColor='skyblue'
-                maxLength={10}
-                underlineColorAndroid='gold'
-                textAlign='center'
-                autoCorrect={false}
-                allowFontScaling={false} 
-                />
-                <TextInput 
-                placeholder="Version"
-                ></TextInput> */}
-                    {/* <TouchableOpacity style={styles.btn}
-                onPress={() => addItem(text)}>
-                    <Text style={styles.btnText}>
-                         Additem...
-                    <Icon name="plus" size={20}/>
-                        </Text>                
-            </TouchableOpacity> */}
-        </View>
     )
 }
 
 const styles1 = StyleSheet.create({
+    container : {
+        flex:1,
+    },
     header : {
-        backgroundColor:'white',
-        flex:0.2
+        backgroundColor:'#fff',
+        flex: 0.11,
+        shadowColor: 'black',
+        shadowOffset: {
+          width: 1,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 1.22,
+        elevation: 70,   
+        borderColor: '#787A91',
+        borderRadius:10,
+        borderTopWidth: 0.4,
     },
     body :{
         flex: 1,
-        backgroundColor: 'green', 
+        backgroundColor: '#EEEEEE', 
 
     },
     footer :{
-        flex:0.2,
-        backgroundColor:'white',
-
-    },
-    view_box :{
-        flex:1
+        flex:0.12,
+        backgroundColor:'#fff',
     },
     box_view : {
         flex:1,
-        backgroundColor: 'red'
+        backgroundColor: '#fff'
     },
     inputtext:{
         padding:15,
         fontSize:18,
         backgroundColor:'white'
     },
-    infobox1:{
-        width: "100%",
-        padding: 10,
-        backgroundColor: '#fff',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        borderRadius:10
+    header_text:{
+        padding:10,
+        flex:1,
+        backgroundColor:'#EEEEEE',
+        borderRadius:10,
+        
     },
     scroll_view :{
         width: '90%',
         backgroundColor: '#ffff',
         marginHorizontal: 20,
+        paddingTop:30,
+        shadowColor: '#eeeeee',
+        shadowOffset: {
+          width: 1,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 1.22,
+        elevation: 40,   
+        
     },
-    textaddbtn: {
-        padding:15,
-        fontSize: 16,
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        color:'#2f4f4f'
-      },
-      textsavebtn:{
-        padding:15,
-        fontSize: 16,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        color:'#2f4f4f'
-      },
-      btnboxtext:{
-          padding:10,
-          flex:1,
-          backgroundColor:'white',
-      },
       text_header:{
         fontSize: 18,
         fontWeight: 'bold',
@@ -139,16 +172,23 @@ const styles1 = StyleSheet.create({
         fontWeight:'bold',
         fontSize: 16
       },
-      marginbtn:{
+    picker : {
+        alignSelf:'center',
+        width:"100%",
+        height:50,
+        borderColor: 'black',
+        borderWidth: 10,
+        backgroundColor:'white'
+    },
+    next_button : {
         flex:  0.7,
         padding:5,
-        backgroundColor: '#F1CA89',
+        backgroundColor: 'gold',
         justifyContent: 'center',
         alignSelf:'stretch',
         alignItems:'center',
         borderRadius:12
     },
-    
 })
 
 export default detailCar;

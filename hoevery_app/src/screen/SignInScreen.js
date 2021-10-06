@@ -93,17 +93,6 @@ const SignInScreen = ({navigation}) => {
     //         user.role = responseJson.role;
     //         user.access_token = responseJson.access_token;
 
-<<<<<<< HEAD
-            UserController.setListUser(user);
-            navigation.navigate('HomeScreen');
-          }
-        } catch (err) {
-          alert(result);
-        }
-      })
-      // .catch(error => alert('error', error));
-    navigation.navigate('mainPage');
-=======
     //         UserController.setListUser(user);
     //         navigation.navigate('HomeScreen');
     //       }
@@ -112,24 +101,18 @@ const SignInScreen = ({navigation}) => {
     //     }
     //   })
     // .catch(error => alert('error', error));
-    navigation.navigate('googleMap');
->>>>>>> 5ec8228ebe40f513c89cfe10b3ae3a2b768387a5
+    navigation.navigate('mainPage');
   };
 
   return (
     <View style={styles.container}>
-<<<<<<< HEAD
-      <StatusBar backgroundColor="#F1CA89" barStyle="light-content" />
-      <View style={styles.backgound}>
-=======
       {/* Theme color => StatusBar */}
-      <StatusBar backgroundColor="#5F9595" barStyle="light-content" />
+      <StatusBar backgroundColor="#eeeeee" barStyle="light-content" />
       <ScrollView
         keyboardDismissMode={'on-drag'}
         stickyHeaderIndices={[2]}
         scrollEnabled={false}
         style={styles.backgound}>
->>>>>>> 5ec8228ebe40f513c89cfe10b3ae3a2b768387a5
         <View style={styles.textHeader}>
           <Text style={styles.text_header1}>WELCOME</Text>
           <Text style={styles.text_header1}>TO</Text>
@@ -139,8 +122,13 @@ const SignInScreen = ({navigation}) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={[styles.text_header1, {color: '#DA1503'}]}>HOE</Text>
-            <Text style={[styles.text_header1, {color: 'white'}]}>VERY</Text>
+            <Text style={[styles.text_header1, {color: '#800080'}]}>H </Text>
+            <Text style={[styles.text_header1, {color: '#00008b'}]}>O </Text>
+            <Text style={[styles.text_header1, {color: '#00ced1'}]}>E </Text>
+            <Text style={[styles.text_header1, {color: '#00ff7f'}]}>V </Text>
+            <Text style={[styles.text_header1, {color: '#ffff00'}]}>E </Text>
+            <Text style={[styles.text_header1, {color: '#ff8c00'}]}>R </Text>
+            <Text style={[styles.text_header1, {color: '#DA1503'}]}>Y </Text>
           </View>
           <Text style={styles.text_header2}>
             Registering to this website,
@@ -151,12 +139,12 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontWeight: 'bold',
                     textDecorationLine: 'underline',
-                    color: '#fff',
+                    color: '#362222',
                   }}>
                   Terms of use
                 </Text>
               </TouchableOpacity>
-              <Text style={{paddingRight: 5, paddingLeft: 5, color: '#fff'}}>
+              <Text style={{paddingRight: 5, paddingLeft: 5, color: '#362222'}}>
                 and our
               </Text>
               <TouchableOpacity onPress={() => {}} style={{}}>
@@ -164,7 +152,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontWeight: 'bold',
                     textDecorationLine: 'underline',
-                    color: '#fff',
+                    color: '#362222',
                   }}>
                   Privacy policy
                 </Text>
@@ -181,7 +169,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#CC9B6D',
+                    color: '#362222',
                   }}>
                   Username
                 </Text>
@@ -189,7 +177,7 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="user"
-                    color="#CC9B6D"
+                    color="#ffd700"
                     size={20}
                   />
                   <TextInput
@@ -209,7 +197,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#CC9B6D',
+                    color: '#362222',
                     marginTop: 5,
                   }}>
                   Password
@@ -218,7 +206,7 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="lock"
-                    color="#CC9B6D"
+                    color="#ffd700"
                     size={20}
                   />
                   <TextInput
@@ -249,7 +237,7 @@ const SignInScreen = ({navigation}) => {
                   {isSelected ? true : false}
                 </View>
                 <TouchableOpacity onPress={() => {}} style={styles.label}>
-                  <Text style={{fontWeight: 'bold', color: '#828282'}}>
+                  <Text style={{fontWeight: 'bold', color: '#362222'}}>
                     Forgot your password?
                   </Text>
                 </TouchableOpacity>
@@ -257,9 +245,9 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={['#CC9B6D', '#F1CA89']}
+                      colors={['#ffd700','#ffffff']}
                       style={styles.signIn}>
-                      <Text style={[styles.textSignIn, {color: '#ffff'}]}>
+                      <Text style={[styles.textSignIn, {color: '#362222'}]}>
                         Sign In
                       </Text>
                     </LinearGradient>
@@ -267,7 +255,7 @@ const SignInScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <View style={{flexDirection: 'row', paddingLeft: 5}}>
-                  <Text style={{fontSize: 14, margin: 5, color: '#828282'}}>
+                  <Text style={{fontSize: 14, margin: 5, color: '#362222'}}>
                     Not a member ?
                   </Text>
                   <TouchableOpacity

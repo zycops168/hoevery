@@ -9,17 +9,14 @@ import SignInScreen from './src/screen/SignInScreen';
 import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import googleMap from './src/screen/googleMap';
-<<<<<<< HEAD
-import detialCar from './src/screen/detailCar';
-// test github form dev branch
-=======
 import detailCar from './src/screen/detailCar';
 import AddCar from './src/screen/addCar';
 import mainPage from './src/screen/mainPage';
 import findCar from './src/screen/findCar';
 import total from './src/screen/total'
+import inSpect from './src/screen/inSpect';
+import Profiles from './src/screen/Profiles';
 // test github
->>>>>>> front-end
 
 const Stack = createStackNavigator();
 function MyStack() {
@@ -70,6 +67,14 @@ function MyStack() {
       <Stack.Screen
       name="total"
       component={total}
+      />
+      <Stack.Screen
+      name="inSpect"
+      component={inSpect}
+      />
+      <Stack.Screen
+      name="Profiles"
+      component={Profiles}
       />
     </Stack.Navigator>
   );
