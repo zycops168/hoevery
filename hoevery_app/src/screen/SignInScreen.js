@@ -148,13 +148,8 @@ const SignInScreen = ({ navigation }) => {
           <Text style={styles.text_header2}>
             Registering to this website,
             {'\n'} you accept our {'\n'}
-<<<<<<< HEAD
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity onPress={() => { }} style={{}}>
-=======
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity onPress={() => {navigation.navigate('afterPayment')}} style={{}}>
->>>>>>> fd45dcff72cffcd4e5367bb006b3e24a26028afe
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -265,11 +260,7 @@ const SignInScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-<<<<<<< HEAD
-                      colors={['#ffd700', '#ffffff']}
-=======
                       colors={['#ffd700','#F5E487']}
->>>>>>> fd45dcff72cffcd4e5367bb006b3e24a26028afe
                       style={styles.signIn}>
                       <Text style={[styles.textSignIn, { color: '#362222' }]}>
                         Sign In
