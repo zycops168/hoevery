@@ -1,0 +1,13 @@
+
+sequen of hoevery-app
+
+signUpscreen.js -> signInScreen -> mainPage.js ->  {
+  tanent : findCar.js -> listCar.js -> getdetail.js -> confirm.js -> payment.js -> afterpayment.js
+  lessor :  Profile.js -> {
+    bussiness: addCar.js -> {
+      addDataCar : addCar.js -> detailCar.js -> addCar.js
+      noti-job : addCar.js -> myJob.js -> addCar.js
+    }
+    normally : history.js -> 
+  }
+}

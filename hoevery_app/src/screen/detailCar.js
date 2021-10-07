@@ -5,6 +5,15 @@ import { styles } from '../style';
 import { Picker } from '@react-native-picker/picker';
 import { Input } from 'react-native-elements';
 
+const Header = () => {
+    return (
+        <View style={styles1.header}>
+            <View style={styles1.header_text}>
+                <Text style={styles1.text_header}> Add a new  information </Text>
+            </View>
+        </View>
+    )
+}
 const detailCar = ({ navigation }) => {
     const [text_excavator_name, setText_excavator_name] = useState("");
     const [create, setCreate] = useState('charmuar');
@@ -30,88 +39,8 @@ const detailCar = ({ navigation }) => {
     // console.log(func);
 
 
-    // Insert Excavatorr data and detail 
-    const InsertExData = () => {  // not active 
-        // var raw = JSON.stringify({
-        //     "carname": text_excavator_name,
-        //     "create_by": create,
-        //     "type": pickerTypeValue,
-        //     "size": size,
-        //     "price": {
-        //         "Daily": Price_daily,
-        //         "Weekly": Price_weekly,
-        //         "Monthly": Price_monthly
-        //     },
-        //     "function": {
-        //         "detail": func
-        //     }
-        //})
-        var raw = JSON.stringify({
-            "carname": "text_excavator_name",
-            "create_by": "charmuar",
-            "type": "pickerTypeValue",
-            "size": "size",
-            "price": {
-                "Daily": "Price_daily",
-                "Weekly": "Price_weekly",
-                "Monthly": "Price_monthly"
-            },
-            "function": {
-                "detail": "func"
-            }
-        });
-
-        console.log(raw);
-        var requestOptions = {
-            method: 'POST',
-            body: raw,
-            redirect: 'follow'
-        };
-        fetch("http://203.150.107.212/lessor/insert-car", requestOptions)
-
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-    }
-
-    const fedex2 = () => {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-              var raw = JSON.stringify({
-            "carname": text_excavator_name,
-            "create_by": create,
-            "type": pickerTypeValue,
-            "size": size,
-            "price": {
-                "Daily": Price_daily,
-                "Weekly": Price_weekly,
-                "Monthly": Price_monthly
-            },
-            "function": {
-                "detail": func
-            }
-        })
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-
-        fetch("http://203.150.107.212/lessor/insert-car", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-    }
-    return (
-        <View style={styles.container}>
-            <View style={styles1.header}>
-                <View style={styles1.header_text}>
-                    <Text style={styles1.text_header}> Add a new  information </Text>
-                </View>
-            </View>
+    const Body_input = () => {
+        return (
             <View style={styles1.body}>
                 <ScrollView style={styles1.scroll_view}>
                     <Input
@@ -167,12 +96,12 @@ const detailCar = ({ navigation }) => {
 
                     <Input
                         placeholder="Example:  
-                                 OPERATING WEIGHT: 8,340LBS /
-                                 MAXIMUM CUTTING HEIGHT: 16.3 FT /
-                                 MAXIMUM DUMPING HEIGHT: 11.9FT /
-                                 MAXIMUM DIGGING DEPTH: 11.4FT /
-                                 MAXIMUM DIGGING REACH: 18.1FT /
-                                 "
+                             OPERATING WEIGHT: 8,340LBS /
+                             MAXIMUM CUTTING HEIGHT: 16.3 FT /
+                             MAXIMUM DUMPING HEIGHT: 11.9FT /
+                             MAXIMUM DIGGING DEPTH: 11.4FT /
+                             MAXIMUM DIGGING REACH: 18.1FT /
+                             "
                         label="Function"
                         renderErrorMessage={true}
                         leftIcon={{ type: 'font-awesome', name: 'gear' }}
@@ -183,14 +112,87 @@ const detailCar = ({ navigation }) => {
                     ></Input>
                 </ScrollView>
             </View>
+        )
+    }
+    const Footer = () => {
+        return (
             <View style={styles1.footer}>
                 <TouchableOpacity style={styles1.next_button}
-                    onPress={() => fedex2()}
+                    onPress={() => InsertExData()}
                     onPressOut={() => { navigation.navigate('AddCar') }}
                 >
                     <Text style={{ fontSize: 18 }}>SAVE</Text>
                 </TouchableOpacity>
             </View>
+        )
+    }
+    // Insert Excavatorr data and detail 
+    const fedex2 = () => {  // not active 
+        var raw = JSON.stringify({
+            "carname": "text_excavator_name",
+            "create_by": "charmuar",
+            "type": "pickerTypeValue",
+            "size": "size",
+            "price": {
+                "Daily": "Price_daily",
+                "Weekly": "Price_weekly",
+                "Monthly": "Price_monthly"
+            },
+            "function": {
+                "detail": "func"
+            }
+        });
+
+        console.log(raw);
+        var requestOptions = {
+            method: 'POST',
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch("http://203.150.107.212/lessor/insert-car", requestOptions)
+
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
+    const InsertExData = () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "carname": text_excavator_name,
+            "create_by": create,
+            "type": pickerTypeValue,
+            "size": size,
+            "price": {
+                "Daily": Price_daily,
+                "Weekly": Price_weekly,
+                "Monthly": Price_monthly
+            },
+            "function": {
+                "detail": func
+            }
+        })
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        fetch("http://203.150.107.212/lessor/insert-car", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+    return (
+        <View style={styles.container}>
+            {/* header */}
+            <Header />
+            {/* body */}
+            <Body_input />
+            {/* footer */}
+            <Footer />
         </View>
     )
 }
