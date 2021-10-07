@@ -1,4 +1,4 @@
-import React, { Component,useEffect } from 'react';
+import React, {Component, useEffect} from 'react';
 import {
   Text,
   Platform,
@@ -20,17 +20,14 @@ import Feather from 'react-native-vector-icons/Feather';
 import CheckBox from '@react-native-community/checkbox';
 import PushNotification from 'react-native-push-notification';
 
-import { styles } from '../style';
+import {styles} from '../style';
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
-
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
 import AddCar from './addCar';
 
-
-
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
     username: '',
     password: '',
@@ -39,13 +36,11 @@ const SignInScreen = ({ navigation }) => {
   });
 
   const createChannels = () => {
-    PushNotification.createChannel(
-      {
-        channelId: 'test-channel',
-        channelName: 'Test channel'
-      }
-    )
-  }
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test channel',
+    });
+  };
   useEffect(() => {
     createChannels();
   }, []);
@@ -119,13 +114,12 @@ const SignInScreen = ({ navigation }) => {
     //   })
     // .catch(error => alert('error', error));
     navigation.navigate('mainPage');
-
   };
 
   return (
     <View style={styles.container}>
       {/* Theme color => StatusBar */}
-      <StatusBar backgroundColor= {COLORS.gray} barStyle="light-content" />
+      <StatusBar backgroundColor={COLORS.gray} barStyle="light-content" />
       <ScrollView
         keyboardDismissMode={'on-drag'}
         stickyHeaderIndices={[2]}
@@ -140,19 +134,23 @@ const SignInScreen = ({ navigation }) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={[styles.text_header1, { color: '#800080' }]}>H </Text>
-            <Text style={[styles.text_header1, { color: '#00008b' }]}>O </Text>
-            <Text style={[styles.text_header1, { color: '#00ced1' }]}>E </Text>
-            <Text style={[styles.text_header1, { color: '#00ff7f' }]}>V </Text>
-            <Text style={[styles.text_header1, { color: '#ffff00' }]}>E </Text>
-            <Text style={[styles.text_header1, { color: '#ff8c00' }]}>R </Text>
-            <Text style={[styles.text_header1, { color: '#DA1503' }]}>Y </Text>
+            <Text style={[styles.text_header1, {color: '#800080'}]}>H </Text>
+            <Text style={[styles.text_header1, {color: '#00008b'}]}>O </Text>
+            <Text style={[styles.text_header1, {color: '#00ced1'}]}>E </Text>
+            <Text style={[styles.text_header1, {color: '#00ff7f'}]}>V </Text>
+            <Text style={[styles.text_header1, {color: '#ffff00'}]}>E </Text>
+            <Text style={[styles.text_header1, {color: '#ff8c00'}]}>R </Text>
+            <Text style={[styles.text_header1, {color: '#DA1503'}]}>Y </Text>
           </View>
           <Text style={styles.text_header2}>
             Registering to this website,
             {'\n'} you accept our {'\n'}
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => {navigation.navigate('afterPayment')}} style={{}}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('afterPayment');
+                }}
+                style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -162,10 +160,10 @@ const SignInScreen = ({ navigation }) => {
                   Terms of use
                 </Text>
               </TouchableOpacity>
-              <Text style={{ paddingRight: 5, paddingLeft: 5, color: '#362222' }}>
+              <Text style={{paddingRight: 5, paddingLeft: 5, color: '#362222'}}>
                 and our
               </Text>
-              <TouchableOpacity onPress={() => { }} style={{}}>
+              <TouchableOpacity onPress={() => {}} style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -182,7 +180,7 @@ const SignInScreen = ({ navigation }) => {
         <Animatable.View animation="fadeInUpBig" style={styles.body}>
           <View style={styles.box}>
             <View style={styles.form}>
-              <View style={{ flex: 1, paddingRight: 10, paddingLeft: 10 }}>
+              <View style={{flex: 1, paddingRight: 10, paddingLeft: 10}}>
                 <Text
                   style={{
                     fontSize: 16,
@@ -193,9 +191,9 @@ const SignInScreen = ({ navigation }) => {
                 </Text>
                 <View style={styles.action}>
                   <Feather
-                    style={{ marginLeft: 5 }}
+                    style={{marginLeft: 5}}
                     name="user"
-                    color= {COLORS.primary}
+                    color={COLORS.primary}
                     size={20}
                   />
                   <TextInput
@@ -222,7 +220,7 @@ const SignInScreen = ({ navigation }) => {
                 </Text>
                 <View style={styles.action}>
                   <Feather
-                    style={{ marginLeft: 5 }}
+                    style={{marginLeft: 5}}
                     name="lock"
                     color={COLORS.primary}
                     size={20}
@@ -243,7 +241,7 @@ const SignInScreen = ({ navigation }) => {
                     )}
                   </TouchableOpacity>
                 </View>
-                <View style={{ paddingTop: 5 }}>
+                <View style={{paddingTop: 5}}>
                   <View style={styles.checkboxContainer}>
                     <CheckBox
                       value={isSelected}
@@ -254,8 +252,8 @@ const SignInScreen = ({ navigation }) => {
                   </View>
                   {isSelected ? true : false}
                 </View>
-                <TouchableOpacity onPress={() => { }} style={styles.label}>
-                  <Text style={{ fontWeight: 'bold', color: '#362222' }}>
+                <TouchableOpacity onPress={() => {}} style={styles.label}>
+                  <Text style={{fontWeight: 'bold', color: '#362222'}}>
                     Forgot your password?
                   </Text>
                 </TouchableOpacity>
@@ -263,17 +261,19 @@ const SignInScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={[COLORS.primary,COLORS.lightPrimary]}
+                      colors={[COLORS.primary, COLORS.lightPrimary]}
                       style={styles.signIn}>
-                      <Text style={[styles.textSignIn, { color: COLORS.secondary }]}>
+                      <Text
+                        style={[styles.textSignIn, {color: COLORS.secondary}]}>
                         Sign In
                       </Text>
                     </LinearGradient>
                   </View>
                 </TouchableOpacity>
 
-                <View style={{ flexDirection: 'row', paddingLeft: 5 }}>
-                  <Text style={{ fontSize: 14, margin: 5, color: COLORS.secondary }}>
+                <View style={{flexDirection: 'row', paddingLeft: 5}}>
+                  <Text
+                    style={{fontSize: 14, margin: 5, color: COLORS.secondary}}>
                     Not a member ?
                   </Text>
                   <TouchableOpacity
@@ -298,7 +298,7 @@ const SignInScreen = ({ navigation }) => {
           <View style={{}}>
             <Text
               style={{
-                color:  COLORS.white,
+                color: COLORS.white,
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 15,
@@ -313,22 +313,10 @@ const SignInScreen = ({ navigation }) => {
                 justifyContent: 'center',
                 padding: 10,
               }}>
-              <Image
-                style={styles.icon}
-                source={images.facebookLogo}
-              />
-              <Image
-                style={styles.icon}
-                source={require('../../assets/images/icon-png-line.png')}
-              />
-              <Image
-                style={styles.icon}
-                source={require('../../assets/images/icon-png-youtube.png')}
-              />
-              <Image
-                style={styles.icon}
-                source={require('../../assets/images/icon-png-twitter.png')}
-              />
+              <Image style={styles.icon} source={images.facebookLogo} />
+              <Image style={styles.icon} source={images.lineLogo} />
+              <Image style={styles.icon} source={images.youtubeLogo} />
+              <Image style={styles.icon} source={images.twitterLogo} />
             </View>
           </View>
         </View>
