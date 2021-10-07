@@ -49,4 +49,10 @@ signUpscreen.js -> signInScreen -> mainPage.js ->  {
     }
     normally : history.js -> 
   }
+  V3_progess_confirm_status_excavator : {
+
+    getdetail.js -> (new file)myrental.js -> payment.js -> afterpayment.js 
+    Addcar : add button for display always/busy status  
+
+  }
 }

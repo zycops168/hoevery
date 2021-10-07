@@ -3,15 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, TouchableOpacityBase }
 import { styles } from '../style';
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 import { SpeedDial, LinearProgress } from 'react-native-elements';
+import uuid from 'uuid-random';
 
-<<<<<<< HEAD
-
-const mainPage = ({ navigation }) => {
-
-    const [open, setOpen] = useState(false)
-=======
 const Header_looking = () => {
->>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
     return (
         <View style={styles1.header}>
             <Text style={[styles.text_header1, { color: '#800080' }]}>L </Text>
@@ -105,6 +99,11 @@ const Body = () => {
 
 const mainPage = ({ navigation }) => {
 
+    const [items, setItems] = useState([
+        { id: uuid(), text: "always" },
+        { id: uuid(), text: "green" },
+      ])
+      
     const Footer = () => {
         return (
             <View style={styles1.footer}>
@@ -139,7 +138,7 @@ const mainPage = ({ navigation }) => {
                     color={'#ffd700'}
                     icon={{ name: 'edit', color: '#362222' }}
                     title="Profile"
-                    onPress={() => navigation.navigate('AddCar')} // for page kim
+                    onPress={() => navigation.navigate('AddCar', { paramKey: items })} // for page kim
                 />
                 <SpeedDial.Action
                     color={'#ffd700'}
@@ -148,7 +147,6 @@ const mainPage = ({ navigation }) => {
                     onPress={() => console.log('Delete Something')}
                 />
             </SpeedDial>
-            <LinearProgress color="#ff69b4" />
         </View>
     )
 }
@@ -182,11 +180,11 @@ const styles1 = StyleSheet.create({
         alignItems: 'flex-start',  //x
         alignSelf: 'center',
         borderRadius: 5,
-        // shadowOffset: { width: 10, height: 10 },
-        // shadowColor: '#000',
-        // shadowOpacity: 1.0,
-        // shadowRadius: 1.0,
-        // // elevation: 1,
+        // shadowOffset: { width: 2, height: 2 },
+        // shadowColor: 'brown',
+        // shadowOpacity: 5.0,
+        // shadowRadius: 5.0,
+        // elevation: 9 ,
     },
     footer: {
         flex: 0.1,
@@ -234,6 +232,11 @@ const styles1 = StyleSheet.create({
         backgroundColor: 'gold',
         justifyContent: 'center',
         alignItems: 'center',
+        shadowOffset: { width: 2, height: 2 },
+        shadowColor: 'black',
+        shadowOpacity: 5.0,
+        shadowRadius: 5.0,
+        elevation: 10,
     },
 })
 export default mainPage;

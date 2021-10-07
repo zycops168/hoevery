@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component,useEffect } from 'react';
 import {
   Text,
   Platform,
@@ -18,20 +18,34 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import CheckBox from '@react-native-community/checkbox';
-import {styles} from '../style';
+import { styles } from '../style';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
 import AddCar from './addCar';
+import PushNotification from 'react-native-push-notification';
 
 
-const SignInScreen = ({navigation}) => {
+
+const SignInScreen = ({ navigation }) => {
   const [data, setData] = React.useState({
     username: '',
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
   });
+
+  const createChannels = () => {
+    PushNotification.createChannel(
+      {
+        channelId: 'test-channel',
+        channelName: 'Test channel'
+      }
+    )
+  }
+  useEffect(() => {
+    createChannels();
+  }, []);
 
   const textInputChange = val => {
     if (val.length != 0) {
@@ -102,7 +116,7 @@ const SignInScreen = ({navigation}) => {
     //   })
     // .catch(error => alert('error', error));
     navigation.navigate('mainPage');
-    
+
   };
 
   return (
@@ -123,19 +137,19 @@ const SignInScreen = ({navigation}) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={[styles.text_header1, {color: '#800080'}]}>H </Text>
-            <Text style={[styles.text_header1, {color: '#00008b'}]}>O </Text>
-            <Text style={[styles.text_header1, {color: '#00ced1'}]}>E </Text>
-            <Text style={[styles.text_header1, {color: '#00ff7f'}]}>V </Text>
-            <Text style={[styles.text_header1, {color: '#ffff00'}]}>E </Text>
-            <Text style={[styles.text_header1, {color: '#ff8c00'}]}>R </Text>
-            <Text style={[styles.text_header1, {color: '#DA1503'}]}>Y </Text>
+            <Text style={[styles.text_header1, { color: '#800080' }]}>H </Text>
+            <Text style={[styles.text_header1, { color: '#00008b' }]}>O </Text>
+            <Text style={[styles.text_header1, { color: '#00ced1' }]}>E </Text>
+            <Text style={[styles.text_header1, { color: '#00ff7f' }]}>V </Text>
+            <Text style={[styles.text_header1, { color: '#ffff00' }]}>E </Text>
+            <Text style={[styles.text_header1, { color: '#ff8c00' }]}>R </Text>
+            <Text style={[styles.text_header1, { color: '#DA1503' }]}>Y </Text>
           </View>
           <Text style={styles.text_header2}>
             Registering to this website,
             {'\n'} you accept our {'\n'}
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => {}} style={{}}>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity onPress={() => { }} style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -145,10 +159,10 @@ const SignInScreen = ({navigation}) => {
                   Terms of use
                 </Text>
               </TouchableOpacity>
-              <Text style={{paddingRight: 5, paddingLeft: 5, color: '#362222'}}>
+              <Text style={{ paddingRight: 5, paddingLeft: 5, color: '#362222' }}>
                 and our
               </Text>
-              <TouchableOpacity onPress={() => {}} style={{}}>
+              <TouchableOpacity onPress={() => { }} style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -165,7 +179,7 @@ const SignInScreen = ({navigation}) => {
         <Animatable.View animation="fadeInUpBig" style={styles.body}>
           <View style={styles.box}>
             <View style={styles.form}>
-              <View style={{flex: 1, paddingRight: 10, paddingLeft: 10}}>
+              <View style={{ flex: 1, paddingRight: 10, paddingLeft: 10 }}>
                 <Text
                   style={{
                     fontSize: 16,
@@ -176,7 +190,7 @@ const SignInScreen = ({navigation}) => {
                 </Text>
                 <View style={styles.action}>
                   <Feather
-                    style={{marginLeft: 5}}
+                    style={{ marginLeft: 5 }}
                     name="user"
                     color="#ffd700"
                     size={20}
@@ -205,7 +219,7 @@ const SignInScreen = ({navigation}) => {
                 </Text>
                 <View style={styles.action}>
                   <Feather
-                    style={{marginLeft: 5}}
+                    style={{ marginLeft: 5 }}
                     name="lock"
                     color="#ffd700"
                     size={20}
@@ -226,7 +240,7 @@ const SignInScreen = ({navigation}) => {
                     )}
                   </TouchableOpacity>
                 </View>
-                <View style={{paddingTop: 5}}>
+                <View style={{ paddingTop: 5 }}>
                   <View style={styles.checkboxContainer}>
                     <CheckBox
                       value={isSelected}
@@ -237,8 +251,8 @@ const SignInScreen = ({navigation}) => {
                   </View>
                   {isSelected ? true : false}
                 </View>
-                <TouchableOpacity onPress={() => {}} style={styles.label}>
-                  <Text style={{fontWeight: 'bold', color: '#362222'}}>
+                <TouchableOpacity onPress={() => { }} style={styles.label}>
+                  <Text style={{ fontWeight: 'bold', color: '#362222' }}>
                     Forgot your password?
                   </Text>
                 </TouchableOpacity>
@@ -246,17 +260,17 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={['#ffd700','#ffffff']}
+                      colors={['#ffd700', '#ffffff']}
                       style={styles.signIn}>
-                      <Text style={[styles.textSignIn, {color: '#362222'}]}>
+                      <Text style={[styles.textSignIn, { color: '#362222' }]}>
                         Sign In
                       </Text>
                     </LinearGradient>
                   </View>
                 </TouchableOpacity>
 
-                <View style={{flexDirection: 'row', paddingLeft: 5}}>
-                  <Text style={{fontSize: 14, margin: 5, color: '#362222'}}>
+                <View style={{ flexDirection: 'row', paddingLeft: 5 }}>
+                  <Text style={{ fontSize: 14, margin: 5, color: '#362222' }}>
                     Not a member ?
                   </Text>
                   <TouchableOpacity

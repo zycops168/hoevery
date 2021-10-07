@@ -55,7 +55,7 @@ const findCar = ({ navigation }) => {
             <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
                 <View style={{width:50,height:50, backgroundColor:'red'}}></View>
             </Overlay> */}
-                <TouchableOpacity style={styles1.btn_readmore}
+                <TouchableOpacity style={styles1.find_btn}
                     onPress={() => Check_getExData(pickerValue)}>
                     {/* <Icon name="arrow-right" size={30} /> */}
                     <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Find</Text>
@@ -71,7 +71,6 @@ const findCar = ({ navigation }) => {
             {/* <Icon name="arrow-right" size={30} /> 
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Next</Text>
         </TouchableOpacity> */}
-                <LinearProgress color="#ff69b4" />
             </View>
 
         )
@@ -86,12 +85,7 @@ const findCar = ({ navigation }) => {
             .then(result => console.log(result))
             .catch(error => console.log('error', error));
         // wait write condition for check when change page
-<<<<<<< HEAD
-        navigation.navigate('googleMap')
-
-=======
         navigation.navigate('getDetail')
->>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
     }
     const Check_getExData = () => {
         if (pickerValue == 'none') {
@@ -107,51 +101,10 @@ const findCar = ({ navigation }) => {
             {/* header */}
             <Header />
             {/* body */}
-<<<<<<< HEAD
-            <View style={styles1.body}>
-                <Picker style={styles1.picker}
-                    selectedValue={pickerValue}
-                    onValueChange={(itemValue) => setPickerItemValue(itemValue)}
-                >
-                    <Picker.Item label="Select Type Job.." value="none" />
-                    <Picker.Item label="Natural canal dredging" value="Natural canal dredging" />
-                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />
-                    <Picker.Item label="Dig soil/Soft soil" value="Dig soilSoft soil"/>
-                    <Picker.Item label="Dig a canal" value="digACanal" />
-                    <Picker.Item label="Dig a drainage hole" value="dig a drainage hole" />                
-                    <Picker.Item label="Min soil pebble limestone mineral rock" value="Min soil pebble limestone mineral rock" />
-                    <Picker.Item label="Move dispose material in a place where space is limited" value="Move dispose material in a place where space is limited" />
-                    <Picker.Item label="Crowded" value="Crowded" />
-                </Picker>
-            </View>
-            <View styles={styles1.body2}>
-                {/* <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('googleMap')}>
-                        <Icon name="arrow-right" size={30}/>  
-                    </TouchableOpacity>
-                    <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-                        <View style={{width:50,height:50, backgroundColor:'red'}}></View>
-                    </Overlay> */}
-            </View>
-            {/* footer */}
-            <View style={styles1.footer}>
-                <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('mainPage')}>    
-                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Back</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => Check_getExData(pickerValue)}>
-                    {/* <Icon name="arrow-right" size={30} /> */}
-                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Next</Text>
-                </TouchableOpacity>
-            </View>
-            <LinearProgress color="#ff69b4" />
-=======
             <Body_dropdown_find />
             <Body_find_btn />
             {/* footer */}
             <Footer />
->>>>>>> 538f7fc1d701e3d59a60feae5004bfe9d2039ed1
         </View>
     )
 }
@@ -222,15 +175,19 @@ const styles1 = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 12
     },
-    btn_readmore: {
+    find_btn: {
         backgroundColor: '#ffd700',
-        width: 80,
-        height: 80,
+        width: "25%",
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
         padding: 10,
-        borderRadius: 50,
+        borderRadius: 10,
+        shadowOffset: { width: 2, height: 2 },
+        shadowColor: 'black',
+        shadowOpacity: 5.0,
+        shadowRadius: 5.0,
+        elevation: 10 ,
     },
 
 })

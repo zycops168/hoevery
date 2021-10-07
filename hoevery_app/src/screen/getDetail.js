@@ -13,26 +13,22 @@ import {
 import MapView, { PROVIDER_GOOGLE, Marker, Callout, Polygon, Circle, } from 'react-native-maps';
 import { LinearProgress, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome'
-// export default class googleMap extends Component {
-
+import PushNotification from 'react-native-push-notification';
+import uuid from 'uuid-random';
 
 const getDetail = ({ navigation }) => {
 
+  const [items, setItems] = useState([
+    { id: uuid(), text: "busy" },
+    { id: uuid(), text: "red" },
+  ])
+  
   const [isLoading, setLoading] = useState(true);
   const [exData, setExData] = useState([{}]);
   const [userData, setUserData] = useState([{}]);
   const [visible, setVisible] = useState(false);
-  const toggleOverlay = () => { setVisible(!visible)};
-  const onChangepage = () => {navigation.navigate('payment')};
-  // const getExData = async () => {
-  //   var requestOptions = {
-  //     method: 'GET',
-  //     redirect: 'follow'
-  //   };
-  //   const response = await fetch("http://203.150.107.212/tenant/get-car-with-type?typeOfWork=dig%20a%20canal", requestOptions)
-  //   const result = await response.text();
-  //   const userdata = await JSON.parse(result); setExData(userdata); alert(userdata)
-  // }
+  const toggleOverlay = () => { setVisible(!visible) };
+  
   const getUserData = async () => {
     var requestOptions = {
       method: 'GET',
@@ -41,65 +37,67 @@ const getDetail = ({ navigation }) => {
     const response = await fetch("http://203.150.107.212/user/all", requestOptions)
     const result = await response.text();
     const userdata = await JSON.parse(result); setUserData(userdata);
+    console.log(result);
   }
-  // const getExData = () => {
-  //   var requestOptions = {
-  //     method: 'GET',
-  //     redirect: 'follow'
-  //   };
-  //   fetch("http://203.150.107.212/tenant/get-car-with-type?typeOfWork=dig%20a%20canal", requestOptions)
-  //     .then(response => response.text())
-  //     .then(result => {
-  //       console.log(result);
-  //       var data = JSON.parse(result);
-  //       setExData(data); 
-  //     }) //alert((data.data.row[1].owner_id))
-  //     .catch(error => console.log('error', error));
-  // }
-  // const getUserData = () => {
-  //   var requestOptions = {
-  //     method: 'GET',
-  //     redirect: 'follow'
-  //   };
-  //   fetch("http://203.150.107.212/user/all", requestOptions)
-  //     .then(response => response.text())
-  //     .then(result => {
-  //       console.log(result);
-  //       var data = JSON.parse(result);
-  //       setUserData(data); 
-  //     }) //alert((data[1].tel))
-  //     .catch(error => console.log('error', error));
-  // }
-
-  // const main = async () => {
-  //    getExData;
-  //    getUserData;
-  // }
   useEffect(() => {
     //getExData();
     getUserData();
     //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
     //  return () => clearInterval(dataInterval);
   }, []);
+  const handleNotification = () => {
+    {
+      // PushNotification.cancelAllLocalNotifications()
 
+      PushNotification.localNotification(
+        {
+          channelId: 'test-channel',
+          title: 'Your'  + 'order No.999',
+          message: 'READ MORE...',
+          bigText: 'There is a list of products you need to make a decision on.',
+          color: 'orange',
+          playSound: false, // (optional) default: true
+        }
+      )
+      PushNotification.localNotificationSchedule({
+        channelId: 'test-channel',
+        title: 'Your' + 'order No.999',
+        message: "My Notification Message", // (required)
+        date: new Date(Date.now() + (20 * 1000)), // in 60 secs
+        actions: ["ReplyInput"],
+        reply_placeholder_text: "Write your response...", // (required)
+        reply_button_text: "Reply", // (required)
+        allowWhileIdle: true,
+        playSound: false, // (optional) default: true
+      });
+      PushNotification.getChannels(function (channel_ids) {
+        console.log(channel_ids); // ['channel_id_1']
+      });
 
-  return (
-    <View style={styles1.container}>
-      {/* header */}
+      
+     //  navigation.navigate('myRental', { paramKey: items })
+    }
+  }
+  handleNotification();
+  const Header = () => {
+    return (
       <View style={styles1.header}>
         <View style={styles1.header_text}>
           <TouchableOpacity styles={{}}
             onPress={() => navigation.navigate('mainPage')}>
             <Icon name="arrow-left" size={30} />
           </TouchableOpacity>
-          <Text style={styles1.text}>Location</Text>
-          <TouchableOpacity styles={{}}
+          <Text style={styles1.text}>                           Location</Text>
+          {/* <TouchableOpacity styles={{}}
             onPress={() => navigation.navigate('notify')}>
             <Icon name="bell" size={30} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
-      {/* body */}
+    )
+  }
+  const Body = () => {
+    return (
       <View style={styles1.body}>
         <View styles={styles1.body_shadow}>
           <MapView
@@ -199,6 +197,10 @@ const getDetail = ({ navigation }) => {
           </View>
         </View>
       </View>
+    )
+  }
+  const Footer = () => {
+    return (
       <View style={styles1.footer}>
         <TouchableOpacity style={styles1.btn_readmore}
           onPress={() => navigation.navigate('mainPage')}>
@@ -209,19 +211,29 @@ const getDetail = ({ navigation }) => {
           {/* <Icon name="arrow-right" size={30} /> */}
           <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Accept</Text>
           <Overlay isVisible={visible} onBackdropPress={toggleOverlay}
-          overlayStyle={{
-            backgroundColor:'#eee',
-            borderRadius: 100,
-          }}>
+            overlayStyle={{
+              backgroundColor: '#eee',
+              borderRadius: 20,
+            }}>
             <View style={styles1.overlay_container}>
-              <TouchableOpacity onPress={onChangepage}>
+              <TouchableOpacity onPress={() => navigation.navigate('mainPage', { paramKey1: items })}>
                 <ActivityIndicator size="large" color="#362222" />
-                <Text style={styles1.text_loading}>Loading...</Text>
+                <Text style={styles1.text_loading}>กำลังดำเนินการ</Text>
               </TouchableOpacity>
             </View>
           </Overlay>
         </TouchableOpacity>
       </View>
+    )
+  }
+  return (
+    <View style={styles1.container}>
+      {/* header */}
+      <Header />
+      {/* body */}
+      <Body />
+      {/* footer */}
+      <Footer />
       <LinearProgress color="#ff69b4" />
     </View>
   );
@@ -278,18 +290,26 @@ const styles1 = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: '#ffd700',
-    flex: 0.1,
-    shadowColor: 'black'
+    backgroundColor: '#fff',
+    flex: 0.11,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   header_text: {
     padding: 10,
-    flex: 1,
+    width: "100%",
+    height: 68,
     flexDirection: 'row',
     backgroundColor: '#ffd700',
     borderRadius: 10,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 10 ,
   },
   body: {
     flex: 0.85,
@@ -342,11 +362,11 @@ const styles1 = StyleSheet.create({
     alignSelf: 'flex-end',
     padding: 10,
     borderRadius: 10,
-    shadowOffset: { width: -10, height: -10 },
-    shadowColor: '#000',
-    shadowOpacity: 2.0,
-    shadowRadius: 2.0,
-    elevation: 50,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 10 ,
   },
   body_text: {
     flex: 1,
@@ -354,6 +374,7 @@ const styles1 = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   body_text_inside: {
     width: "90%",
@@ -361,6 +382,11 @@ const styles1 = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#eee',
     padding: 10,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 5,
 
   },
   // text fetch
@@ -384,12 +410,12 @@ const styles1 = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 100,
+    borderRadius: 20,
   },
   text_loading: {
     fontSize: 22,
     color: "#a9a9a9",
-},
+  },
 })
 
 export default getDetail;
