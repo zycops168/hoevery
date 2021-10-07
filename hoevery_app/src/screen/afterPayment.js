@@ -125,9 +125,11 @@ export class TotalPrice extends Component {
             }}
           />
 
-          <Text style={{color: COLORS.black, ...FONTS.h3, paddingLeft: 5}}>HoeveryPay</Text>
+          <Text style={{color: COLORS.black, ...FONTS.h3, paddingLeft: 5}}>
+            HoeveryPay
+          </Text>
           <Text style={{color: COLORS.black, ...FONTS.h3, paddingLeft: 50}}>
-            $230
+            ${this.props.msg_price}
           </Text>
         </View>
       </View>
@@ -137,6 +139,8 @@ export class TotalPrice extends Component {
 
 export default class afterPayment extends Component {
   render() {
+    const {price} = this.props.route.params;
+
     return (
       <View style={{flex: 1}}>
         <LinearGradient
@@ -181,7 +185,7 @@ export default class afterPayment extends Component {
           <View style={{flex: 1, margin: 10, alignItems: 'center'}}>
             <ContectYouSender />
             <OrderDetail />
-            <TotalPrice />
+            <TotalPrice msg_price={price}/>
             <TouchableOpacity
               style={{
                 borderRadius: 15,
@@ -228,7 +232,7 @@ const local_styles = StyleSheet.create({
   },
   body: {
     flex: 0.85,
-    backgroundColor: '#eeeeee',
+    backgroundColor: COLORS.white,
   },
   body_shadow: {
     flex: 1,
@@ -240,7 +244,7 @@ const local_styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#ffff',
+    backgroundColor: COLORS.white,
     paddingTop: 10,
     margin: 5,
     shadowColor: '#000',
@@ -259,7 +263,7 @@ const local_styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#ffff',
+    backgroundColor: COLORS.white,
     paddingTop: 10,
     margin: 5,
     shadowColor: '#000',
@@ -278,7 +282,7 @@ const local_styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#ffff',
+    backgroundColor: COLORS.white,
     paddingTop: 10,
     margin: 5,
     shadowColor: '#000',

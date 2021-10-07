@@ -6,12 +6,12 @@ export default class readerHeader extends Component {
   render() {
     return (
       <View style={{flexDirection: 'row'}}>
-        {/* <RenderHeader /> */}
         <TouchableOpacity
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             marginTop: SIZES.padding * 0,
+            marginBottom: SIZES.padding * 1,
             paddingHorizontal: SIZES.padding * 2,
           }}
           onPress={() => this.props.navigation.goBack()}>
@@ -36,10 +36,31 @@ export default class readerHeader extends Component {
             color: COLORS.white,
             ...FONTS.h3,
             fontWeight: 'bold',
-            right: -40,
+            right: -15,
+            top: 5,
           }}>
-          Payment
+          Search excavator
         </Text>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: SIZES.padding * 0,
+            marginBottom: SIZES.padding * 1,
+            paddingHorizontal: SIZES.padding * 2,
+          }}
+          onPress={() => console.log('press filter button')}>
+          <Image
+            source={icons.search}
+            resizeMode="contain"
+            style={{
+              width: 30,
+              height: 30,
+              tintColor: COLORS.white,
+              marginLeft: SIZES.padding * 5,
+            }}
+          />
+        </TouchableOpacity>
       </View>
     );
   }

@@ -2,6 +2,10 @@ import React,{useState} from 'react';
 import { StyleSheet, View,Text ,TouchableOpacity, } from 'react-native';
 // import { Slider } from 'react-native-elements';
 import {Icon} from 'react-native-vector-icons';
+
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
+
 export default function total({navigation}) {
     return (
         <View style={styles.container}>
@@ -29,10 +33,10 @@ export default function total({navigation}) {
 const styles = StyleSheet.create({
     container : {
         flex:1 ,
-        backgroundColor: '#fff'
+        backgroundColor: COLORS.white
     },
     header : {
-        backgroundColor:'#fff',
+        backgroundColor: COLORS.white,
         flex: 0.11,
         shadowColor: 'black',
         shadowOffset: {
@@ -42,23 +46,23 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.22,
         shadowRadius: 1.22,
         elevation: 70,   
-        borderColor: '#787A91',
+        borderColor: COLORS.darkGray,
         borderRadius:10,
         borderTopWidth: 0.4,
     },
     body : {
         flex: 0.8,
-        backgroundColor:'#f5f5f5' ,
+        backgroundColor: COLORS.white,
         justifyContent: 'center',
         alignItems: 'flex-end'
     },
     footer : {
         flex: 0.1,
-        backgroundColor:'#fff'
+        backgroundColor:  COLORS.white
     },
     footer_btn : {
         flex:0.8,
-        backgroundColor: '#ffd700',
+        backgroundColor: COLORS.primary,
         borderRadius : 10 
       },
     //another style without header/body/footer
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         justifyContent: 'center',
         alignSelf:'center',
-        color:'#2f4f4f',
+        color: COLORS.drakGreen,
       },
     header_text:{
         fontSize: 24,

@@ -33,7 +33,7 @@ export class RenderPrice extends Component {
           Total
         </Text>
         <Text style={{color: COLORS.green, ...FONTS.h1}}>
-          {this.props.price_total}
+          ${this.props.price_total}
         </Text>
       </View>
     );
@@ -77,7 +77,12 @@ export class RenderPayment extends Component {
             flexDirection: 'row',
           }}>
           <Text
-            style={{position: 'absolute', ...FONTS.h1, fontWeight: 'bold', color: COLORS.white}}>
+            style={{
+              position: 'absolute',
+              ...FONTS.h1,
+              fontWeight: 'bold',
+              color: COLORS.white,
+            }}>
             เงินสด
           </Text>
         </TouchableOpacity>
@@ -216,7 +221,7 @@ export default class payment extends Component {
             <View style={{flex: 0.8}}>
               <RenderPrice price_type={price_type} price_total={price_total} />
             </View>
-            <View style={{flex: 1.5, backgroundColor: '#fff'}}>
+            <View style={{flex: 1.5, backgroundColor: COLORS.white}}>
               <RenderPayment />
               <RenderForm />
               {/* <RenderComfirm /> */}
@@ -243,11 +248,10 @@ export default class payment extends Component {
                 }}
                 onPress={() =>
                   this.props.navigation.navigate('afterPayment', {
-                    price_type: 'daily',
-                    price_total: '$300',
-                  })
+                      price: price_total,
+                    })
                 }>
-                <Text style={{color: COLORS.white, ...FONTS.h1}}>Comfirm</Text>
+                <Text style={{color: COLORS.white, ...FONTS.h1}}>Confirm</Text>
               </TouchableOpacity>
             </View>
           </View>

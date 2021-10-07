@@ -14,9 +14,14 @@ export const COLORS = {
 
     lime: "#00BA63",
     emerald: "#2BC978",
+    drakGreen: "#2f4f4f",
     
     red: "#ff4134",
     lightRed: "#FFF1F0",
+
+    pink: "#ff69b4",
+
+    blue: "#3E76DF",
     
     purple: "#6B3CE9",
     lightPurple: "#F3EFFF",
@@ -28,7 +33,7 @@ export const COLORS = {
     white: "#FFFFFF",
     
     lightGray: "#FCFBFC",
-    gray: "#C1C3C5",
+    gray: "#eeeeee",
     darkGray: "#C3C6C7",
 
     transparent: "transparent",

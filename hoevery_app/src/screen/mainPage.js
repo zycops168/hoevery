@@ -12,6 +12,8 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {SpeedDial, LinearProgress} from 'react-native-elements';
 import uuid from 'uuid-random';
 
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
 const Header_looking = () => {
   return (
     <View style={styles1.header}>
@@ -39,7 +41,7 @@ const Body = () => {
         <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
           <Image
             style={styles1.pic_main}
-            source={require('../../images/type_ex/1_crawler.png')}
+            source={images.clawer}
             onPress={() => {}}
             borderRadius={10}
           />
@@ -48,7 +50,7 @@ const Body = () => {
         <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
           <Image
             style={styles1.pic_main}
-            source={require('../../images/type_ex/2_dragline.png')}
+            source={images.dragline}
             onPress={() => {}}
             borderRadius={10}
           />
@@ -57,7 +59,7 @@ const Body = () => {
         <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
           <Image
             style={styles1.pic_main}
-            source={require('../../images/type_ex/3_suction.png')}
+            source={images.suction}
             onPress={() => {}}
             borderRadius={10}
           />
@@ -68,7 +70,7 @@ const Body = () => {
         <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
           <Image
             style={styles1.pic_main}
-            source={require('../../images/type_ex/4_skid_steel.png')}
+            source={images.skid_steel}
             onPress={() => {}}
             borderRadius={10}
           />
@@ -77,7 +79,7 @@ const Body = () => {
         <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
           <Image
             style={styles1.pic_main}
-            source={require('../../images/type_ex/5_long_reach.png')}
+            source={images.long_reach}
             onPress={() => {}}
             borderRadius={10}
           />
@@ -86,73 +88,12 @@ const Body = () => {
         <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
           <Image
             style={styles1.pic_main}
-            source={require('../../images/type_ex/6_mini_crawler.png')}
+            source={images.mini_crawler}
             onPress={() => {}}
             borderRadius={10}
           />
           <Text style={styles1.text_exca_detail}> •- Mini Crawler -•</Text>
         </TouchableOpacity>
-      </View>
-      {/* body */}
-      <View style={styles1.body}>
-        <View style={styles1.left_body}>
-          <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
-            <Image
-              style={styles1.pic_main}
-              source={require('../../assets/images/type_ex/1_crawler.png')}
-              onPress={() => {}}
-              borderRadius={10}
-            />
-            <Text style={styles1.text_exca_detail}> •- Crawler -•</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
-            <Image
-              style={styles1.pic_main}
-              source={require('../../assets/images/type_ex/2_dragline.png')}
-              onPress={() => {}}
-              borderRadius={10}
-            />
-            <Text style={styles1.text_exca_detail}> •- Drag Line -•</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
-            <Image
-              style={styles1.pic_main}
-              source={require('../../assets/images/type_ex/3_suction.png')}
-              onPress={() => {}}
-              borderRadius={10}
-            />
-            <Text style={styles1.text_exca_detail}> •- Suction -•</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles1.right_body}>
-          <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
-            <Image
-              style={styles1.pic_main}
-              source={require('../../assets/images/type_ex/4_skid_steel.png')}
-              onPress={() => {}}
-              borderRadius={10}
-            />
-            <Text style={styles1.text_exca_detail}> •- Skid Steel -•</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
-            <Image
-              style={styles1.pic_main}
-              source={require('../../assets/images/type_ex/5_long_reach.png')}
-              onPress={() => {}}
-              borderRadius={10}
-            />
-            <Text style={styles1.text_exca_detail}> •- Long Reach -•</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={{flex: 1}} onPress={() => {}}>
-            <Image
-              style={styles1.pic_main}
-              source={require('../../assets/images/type_ex/6_mini_crawler.png')}
-              onPress={() => {}}
-              borderRadius={10}
-            />
-            <Text style={styles1.text_exca_detail}> •- Mini Crawler -•</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
@@ -173,7 +114,7 @@ const mainPage = ({navigation}) => {
             navigation.navigate('findCar');
             console.log('next page');
           }}>
-          <Text style={{fontSize: 18, fontWeight: 'bold', color: '#2f4f4f'}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold', color: COLORS.drakGreen}}>
             {' '}
             Find Car{' '}
           </Text>
@@ -193,21 +134,21 @@ const mainPage = ({navigation}) => {
       {/* footer */}
       <Footer />
       <SpeedDial
-        color={'#ffd700'}
+        color={COLORS.primary}
         isOpen={open}
-        icon={{name: 'menu', color: '#362222'}}
-        openIcon={{name: 'close', color: '#362222'}}
+        icon={{name: 'menu', color: COLORS.secondary}}
+        openIcon={{name: 'close', color: COLORS.secondary}}
         onOpen={() => setOpen(!open)}
         onClose={() => setOpen(!open)}>
         <SpeedDial.Action
-          color={'#ffd700'}
-          icon={{name: 'edit', color: '#362222'}}
+          color={COLORS.primary}
+          icon={{name: 'edit', color: COLORS.secondary}}
           title="Profile"
           onPress={() => navigation.navigate('Profiles')} // for page kim
         />
         <SpeedDial.Action
-          color={'#ffd700'}
-          icon={{name: 'logout', color: '#362222'}}
+          color={COLORS.primary}
+          icon={{name: 'logout', color: COLORS.secondary}}
           title="Logout"
           onPress={() => console.log('Delete Something')}
         />
@@ -219,28 +160,28 @@ const mainPage = ({navigation}) => {
 const styles1 = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.gray,
   },
   header: {
     flex: 0.1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.gray,
   },
   header2: {
     flex: 0.1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.gray,
   },
   body: {
     flex: 0.9,
     width: '90%',
     paddingHorizontal: 5,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     justifyContent: 'space-around', //y
     alignItems: 'flex-start', //x
     alignSelf: 'center',
@@ -255,7 +196,7 @@ const styles1 = StyleSheet.create({
     flex: 0.1,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.gray,
     padding: 10,
   },
   left_body: {
@@ -276,7 +217,7 @@ const styles1 = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
     alignSelf: 'center',
-    color: '#2f4f4f',
+    color: COLORS.drakGreen,
   },
   text_select: {
     fontSize: 18,

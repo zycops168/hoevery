@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import uuid from 'uuid-random'
 import { Overlay } from 'react-native-elements';
 
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
+
 export default function nofity({ navigation, route }) {
     const [items, setItems] = useState([
         { id: uuid(), text: "busy" },
@@ -60,14 +63,14 @@ export default function nofity({ navigation, route }) {
                             <View style={
                                 {
                                     height: 200,
-                                    backgroundColor: '#fff',
+                                    backgroundColor: COLORS.white,
                                     borderRadius: 15,
                                     padding: 1,
                                 }}>
                                 <View style={
                                     {
                                         height: 150,
-                                        backgroundColor: '#eee',
+                                        backgroundColor: COLORS.gray,
                                         padding: 10,
                                         borderRadius: 1,
                                         justifyContent: 'space-between',
@@ -88,7 +91,7 @@ export default function nofity({ navigation, route }) {
                                         <Overlay isVisible={visible}
                                             onBackdropPress={toggleOverlay}
                                             overlayStyle={{
-                                                backgroundColor: '#eee',
+                                                backgroundColor: COLORS.gray,
                                                 borderRadius: 20,
                                             }}>
                                             <View style={
@@ -97,7 +100,7 @@ export default function nofity({ navigation, route }) {
                                                     height: 200,
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
-                                                    backgroundColor: '#fff',
+                                                    backgroundColor: COLORS.white,
                                                     borderRadius: 20,
                                                 }
                                             }>
@@ -112,7 +115,7 @@ export default function nofity({ navigation, route }) {
                                 <View style={
                                     {
                                         height: 50,
-                                        backgroundColor: '#eee',
+                                        backgroundColor: COLORS.gray,
                                         justifyContent: 'flex-end',
                                         alignItems: 'flex-end'
                                     }}>
@@ -121,13 +124,13 @@ export default function nofity({ navigation, route }) {
                                             width: 140,
                                             height: 50,
                                             justifyContent: 'flex-end',
-                                            backgroundColor: '#eee',
+                                            backgroundColor: COLORS.gray,
                                             flexDirection: 'row',
                                         }
                                     }>
                                         <View style={
                                             {
-                                                backgroundColor: '#adff2f',
+                                                backgroundColor: COLORS.lightGreen,
                                                 height: 50,
                                                 width: 60,
                                                 justifyContent: 'center',
@@ -146,7 +149,7 @@ export default function nofity({ navigation, route }) {
                                         </View>
                                         <View style={
                                             {
-                                                backgroundColor: '#dc143c',
+                                                backgroundColor: COLORS.red,
                                                 height: 50,
                                                 width: 60,
                                                 justifyContent: 'center',
@@ -168,7 +171,7 @@ export default function nofity({ navigation, route }) {
                                         {
                                             width: "100%",
                                             height: 15,
-                                            backgroundColor: '#fff',
+                                            backgroundColor: COLORS.gray,
                                         }
                                     }>
                                     </View>
@@ -203,7 +206,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     header: {
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.white,
         flex: 0.11,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -211,11 +214,11 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 0.8,
-        backgroundColor: '#fff'
+        backgroundColor: COLORS.white
     },
     footer: {
         flex: 0.1,
-        backgroundColor: '#fff'
+        backgroundColor: COLORS.white
     },
     // another style
     header_text: {
@@ -223,7 +226,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 68,
         flexDirection: 'row',
-        backgroundColor: '#ffd700',
+        backgroundColor: COLORS.primary,
         borderRadius: 10,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -238,19 +241,19 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         alignSelf: 'center',
-        color: '#2f4f4f'
+        color: COLORS.drakGreen
     },
     listtext: {
         fontSize: 16
     },
     body_fetch: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.white,
         padding: 20,
     },
     flatlist_noti_box: {
         height: 100,
-        backgroundColor: '#eee',
+        backgroundColor: COLORS.gray,
         borderRadius: 10,
         padding: 12,
     }

@@ -102,7 +102,7 @@ export default class listCar extends Component {
         style={{
           height: 1,
           width: '86%',
-          backgroundColor: '#ffd700',
+          backgroundColor: COLORS.primary,
           marginLeft: '14%',
         }}
       />
@@ -129,7 +129,7 @@ export default class listCar extends Component {
         style={{
           paddingVertical: 20,
           borderTopWidth: 1,
-          borderColor: '#CED0CE',
+          borderColor: COLORS.darkGray,
         }}>
         <ActivityIndicator animating size="large" />
       </View>
@@ -203,7 +203,6 @@ export default class listCar extends Component {
                   marginLeft: SIZES.padding * 5,
                 }}
               />
-              
             </TouchableOpacity>
           </View>
           <View style={styles_local.content}>
@@ -223,12 +222,11 @@ export default class listCar extends Component {
                   tension={100} // These props are passed to the parent component (here TouchableScale)
                   activeScale={0.95}
                   // bottomDivider>
-                  onPress={() =>
-                    this.props.navigation.navigate('payment', {
-                      price_type: 'daily',
-                      price_total: item.price.Daily,
-                    })
-                  }>
+                  onPress={() => {
+                    this.props.navigation.navigate('getDetail', {
+                      id: item.id,
+                    });
+                  }}>
                   <Avatar
                     size="large"
                     source={{
@@ -242,7 +240,7 @@ export default class listCar extends Component {
                     <ListItem.Title>{item.type}</ListItem.Title>
                     <ListItem.Subtitle>{'location: 0.6 km'}</ListItem.Subtitle>
                   </ListItem.Content>
-                  <ListItem.Chevron color="#ffd700" />
+                  <ListItem.Chevron color= {COLORS.primary} />
                 </ListItem>
               )}
             />
@@ -270,6 +268,6 @@ const styles_local = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
   },
 });

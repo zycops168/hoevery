@@ -3,6 +3,8 @@ import {StyleSheet, View, Text, TouchableOpacity, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {LinearProgress, Button, Overlay} from 'react-native-elements';
 
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
 export default function total({navigation}) {
   const [CarId, setCarId] = useState([{}]);
 
@@ -65,8 +67,7 @@ export default function total({navigation}) {
                 navigation.navigate('mainPage');
               }}>
               <Text style={{fontSize: 16, fontWeight: 'normal'}}>
-                {' '}
-                Back to homepage..{' '}
+                Back to homepage..
               </Text>
             </TouchableOpacity>
           </View>
@@ -93,7 +94,7 @@ export default function total({navigation}) {
                         </TouchableOpacity>
                 </View> */}
       </View>
-      <LinearProgress color="#ff69b4" />
+      <LinearProgress color={COLORS.pink} />
     </View>
   );
 }
@@ -101,10 +102,10 @@ export default function total({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     flex: 0.1,
     shadowColor: 'black',
     shadowOffset: {
@@ -114,38 +115,38 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 1.22,
     elevation: 70,
-    borderColor: '#787A91',
+    borderColor: COLORS.darkGray,
     borderRadius: 10,
     borderTopWidth: 0.4,
   },
   body: {
     flex: 0.8,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   footer: {
     flex: 0.09,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     justifyContent: 'space-around',
   },
   footer_btn: {
     flex: 0.23,
     flexDirection: 'row',
-    backgroundColor: '#ffd700',
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
   },
   footer_btn2: {
     flex: 0.23,
     flexDirection: 'row',
-    backgroundColor: '#ff0000',
+    backgroundColor: COLORS.red,
     borderRadius: 10,
   },
   footer_btn3: {
     flex: 0.23,
     flexDirection: 'row',
-    backgroundColor: '#FFB319',
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
   },
   // another container
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#EEEEEE',
+    backgroundColor: COLORS.gray,
     borderRadius: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
   body_box: {
     width: '90%',
     height: 400,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.gray,
     borderRadius: 60,
     shadowColor: '#000',
     shadowOffset: {
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
   body_shadow: {
     width: '100%',
     height: 400,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.gray,
     position: 'relative',
     bottom: 50,
     left: 50,
@@ -192,21 +193,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    color: '#2f4f4f',
+    color: COLORS.drakGreen,
   },
   text_total: {
     fontSize: 20,
-    color: '#2f4f4f',
+    color: COLORS.drakGreen,
   },
   text_bill: {
     fontSize: 60,
-    color: '#2f4f4f',
+    color: COLORS.drakGreen,
   },
   text: {
     padding: 5,
     fontSize: 18,
     fontWeight: 'bold',
     alignSelf: 'center',
-    color: '#2f4f4f',
+    color: COLORS.drakGreen,
   },
 });

@@ -9,6 +9,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import uuid from 'uuid-random';
+
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
+
 export default function AddCar({navigation, route}) {
   const [items, setItems] = useState([
     {id: uuid(), text: 'รถเบ๊น'},
@@ -90,11 +94,11 @@ export default function AddCar({navigation, route}) {
           style={{
             width: '90%',
             height: '100%',
-            backgroundColor: '#fff',
+            backgroundColor: COLORS.white,
             alignItems: 'flex-end',
             borderRadius: 15,
             shadowOffset: {width: 2, height: 2},
-            shadowColor: '#ff4500',
+            shadowColor: COLORS.red,
             shadowOpacity: 5.0,
             shadowRadius: 5.0,
             elevation: 20,
@@ -112,7 +116,7 @@ export default function AddCar({navigation, route}) {
                   style={{
                     width: 310,
                     height: 100,
-                    backgroundColor: '#ffd700',
+                    backgroundColor: COLORS.primary,
                     borderRadius: 10,
                     shadowOffset: {width: 2, height: 2},
                     shadowColor: 'black',
@@ -135,7 +139,7 @@ export default function AddCar({navigation, route}) {
                         width: 80,
                         height: 50,
                       }}
-                      source={require('../../images/type_ex/1_crawler.png')}
+                      source={images.clawer}
                       onPress={() => {}}
                       borderRadius={10}
                     />
@@ -150,7 +154,7 @@ export default function AddCar({navigation, route}) {
                       style={{
                         width: 50,
                         height: 50,
-                        backgroundColor: '#ffd700',
+                        backgroundColor: COLORS.primary,
                         left: 20,
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -270,10 +274,10 @@ export default function AddCar({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     flex: 0.11,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -281,13 +285,13 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 0.8,
-    backgroundColor: '#faf0e6',
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   footer: {
     flex: 0.1,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -295,14 +299,14 @@ const styles = StyleSheet.create({
   body_fetch: {
     flex: 1,
     width: '90%',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     padding: 20,
   },
   item: {
     width: '100%',
     padding: 15,
-    backgroundColor: '#fff',
-    shadowColor: '#362222',
+    backgroundColor: COLORS.white,
+    shadowColor: COLORS.secondary,
     shadowOffset: {
       width: 2,
       height: 3,
@@ -334,7 +338,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 68,
     flexDirection: 'row',
-    backgroundColor: '#ffd700',
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -349,13 +353,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     alignSelf: 'center',
-    color: '#2f4f4f',
+    color: COLORS.drakgreen,
   },
   textaddbtn: {
     fontSize: 18,
     paddingTop: 15,
     alignSelf: 'center',
-    color: '#2f4f4f',
+    color: COLORS.drakgreen,
   },
   listtext: {
     fontSize: 16,

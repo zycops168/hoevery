@@ -19,6 +19,9 @@ import MapView, {
 } from 'react-native-maps';
 import {LinearProgress, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
 // export default class googleMap extends Component {
 const googleMap = ({navigation}) => {
   const [isLoading, setLoading] = useState(false);
@@ -144,7 +147,7 @@ const googleMap = ({navigation}) => {
           <Icon name="arrow-right" size={30} />
         </TouchableOpacity>
       </View>
-      <LinearProgress color="#ff69b4" />
+      <LinearProgress color={COLORS.white} />
     </View>
   );
 };
@@ -157,9 +160,9 @@ const styles = StyleSheet.create({
   bubble: {
     flexDirection: 'column',
     alignSelf: 'flex-start',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     borderRadius: 6,
-    borderColor: '#ccc',
+    borderColor: COLORS.darkGray,
     borderWidth: 0.5,
     padding: 15,
     width: 150,
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
   arrow: {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
-    borderTopColor: '#fff',
+    borderTopColor: COLORS.white,
     borderWidth: 16,
     alignSelf: 'center',
     marginTop: -32,
@@ -176,7 +179,7 @@ const styles = StyleSheet.create({
   arrowBorder: {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
-    borderTopColor: '#007a87',
+    borderTopColor: COLORS.drakGreen,
     borderWidth: 16,
     alignSelf: 'center',
     marginTop: -0.5,
@@ -199,7 +202,7 @@ const styles1 = StyleSheet.create({
     flex: 1,
   },
   header: {
-    backgroundColor: '#ffd700',
+    backgroundColor: COLORS.primary,
     flex: 0.1,
     shadowColor: 'black',
   },
@@ -210,27 +213,27 @@ const styles1 = StyleSheet.create({
   },
   body: {
     flex: 0.85,
-    backgroundColor: '#eeeeee',
+    backgroundColor: COLORS.gray,
   },
   body_shadow: {
     flex: 1,
   },
   footer: {
     flex: 0.08,
-    backgroundColor: '#eeee',
+    backgroundColor: COLORS.gray,
     flexDirection: 'row',
     justifyContent: 'center',
     padding: 10,
   },
   footer_btn: {
     flex: 0.8,
-    backgroundColor: '#eeee',
+    backgroundColor: COLORS.gray,
     borderRadius: 7,
   },
   //another style without header/body/footer
   scroll_view: {
     width: '90%',
-    backgroundColor: '#ffff',
+    backgroundColor: COLORS.white,
     marginHorizontal: 20,
     paddingTop: 12,
     paddingLeft: 15,
@@ -249,10 +252,10 @@ const styles1 = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
     alignSelf: 'center',
-    color: '#2f4f4f',
+    color: COLORS.darkGreen,
   },
   btn_readmore: {
-    backgroundColor: '#ffd700',
+    backgroundColor: COLORS.primary,
     width: '25%',
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -268,7 +271,7 @@ const styles1 = StyleSheet.create({
   body_text: {
     flex: 0.6,
     flexDirection: 'row',
-    backgroundColor: '#362222',
+    backgroundColor: COLORS.secondary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -276,7 +279,7 @@ const styles1 = StyleSheet.create({
     width: '90%',
     height: '80%',
     borderRadius: 10,
-    backgroundColor: '#eee',
+    backgroundColor: COLORS.gray,
     padding: 10,
   },
 });

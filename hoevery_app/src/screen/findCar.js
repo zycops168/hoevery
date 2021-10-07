@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, StatusBar} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {styles} from '../style';
 import {LinearProgress, Button, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import TypeWorkModel from '../models/TypeWorkModel';
 import WorkController from '../controller/WorkController';
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import {styles} from '../style';
 
 
 const findCar = ({navigation}) => {
@@ -86,8 +86,8 @@ const findCar = ({navigation}) => {
       {/* header */}
       <View style={styles1.header}>
         <View style={styles1.header_easy_find}>
-          <Text style={[styles.text_header1, {color: '#362222'}]}>EASY</Text>
-          <Text style={[styles.text_header1, {color: '#ffd700'}]}>FIND</Text>
+          <Text style={[styles.text_header1, {color: COLORS.secondary}]}>EASY</Text>
+          <Text style={[styles.text_header1, {color: COLORS.primary}]}>FIND</Text>
         </View>
       </View>
       {/* body */}
@@ -145,7 +145,7 @@ const findCar = ({navigation}) => {
           <Text style={{fontSize: 18, fontWeight: 'bold'}}>Next</Text>
         </TouchableOpacity>
       </View>
-      <LinearProgress color="#ff69b4" />
+      <LinearProgress color= {COLORS.pink} />
     </View>
   );
 };
@@ -153,20 +153,20 @@ const findCar = ({navigation}) => {
 const styles1 = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffff',
+    backgroundColor: COLORS.white,
   },
   header: {
     flex: 0.3,
     padding: 10,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
   },
   header_btn: {
     width: 50,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
   },
   header_easy_find: {
     flex: 1,
@@ -174,16 +174,16 @@ const styles1 = StyleSheet.create({
   },
   body: {
     flex: 0.6,
-    backgroundColor: '#ffff',
+    backgroundColor: COLORS.white,
   },
   body2: {
     flex: 0.1,
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     padding: 10,
   },
   footer: {
     flex: 0.08,
-    backgroundColor: '#eeee',
+    backgroundColor: COLORS.white,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
@@ -194,7 +194,7 @@ const styles1 = StyleSheet.create({
     height: 50,
     borderColor: 'red',
     borderWidth: 10,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     borderWidth: 10,
     borderColor: '#000',
   },
@@ -204,14 +204,14 @@ const styles1 = StyleSheet.create({
   next_button: {
     flex: 0.7,
     padding: 5,
-    backgroundColor: '#ffd700',
+    backgroundColor: COLORS.primary,
     justifyContent: 'center',
     alignSelf: 'stretch',
     alignItems: 'center',
     borderRadius: 12,
   },
   btn_readmore: {
-    backgroundColor: '#ffd700',
+    backgroundColor: COLORS.primary,
     width: '25%',
     justifyContent: 'flex-end',
     alignItems: 'center',
