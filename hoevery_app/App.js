@@ -17,6 +17,7 @@ import findCar from './src/screen/findCar';
 import total from './src/screen/total'
 import inSpect from './src/screen/inSpect'
 import listCar from './src/screen/listCar'
+<<<<<<< HEAD
 =======
 import total from './src/screen/total';
 import inSpect from './src/screen/inSpect';
@@ -28,6 +29,10 @@ import myRental from './src/screen/myRental';
 =======
 import Profiles from './src/screen/Profiles';
 >>>>>>> 3acc4b82c5f0770f2144db95a62fd00efc17744e
+=======
+import payment from './src/screen/payment'
+import afterPayment from './src/screen/afterPayment'
+>>>>>>> fd45dcff72cffcd4e5367bb006b3e24a26028afe
 // test github
 
 const Stack = createStackNavigator();
@@ -89,6 +94,14 @@ function MyStack() {
 <<<<<<< HEAD
         name="listCar"
         component={listCar}
+      />
+      <Stack.Screen
+        name="payment"
+        component={payment}
+      />
+      <Stack.Screen
+        name="afterPayment"
+        component={afterPayment}
       />
       
 =======

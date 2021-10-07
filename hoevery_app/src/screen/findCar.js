@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, StatusBar} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {styles} from '../style';
 import {LinearProgress, Button, Overlay} from 'react-native-elements';
@@ -8,6 +8,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 <<<<<<< HEAD
 import TypeWorkModel from '../models/TypeWorkModel';
 import WorkController from '../controller/WorkController';
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
 
 const findCar = ({navigation}) => {
   const [pickerValue, setPickerItemValue] = useState('click..');
@@ -81,6 +83,7 @@ const findCar = ({navigation}) => {
   return (
     // all of body 3 section header/body/footer
     <View style={styles1.container}>
+      <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />
       {/* header */}
       <View style={styles1.header}>
         <View style={styles1.header_easy_find}>
