@@ -209,7 +209,11 @@ const mainPage = ({ navigation }) => {
                     color={'#ffd700'}
                     icon={{ name: 'edit', color: '#362222' }}
                     title="Profile"
+<<<<<<< HEAD
                     onPress={() => navigation.navigate('AddCar', { paramKey: items })} // for page kim
+=======
+                    onPress={()=> navigation.navigate('Profiles')} // for page kim
+>>>>>>> 3acc4b82c5f0770f2144db95a62fd00efc17744e
                 />
                 <SpeedDial.Action
                     color={'#ffd700'}

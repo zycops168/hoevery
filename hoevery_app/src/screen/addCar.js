@@ -183,12 +183,76 @@ export default function AddCar({ navigation, route }) {
   }
   const Footer = () => {
     return (
+<<<<<<< HEAD
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footer_btn}
           onPress={() => navigation.navigate('detailCar')}>
           <Text style={styles.textaddbtn}> ADD NEW EXCAVATOR </Text>
         </TouchableOpacity>
       </View>
+=======
+              //  {/* <View style={styles.viewList}>
+              //  <TouchableOpacity  style={styles.header}>
+              //    <Text style={styles.text}>  MY EXCAVATOR</Text>
+              //  </TouchableOpacity>
+              //     <FlatList data={items}
+              //       renderItem={({item}) => (    
+              //       <TouchableOpacity style={styles.listitem}>
+              //           <View style={styles.listview}>                            
+              //               <Text style={styles.listtext}>
+              //               <Icon name="edit" size={18}/>   
+              //                       {item.text}
+              //               <Icon name='remove' size={20} color='red'
+              //    onPress={() => deleteItem(item.id)}/>   
+              //               </Text>
+              //           </View>
+              //               </TouchableOpacity>)}/> 
+              //            </View>
+              //           <TouchableOpacity style={styles.footer}
+              //           onPress={()=> navigation.navigate('detailCar')}>
+              //              <Text style={styles.textaddbtn}> ADD NEW EXCAVATOR </Text>                          
+              //           </TouchableOpacity>
+              //           <View style={styles.pad_bot}>
+              //               <Text>-</Text>
+              //           </View>
+              //           <View style={styles.container}> */}
+        <View style={styles.container}>                                  
+            {/* header */}
+            <View style={styles.header}>
+            <View  style={styles.header_text}>
+            <TouchableOpacity styles={{}} 
+              onPress={() => navigation.navigate('mainPage')}>
+            <Icon name="arrow-left" size={30}/>  
+            </TouchableOpacity>
+                 <Text style={styles.text}>MY EXCAVATOR</Text>
+               </View>           
+            </View>
+            {/* body */}
+            <View style={styles.body}>       
+          <View style={styles.viewList}>
+                   <FlatList data={items}
+                    renderItem={({item}) => (    
+                    <TouchableOpacity style={styles.listitem}>
+                      <View style={styles.listview}>                            
+                             <Text style={styles.listtext}>
+                             <Icon name="edit" size={18}/>   
+                                    {item.text}
+                             <Icon name='remove' size={20} color='red'
+                               onPress={() => deleteItem(item.id)}/>   
+                             </Text>
+                         </View>
+                             </TouchableOpacity>)}/> 
+                          </View>
+            </View>
+          {/* footer */}
+          <View style={styles.footer}>
+             <TouchableOpacity style={styles.footer_btn}
+                      onPress={()=> navigation.navigate('detailCar')}>
+                  <Text style={styles.textaddbtn}> ADD NEW EXCAVATOR </Text>                          
+            </TouchableOpacity>                            
+          </View>
+            </View>
+>>>>>>> 3acc4b82c5f0770f2144db95a62fd00efc17744e
     )
   }
 
