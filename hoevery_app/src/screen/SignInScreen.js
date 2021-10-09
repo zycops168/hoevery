@@ -155,12 +155,12 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontWeight: 'bold',
                     textDecorationLine: 'underline',
-                    color: '#362222',
+                    color: COLORS.secondary,
                   }}>
                   Terms of use
                 </Text>
               </TouchableOpacity>
-              <Text style={{paddingRight: 5, paddingLeft: 5, color: '#362222'}}>
+              <Text style={{paddingRight: 5, paddingLeft: 5, color: COLORS.secondary}}>
                 and our
               </Text>
               <TouchableOpacity onPress={() => {}} style={{}}>
@@ -168,7 +168,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontWeight: 'bold',
                     textDecorationLine: 'underline',
-                    color: '#362222',
+                    color: COLORS.secondary,
                   }}>
                   Privacy policy
                 </Text>
@@ -261,7 +261,7 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={[COLORS.primary, COLORS.lightPrimary]}
+                      colors={[COLORS.primary, COLORS.primary]}
                       style={styles.signIn}>
                       <Text
                         style={[styles.textSignIn, {color: COLORS.secondary}]}>

@@ -235,7 +235,7 @@ const styles1 = StyleSheet.create({
   find_btn: {
     flex: 0.5,
     borderRadius: 10,
-    backgroundColor: 'gold',
+    backgroundColor: COLORS.primary,
     justifyContent: 'center',
     alignItems: 'center',
     shadowOffset: {width: 2, height: 2},

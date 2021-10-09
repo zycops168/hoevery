@@ -139,7 +139,7 @@ export default function App({navigation}) {
             style={{
               bottom: 90,
               left: 90,
-              color: COLORS.green,
+              color: COLORS.drakGreen,
               fontWeight: 'bold',
             }}>
             LIKE

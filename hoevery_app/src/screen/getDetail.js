@@ -228,7 +228,7 @@ const getDetail = ({navigation}) => {
             <View style={styles1.overlay_container}>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('mainPage', {paramKey1: items})
+                  navigation.navigate('payment', {paramKey1: items})
                 }>
                 <ActivityIndicator size="large" color={COLORS.secondary} />
                 <Text style={styles1.text_loading}>กำลังดำเนินการ</Text>
@@ -293,7 +293,6 @@ const getDetail = ({navigation}) => {
       <Body />
       {/* footer */}
       <Footer />
-      <LinearProgress color={COLORS.pink} />
     </View>
   );
 };
@@ -371,21 +370,21 @@ const styles1 = StyleSheet.create({
   },
   body: {
     flex: 0.85,
-    backgroundColor: COLORS.gray,
+    backgroundColor: COLORS.white,
   },
   body_shadow: {
     flex: 1,
   },
   footer: {
     flex: 0.08,
-    backgroundColor: COLORS.gray,
+    backgroundColor: COLORS.white,
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
   },
   footer_btn: {
     flex: 0.8,
-    backgroundColor: COLORS.gray,
+    backgroundColor: COLORS.white,
     borderRadius: 7,
   },
   //another style without header/body/footer
@@ -437,7 +436,9 @@ const styles1 = StyleSheet.create({
     width: '90%',
     height: '80%',
     borderRadius: 10,
-    backgroundColor: COLORS.gray,
+    backgroundColor: COLORS.white,
+    // borderColor: COLORS.gray,
+    // borderWidth: 1,
     padding: 10,
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'black',

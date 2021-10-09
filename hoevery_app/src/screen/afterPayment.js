@@ -144,7 +144,7 @@ export default class afterPayment extends Component {
     return (
       <View style={{flex: 1}}>
         <LinearGradient
-          colors={[COLORS.primary, COLORS.primary]}
+          colors={[COLORS.white, COLORS.white]}
           style={{flex: 1}}>
           <StatusBar
             backgroundColor={COLORS.primary}
@@ -156,6 +156,7 @@ export default class afterPayment extends Component {
               alignItems: 'center',
               marginTop: SIZES.padding * 0,
               paddingHorizontal: SIZES.padding * 2,
+              backgroundColor: COLORS.primary,
             }}
             onPress={() => this.props.navigation.goBack()}>
             <Image
