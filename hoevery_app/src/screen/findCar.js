@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, StatusBar} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import {LinearProgress, Button, Overlay} from 'react-native-elements';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { LinearProgress, Button, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import TypeWorkModel from '../models/TypeWorkModel';
 import WorkController from '../controller/WorkController';
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
-import {styles} from '../style';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
+import { styles } from '../style';
 
 
-const findCar = ({navigation}) => {
+const findCar = ({ navigation }) => {
   const [pickerValue, setPickerItemValue] = useState('click..');
   console.log(pickerValue);
   const [visible, setVisible] = useState(false);
@@ -79,18 +79,25 @@ const findCar = ({navigation}) => {
       alert('Select Type Work');
     }
   };
-  return (
-    // all of body 3 section header/body/footer
-    <View style={styles1.container}>
-      <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />
-      {/* header */}
-      <View style={styles1.header}>
-        <View style={styles1.header_easy_find}>
-          <Text style={[styles.text_header1, {color: COLORS.secondary}]}>EASY</Text>
-          <Text style={[styles.text_header1, {color: COLORS.primary}]}>FIND</Text>
+
+  const Header = () => {
+    {
+      return (
+        <View style={styles1.header}>
+          <View style={styles1.header_easy_find}>
+            <TouchableOpacity styles={{}}
+              onPress={() => navigation.navigate('mainPage')}>
+              <Icon name="arrow-left" size={30} />
+            </TouchableOpacity>
+            <Text style={[styles.text_header1, { color: COLORS.secondary }]}>EASY</Text>
+            <Text style={[styles.text_header1, { color: COLORS.primary }]}>FIND</Text>
+          </View>
         </View>
-      </View>
-      {/* body */}
+      )
+    }
+  }
+  const Body = () => {
+    return (
       <View style={styles1.body}>
         <Picker
           style={styles1.picker}
@@ -122,30 +129,37 @@ const findCar = ({navigation}) => {
           <Picker.Item label="Crowded" value="Crowded" />
         </Picker>
       </View>
+    )
+  }
+  const Body_find_btn = () => {
+    return (
       <View styles={styles1.body2}>
-        {/* <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('googleMap')}>
-                        <Icon name="arrow-right" size={30}/>  
-                    </TouchableOpacity>
-                    <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-                        <View style={{width:50,height:50, backgroundColor:'red'}}></View>
-                    </Overlay> */}
+
+        <TouchableOpacity style={styles1.find_btn}
+          onPress={() => Check_getExData()}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Find</Text>
+        </TouchableOpacity>
+
       </View>
-      {/* footer */}
+    )
+  }
+  const Footer = () => {
+    return (
       <View style={styles1.footer}>
-        <TouchableOpacity
-          style={styles1.btn_readmore}
-          onPress={() => navigation.navigate('mainPage')}>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Back</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles1.btn_readmore}
-          onPress={() => Check_getExData(pickerValue)}>
-          {/* <Icon name="arrow-right" size={30} /> */}
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Next</Text>
-        </TouchableOpacity>
       </View>
-      <LinearProgress color= {COLORS.pink} />
+    )
+  }
+  return (
+    // all of body 3 section header/body/footer
+    <View style={styles1.container}>
+      <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />
+      {/* header */}
+      <Header />
+      {/* body */}
+      <Body />
+      <Body_find_btn />
+      {/* footer */}
+      <Footer />
     </View>
   );
 };
@@ -177,8 +191,11 @@ const styles1 = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   body2: {
-    flex: 0.1,
+    flex: 0.5,
+    flexDirection: 'row',
     backgroundColor: COLORS.white,
+    justifyContent: 'space-around',
+    alignItems: 'center',
     padding: 10,
   },
   footer: {
@@ -210,19 +227,19 @@ const styles1 = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 12,
   },
-  btn_readmore: {
-    backgroundColor: COLORS.primary,
-    width: '25%',
-    justifyContent: 'flex-end',
+  find_btn: {
+    backgroundColor: '#ffd700',
+    width: "25%",
+    justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     padding: 10,
     borderRadius: 10,
-    shadowOffset: {width: -10, height: -10},
-    shadowColor: '#000',
-    shadowOpacity: 2.0,
-    shadowRadius: 2.0,
-    elevation: 50,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 10,
   },
 });
 

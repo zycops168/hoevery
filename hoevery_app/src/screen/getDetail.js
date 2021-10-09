@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -17,17 +17,17 @@ import MapView, {
   Polygon,
   Circle,
 } from 'react-native-maps';
-import {LinearProgress, Overlay} from 'react-native-elements';
+import { LinearProgress, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PushNotification from 'react-native-push-notification';
 import uuid from 'uuid-random';
 
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
-const getDetail = ({navigation}) => {
+const getDetail = ({ navigation }) => {
   const [items, setItems] = useState([
-    {id: uuid(), text: 'busy'},
-    {id: uuid(), text: 'red'},
+    { id: uuid(), text: 'busy' },
+    { id: uuid(), text: 'red' },
   ]);
 
   const [isLoading, setLoading] = useState(true);
@@ -52,7 +52,6 @@ const getDetail = ({navigation}) => {
     setUserData(userdata);
   };
   useEffect(() => {
-    //getExData();
     getUserData();
     //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
     //  return () => clearInterval(dataInterval);
@@ -87,22 +86,54 @@ const getDetail = ({navigation}) => {
       //  navigation.navigate('myRental', { paramKey: items })
     }
   };
-  handleNotification();
+  // handleNotification();
   const Header = () => {
     return (
-      <View style={styles1.header}>
-        <View style={styles1.header_text}>
-          <TouchableOpacity
-            styles={{}}
-            onPress={() => navigation.navigate('mainPage')}>
-            <Icon name="arrow-left" size={30} />
-          </TouchableOpacity>
-          <Text style={styles1.text}> Location</Text>
-          {/* <TouchableOpacity styles={{}}
-            onPress={() => navigation.navigate('notify')}>
-            <Icon name="bell" size={30} />
-          </TouchableOpacity> */}
-        </View>
+      <View style={{ flexDirection: 'row', backgroundColor: COLORS.primary }}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: SIZES.padding * 0,
+            marginBottom: SIZES.padding * 1,
+            paddingHorizontal: SIZES.padding * 2,
+          }}
+          onPress={() => navigation.goBack()}>
+          <Image
+            source={icons.back}
+            resizeMode="contain"
+            style={{ width: 20, height: 20, tintColor: COLORS.white }}
+          />
+
+          <Text
+            style={{
+              marginLeft: SIZES.padding * 1.5,
+              color: COLORS.white,
+              ...FONTS.h4,
+            }}>
+            Back
+          </Text>
+        </TouchableOpacity>
+        <Text
+          style={{
+            flexDirection: 'row',
+            color: COLORS.white,
+            ...FONTS.h3,
+            fontWeight: 'bold',
+            right: -45,
+            top: 5,
+          }}>
+          Location
+        </Text>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: SIZES.padding * 0,
+            marginBottom: SIZES.padding * 1,
+            paddingHorizontal: SIZES.padding * 2,
+          }}
+          onPress={() => console.log('press filter button')}></TouchableOpacity>
       </View>
     );
   };
@@ -120,26 +151,26 @@ const getDetail = ({navigation}) => {
               longitudeDelta: 0.0121,
             }}>
             <Marker
-              coordinate={{latitude: 13.943206, longitude: 100.6516846}}
+              coordinate={{ latitude: 13.943206, longitude: 100.6516846 }}
               image={require('../../assets/images/banner/user_onMap.png')}
               title="Excavator01"
               description="tel: 082-1234567"></Marker>
             <Circle
-              center={{latitude: 13.943206, longitude: 100.6516846}}
+              center={{ latitude: 13.943206, longitude: 100.6516846 }}
               radius={1500}
               fillColor={'rgba(200, 300, 200, 0.5)'}
               strokeWidth={0}
             />
 
             <Marker
-              coordinate={{latitude: 13.9411105, longitude: 100.6403282}}
+              coordinate={{ latitude: 13.9411105, longitude: 100.6403282 }}
               image={require('../../assets/images/banner/map_mark.png')}
               title="Excavator01"
               description="tel: 082-1234567"
               onCalloutPress={() => navigation.navigate('inSpect')}></Marker>
 
             <Marker
-              coordinate={{latitude: 13.9364533, longitude: 100.641779}}
+              coordinate={{ latitude: 13.9364533, longitude: 100.641779 }}
               image={require('../../assets/images/banner/map_mark.png')}
               title="Excavator02"
               description="tel: 082-1234567">
@@ -213,11 +244,11 @@ const getDetail = ({navigation}) => {
         <TouchableOpacity
           style={styles1.btn_readmore}
           onPress={() => navigation.navigate('mainPage')}>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Back</Text>
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles1.btn_readmore} onPress={toggleOverlay}>
           {/* <Icon name="arrow-right" size={30} /> */}
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Accept</Text>
+          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Accept</Text>
           <Overlay
             isVisible={visible}
             onBackdropPress={toggleOverlay}
@@ -228,7 +259,7 @@ const getDetail = ({navigation}) => {
             <View style={styles1.overlay_container}>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('payment', {paramKey1: items})
+                  navigation.navigate('payment', { paramKey1: items })
                 }>
                 <ActivityIndicator size="large" color={COLORS.secondary} />
                 <Text style={styles1.text_loading}>กำลังดำเนินการ</Text>
@@ -242,52 +273,7 @@ const getDetail = ({navigation}) => {
   return (
     <View style={styles1.container}>
       {/* header */}
-      <View style={{flexDirection: 'row', backgroundColor: COLORS.primary}}>
-        <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: SIZES.padding * 0,
-            marginBottom: SIZES.padding * 1,
-            paddingHorizontal: SIZES.padding * 2,
-          }}
-          onPress={() => navigation.goBack()}>
-          <Image
-            source={icons.back}
-            resizeMode="contain"
-            style={{width: 20, height: 20, tintColor: COLORS.white}}
-          />
-
-          <Text
-            style={{
-              marginLeft: SIZES.padding * 1.5,
-              color: COLORS.white,
-              ...FONTS.h4,
-            }}>
-            Back
-          </Text>
-        </TouchableOpacity>
-        <Text
-          style={{
-            flexDirection: 'row',
-            color: COLORS.white,
-            ...FONTS.h3,
-            fontWeight: 'bold',
-            right: -45,
-            top: 5,
-          }}>
-          Location
-        </Text>
-        <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: SIZES.padding * 0,
-            marginBottom: SIZES.padding * 1,
-            paddingHorizontal: SIZES.padding * 2,
-          }}
-          onPress={() => console.log('press filter button')}></TouchableOpacity>
-      </View>
+      <Header />
       {/* <Header /> */}
       {/* body */}
       <Body />
@@ -362,7 +348,7 @@ const styles1 = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -419,7 +405,7 @@ const styles1 = StyleSheet.create({
     alignSelf: 'flex-end',
     padding: 10,
     borderRadius: 10,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -440,7 +426,7 @@ const styles1 = StyleSheet.create({
     // borderColor: COLORS.gray,
     // borderWidth: 1,
     padding: 10,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,

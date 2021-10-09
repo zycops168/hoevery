@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import uuid from 'uuid-random';
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 export default function App({navigation}) {
@@ -25,17 +25,10 @@ export default function App({navigation}) {
     return true;
   };
 
-  // const [open, setOpen] = useState(false);
-
-  // const [onMainScreen, goBack] = useState(false);
-
-  // const close = () => {
-  //   goBack(!onMainScreen);
-  // };
-
-  // const close = () => {
-  //   return true;
-  // };
+  const [items, setItems] = useState([
+    { id: uuid(), text: "always" },
+    { id: uuid(), text: "green" },
+  ])
 
   return (
     <View style={styles.container}>
@@ -51,7 +44,7 @@ export default function App({navigation}) {
       <View style={styles.inside}>
         <TouchableOpacity
           style={[styles.btn_main, styles.center]}
-          onPress={() => navigation.navigate('AddCar')}>
+          onPress={() => navigation.navigate('AddCar',  { paramKey: items })}>
           <Text style={[styles.text]}>ให้เช่า</Text>
         </TouchableOpacity>
 

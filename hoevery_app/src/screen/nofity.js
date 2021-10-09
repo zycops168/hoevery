@@ -6,14 +6,12 @@ import { Overlay } from 'react-native-elements';
 
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
-
 export default function nofity({ navigation, route }) {
     const [items, setItems] = useState([
         { id: uuid(), text: "busy" },
         { id: uuid(), text: "red" },
       ])
       
-
     const [userData, setUserData] = useState([{}]);
     const getUserData = async () => {
         var requestOptions = {
@@ -63,14 +61,14 @@ export default function nofity({ navigation, route }) {
                             <View style={
                                 {
                                     height: 200,
-                                    backgroundColor: COLORS.white,
+                                    backgroundColor: '#fff',
                                     borderRadius: 15,
                                     padding: 1,
                                 }}>
                                 <View style={
                                     {
                                         height: 150,
-                                        backgroundColor: COLORS.gray,
+                                        backgroundColor: '#eee',
                                         padding: 10,
                                         borderRadius: 1,
                                         justifyContent: 'space-between',
@@ -91,7 +89,7 @@ export default function nofity({ navigation, route }) {
                                         <Overlay isVisible={visible}
                                             onBackdropPress={toggleOverlay}
                                             overlayStyle={{
-                                                backgroundColor: COLORS.gray,
+                                                backgroundColor: '#eee',
                                                 borderRadius: 20,
                                             }}>
                                             <View style={
@@ -100,7 +98,7 @@ export default function nofity({ navigation, route }) {
                                                     height: 200,
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
-                                                    backgroundColor: COLORS.white,
+                                                    backgroundColor: '#fff',
                                                     borderRadius: 20,
                                                 }
                                             }>
@@ -115,7 +113,7 @@ export default function nofity({ navigation, route }) {
                                 <View style={
                                     {
                                         height: 50,
-                                        backgroundColor: COLORS.gray,
+                                        backgroundColor: '#eee',
                                         justifyContent: 'flex-end',
                                         alignItems: 'flex-end'
                                     }}>
@@ -124,13 +122,13 @@ export default function nofity({ navigation, route }) {
                                             width: 140,
                                             height: 50,
                                             justifyContent: 'flex-end',
-                                            backgroundColor: COLORS.gray,
+                                            backgroundColor: '#eee',
                                             flexDirection: 'row',
                                         }
                                     }>
                                         <View style={
                                             {
-                                                backgroundColor: COLORS.lightGreen,
+                                                backgroundColor: '#adff2f',
                                                 height: 50,
                                                 width: 60,
                                                 justifyContent: 'center',
@@ -149,7 +147,7 @@ export default function nofity({ navigation, route }) {
                                         </View>
                                         <View style={
                                             {
-                                                backgroundColor: COLORS.red,
+                                                backgroundColor: '#dc143c',
                                                 height: 50,
                                                 width: 60,
                                                 justifyContent: 'center',
@@ -171,7 +169,7 @@ export default function nofity({ navigation, route }) {
                                         {
                                             width: "100%",
                                             height: 15,
-                                            backgroundColor: COLORS.gray,
+                                            backgroundColor: '#fff',
                                         }
                                     }>
                                     </View>
