@@ -1,0 +1,58 @@
+
+hoevery_version : {
+  V1_after_meet : 
+  user : {
+   (method cookies  X) 
+    mainpage.js √
+    signInScreen.js  ≈ fetchdata // contition for login 
+    signUpScreen.js  ≈  fetchdata // condition for register 
+    HomeScreen.js √
+  }
+
+  tanent : {
+    findCar.js √
+    googleMap.js ≈ wait new design on V2
+    inSpect.js ≈ wait new design on V2
+    total.js √  // wait fetch price show on screen 
+  }
+  lessor : {
+    addCar.js √
+    detailCar.js √
+    Profile.js ≈ wait new design on V2 
+    History.js ≈ wait new design on V2
+  }
+  V2_next_update : {
+    (method Notification ,getdistantbetween2point, )
+  }
+  tanent : {
+    listExcavator.js  X  // getdistancebetween2point method main display screen
+    getdetailcarwithworktype.js X 
+    confirm.js X 
+    payment.js X
+    afterPayment.js X
+    addCar.js : update button myjob on header flex
+    Prop : {
+      Overlay : notification popup outside application  and inside application 
+                all screen on application
+    }
+  }
+}
+
+sequen of hoevery-app
+
+signUpscreen.js -> signInScreen -> mainPage.js ->  {
+  tanent : findCar.js -> listCar.js -> getdetail.js -> confirm.js -> payment.js -> afterpayment.js
+  lessor :  Profile.js -> {
+    bussiness: addCar.js -> {
+      addDataCar : addCar.js -> detailCar.js -> addCar.js
+      noti-job : addCar.js -> myJob.js -> addCar.js
+    }
+    normally : history.js -> 
+  }
+  V3_progess_confirm_status_excavator : {
+
+    getdetail.js -> (new file)myrental.js -> payment.js -> afterpayment.js 
+    Addcar : add button for display always/busy status  
+
+  }
+}

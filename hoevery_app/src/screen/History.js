@@ -1,6 +1,8 @@
 
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+
 
 
 {/*const History = (props) => {

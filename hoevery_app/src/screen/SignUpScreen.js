@@ -20,6 +20,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import CheckBox from '@react-native-community/checkbox';
 
 import {styles} from '../style';
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
@@ -113,7 +114,7 @@ const SignInScreen = ({navigation}) => {
   
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#eeeeee" barStyle="light-content" />
+      <StatusBar backgroundColor={COLORS.gray} barStyle="light-content" />
       <ScrollView style={styles.backgound}>
         <View style={styles.textHeader}>
           <Text style={[styles.text_header1, {marginBottom: 10}]}>
@@ -266,9 +267,9 @@ const SignInScreen = ({navigation}) => {
                   style={{marginTop: 10}}>
                   <View>
                     <LinearGradient
-                      colors={['#ffd700', '#ffffff']}
+                      colors={[COLORS.primary, COLORS.white]}
                       style={styles.signIn}>
-                      <Text style={[styles.textSignIn, {color: '#362222'}]}>
+                      <Text style={[styles.textSignIn, {color: COLORS.secondary}]}>
                         Sign Up
                       </Text>
                     </LinearGradient>
@@ -276,7 +277,7 @@ const SignInScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <View style={{flexDirection: 'row', paddingLeft: 5}}>
-                  <Text style={{fontSize: 14, margin: 5, color: '#828282'}}>
+                  <Text style={{fontSize: 14, margin: 5, color: COLORS.darkGray}}>
                     Already got an account ?
                   </Text>
                   <TouchableOpacity
@@ -288,7 +289,7 @@ const SignInScreen = ({navigation}) => {
                       style={{
                         fontSize: 14,
                         margin: 5,
-                        color: '#3E76DF',
+                        color: COLORS.blue,
                         fontWeight: 'bold',
                       }}>
                       Sign In

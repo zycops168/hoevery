@@ -1,4 +1,6 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, SIZES, FONTS, icons, images} from './constants';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -103,11 +105,11 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     padding: 5,
-    backgroundColor: 'gold',
+    backgroundColor: COLORS.primary,
     top: -20
   },
   text_header1: {
-    color: '#362222',
+    color: COLORS.secondary,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: 36,
@@ -115,16 +117,23 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 4, height: 2},
     textShadowRadius: 12
   },
+  
   text_header2: {
-    color: '#362222',
+    color: COLORS.secondary,
     textAlign: 'center',
     fontSize: 14,
     paddingBottom: 20,
     marginTop: 20,
     marginTop: 20,
   },
+  text_content_header: {
+    color: '#070707',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 36,
+  },
   text_footer: {
-    color: '#05375a',
+    color: COLORS.darkgreen,
     fontSize: 18,
   },
   action: {
@@ -134,7 +143,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
 
     borderWidth: 1,
-    borderColor: '#f2f2f2',
+    borderColor: COLORS.gray,
     borderRadius: 15,
     paddingBottom: 5,
   },
@@ -142,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS == 'ios' ? 0 : -15,
     paddingLeft: 10,
-    color: '#BEBBBB',
+    color: COLORS.gray,
   },
 
   signIn: {

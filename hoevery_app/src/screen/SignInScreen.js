@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import {
   Text,
   Platform,
@@ -18,12 +18,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import CheckBox from '@react-native-community/checkbox';
+import PushNotification from 'react-native-push-notification';
+
 import {styles} from '../style';
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
 import AddCar from './addCar';
-
 
 const SignInScreen = ({navigation}) => {
   const [data, setData] = React.useState({
@@ -32,6 +34,16 @@ const SignInScreen = ({navigation}) => {
     check_textInputChange: false,
     secureTextEntry: true,
   });
+
+  const createChannels = () => {
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test channel',
+    });
+  };
+  useEffect(() => {
+    createChannels();
+  }, []);
 
   const textInputChange = val => {
     if (val.length != 0) {
@@ -102,13 +114,12 @@ const SignInScreen = ({navigation}) => {
     //   })
     // .catch(error => alert('error', error));
     navigation.navigate('mainPage');
-    
   };
 
   return (
     <View style={styles.container}>
       {/* Theme color => StatusBar */}
-      <StatusBar backgroundColor="#eeeeee" barStyle="light-content" />
+      <StatusBar backgroundColor={COLORS.gray} barStyle="light-content" />
       <ScrollView
         keyboardDismissMode={'on-drag'}
         stickyHeaderIndices={[2]}
@@ -135,17 +146,21 @@ const SignInScreen = ({navigation}) => {
             Registering to this website,
             {'\n'} you accept our {'\n'}
             <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity onPress={() => {}} style={{}}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('afterPayment');
+                }}
+                style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
                     textDecorationLine: 'underline',
-                    color: '#362222',
+                    color: COLORS.secondary,
                   }}>
                   Terms of use
                 </Text>
               </TouchableOpacity>
-              <Text style={{paddingRight: 5, paddingLeft: 5, color: '#362222'}}>
+              <Text style={{paddingRight: 5, paddingLeft: 5, color: COLORS.secondary}}>
                 and our
               </Text>
               <TouchableOpacity onPress={() => {}} style={{}}>
@@ -153,7 +168,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontWeight: 'bold',
                     textDecorationLine: 'underline',
-                    color: '#362222',
+                    color: COLORS.secondary,
                   }}>
                   Privacy policy
                 </Text>
@@ -170,7 +185,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#362222',
+                    color: COLORS.secondary,
                   }}>
                   Username
                 </Text>
@@ -178,13 +193,13 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="user"
-                    color="#ffd700"
+                    color={COLORS.primary}
                     size={20}
                   />
                   <TextInput
                     style={styles.textInput}
                     placeholder=" *Username"
-                    autoCapitalize="none"
+                    // autoCapitalize="none"
                     onChangeText={val => textInputChange(val)}
                     value={data.username}
                   />
@@ -198,7 +213,7 @@ const SignInScreen = ({navigation}) => {
                   style={{
                     fontSize: 16,
                     fontWeight: 'bold',
-                    color: '#362222',
+                    color: COLORS.secondary,
                     marginTop: 5,
                   }}>
                   Password
@@ -207,13 +222,13 @@ const SignInScreen = ({navigation}) => {
                   <Feather
                     style={{marginLeft: 5}}
                     name="lock"
-                    color="#ffd700"
+                    color={COLORS.primary}
                     size={20}
                   />
                   <TextInput
                     style={styles.textInput}
                     placeholder=" *Password"
-                    autoCapitalize="none"
+                    // autoCapitalize="none"
                     secureTextEntry={data.secureTextEntry ? true : false}
                     onChangeText={val => handlePasswordChange(val)}
                     value={data.password}
@@ -246,9 +261,10 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity onPress={() => login()} style={{}}>
                   <View>
                     <LinearGradient
-                      colors={['#ffd700','#ffffff']}
+                      colors={[COLORS.primary, COLORS.primary]}
                       style={styles.signIn}>
-                      <Text style={[styles.textSignIn, {color: '#362222'}]}>
+                      <Text
+                        style={[styles.textSignIn, {color: COLORS.secondary}]}>
                         Sign In
                       </Text>
                     </LinearGradient>
@@ -256,7 +272,8 @@ const SignInScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <View style={{flexDirection: 'row', paddingLeft: 5}}>
-                  <Text style={{fontSize: 14, margin: 5, color: '#362222'}}>
+                  <Text
+                    style={{fontSize: 14, margin: 5, color: COLORS.secondary}}>
                     Not a member ?
                   </Text>
                   <TouchableOpacity
@@ -266,7 +283,7 @@ const SignInScreen = ({navigation}) => {
                       style={{
                         fontSize: 14,
                         margin: 5,
-                        color: '#3E76DF',
+                        color: COLORS.blue,
                         fontWeight: 'bold',
                       }}>
                       Sign up
@@ -281,7 +298,7 @@ const SignInScreen = ({navigation}) => {
           <View style={{}}>
             <Text
               style={{
-                color: '#fff',
+                color: COLORS.white,
                 textAlign: 'center',
                 fontWeight: 'bold',
                 fontSize: 15,
@@ -296,22 +313,10 @@ const SignInScreen = ({navigation}) => {
                 justifyContent: 'center',
                 padding: 10,
               }}>
-              <Image
-                style={styles.icon}
-                source={require('../../images/icon-png-facebook.png')}
-              />
-              <Image
-                style={styles.icon}
-                source={require('../../images/icon-png-line.png')}
-              />
-              <Image
-                style={styles.icon}
-                source={require('../../images/icon-png-youtube.png')}
-              />
-              <Image
-                style={styles.icon}
-                source={require('../../images/icon-png-twitter.png')}
-              />
+              <Image style={styles.icon} source={images.facebookLogo} />
+              <Image style={styles.icon} source={images.lineLogo} />
+              <Image style={styles.icon} source={images.youtubeLogo} />
+              <Image style={styles.icon} source={images.twitterLogo} />
             </View>
           </View>
         </View>
