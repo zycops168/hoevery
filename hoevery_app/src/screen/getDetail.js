@@ -24,39 +24,88 @@ import uuid from 'uuid-random';
 
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
-const getDetail = ({navigation}) => {
+const getDetail = ({route, navigation}) => {
+  const {username, car_id} = route.params;
+  console.log('username ' + username);
+  console.log('car_id ' + car_id);
+
   const [items, setItems] = useState([
     {id: uuid(), text: 'busy'},
     {id: uuid(), text: 'red'},
   ]);
 
-  const [isLoading, setLoading] = useState(true);
-  const [exData, setExData] = useState([{}]);
+  // const [isLoading, setLoading] = useState(false);
   const [userData, setUserData] = useState([{}]);
+  const [detialCar, setDetialCar] = useState([{}]);
   const [visible, setVisible] = useState(false);
   const toggleOverlay = () => {
     setVisible(!visible);
   };
 
-  const getUserData = async () => {
+  const getDetailCar = async () => {
     var requestOptions = {
       method: 'GET',
       redirect: 'follow',
     };
+    // setLoading(true)
     const response = await fetch(
-      `http://203.150.107.212/tenant/get-detail?car_id=${id}`,
+      `http://203.150.107.212/tenant/get-detail?car_id=${car_id}`,
       requestOptions,
     );
     const result = await response.text();
-    const userdata = await JSON.parse(result);
-    setUserData(userdata);
+    const data = await JSON.parse(result);
+    setDetialCar(data);
+    console.log(data);
+    setLoading(false)
+
+    // var requestOptions = {
+    //   method: 'GET',
+    //   redirect: 'follow',
+    // };
+
+    // fetch(`http://203.150.107.212/tenant/get-detail?car_id=${car_id}`, requestOptions)
+    //   .then(response => response.text())
+    //   .then(result => {
+    //     console.log(result);
+    //     const data = JSON.parse(result);
+    //     setDetialCar(data);
+    //   })
+    //   .catch(error => console.log('error', error));
   };
+
+  const getUserData =() => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+    // setLoading(true)
+    // const response = await fetch(
+      // `http://203.150.107.212/user/info/${username}`,
+      // requestOptions,
+    // );
+    // const result = await response.text();
+    // const data = await JSON.parse(result);
+    // const result = await response.json();
+    // setUserData(result);
+    // console.log(result);
+    // setLoading(false)
+    fetch(`http://203.150.107.212/user/info/${username}`, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        console.log(result);
+        const data = JSON.parse(result);
+        // setUserData(data);
+      })
+      .catch(error => console.log('error', error));
+  };
+
   useEffect(() => {
     //getExData();
+    getDetailCar();
     getUserData();
     //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
     //  return () => clearInterval(dataInterval);
-  }, []);
+  });
   const handleNotification = () => {
     {
       // PushNotification.cancelAllLocalNotifications()
@@ -164,7 +213,10 @@ const getDetail = ({navigation}) => {
             <View style={styles1.body_text_inside}>
               <Text style={styles1.text_inside}>
                 Name :
-                {/* <Text style={styles1.text_2inside}> {userData[1].username}</Text> */}
+                <Text style={styles1.text_2inside}>
+                  {/* {detialCar.data.provider} */}
+                  {detialCar.provider}
+                </Text>
               </Text>
               {/* <Text style={styles1.text_2inside}> {userData[1].username}</Text> */}
             </View>
@@ -173,7 +225,7 @@ const getDetail = ({navigation}) => {
             <View style={styles1.body_text_inside}>
               <Text style={styles1.text_inside}>
                 Telephone :
-                {/* <Text style={styles1.text_2inside}> {userData[1].tel}</Text> */}
+                {/* <Text style={styles1.text_2inside}> {userData.data.tel}</Text> */}
               </Text>
               {/* <FlatList data={exData}
                     renderItem={({item}) => (    
@@ -190,18 +242,25 @@ const getDetail = ({navigation}) => {
         <View style={styles1.body_text}>
           <View style={styles1.body_text_inside}>
             <Text style={styles1.text_inside}> Detail :</Text>
-            {/* <Text>{exData.data.row[2].price.Daily}</Text> */}
-            {/* <Text style={styles1.text_2inside}> Daily :
-              <Text>  {exData.data.row[2].price.Daily}</Text>
-            </Text>
-            <Text style={styles1.text_2inside} > Weekly :
-              <Text>  {exData.data.row[2].price.Weekly}</Text>
-            </Text>
-            <Text style={styles1.text_2inside}> Monthly :
-              <Text>  {exData.data.row[2].price.Monthly}</Text>
-            </Text> */}
-            {/* <Text> detail: {exData.data.row[2].function.detail}</Text> */}
-            {/* <Text>{userData[1].tel}</Text> */}
+            <View style={styles1.body_text}>
+              {/* <View style={styles1.body_text_inside}> */}
+                {/* <Text style={styles1.text_inside}> Detail :</Text>
+                <Text>{detialCar.data.price.Daily}</Text>
+                <Text style={styles1.text_2inside}>
+                  {' '}
+                  Daily :<Text> {detialCar.data.price.Daily}</Text>
+                </Text>
+                <Text style={styles1.text_2inside}>
+                  {' '}
+                  Weekly :<Text> {detialCar.data.price.Weekly}</Text>
+                </Text>
+                <Text style={styles1.text_2inside}>
+                  {' '}
+                  Monthly :<Text> {detialCar.data.price.Monthly}</Text>
+                </Text>
+                <Text> detail: {detialCar.data.function.detail}</Text> */}
+              {/* </View> */}
+            </View>
           </View>
         </View>
       </View>
@@ -239,6 +298,22 @@ const getDetail = ({navigation}) => {
       </View>
     );
   };
+
+  const RenderFooter = () => {
+    if (!isLoading) return null;
+
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: COLORS.darkGray,
+        }}>
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  };
+
   return (
     <View style={styles1.container}>
       {/* header */}
@@ -264,7 +339,7 @@ const getDetail = ({navigation}) => {
               color: COLORS.white,
               ...FONTS.h4,
             }}>
-            Back
+            {/* Back */}
           </Text>
         </TouchableOpacity>
         <Text
@@ -273,10 +348,10 @@ const getDetail = ({navigation}) => {
             color: COLORS.white,
             ...FONTS.h3,
             fontWeight: 'bold',
-            right: -45,
+            right: -55,
             top: 5,
           }}>
-          Location
+          รายละเอียดรถ
         </Text>
         <TouchableOpacity
           style={{
@@ -293,6 +368,7 @@ const getDetail = ({navigation}) => {
       <Body />
       {/* footer */}
       <Footer />
+      {/* <RenderFooter /> */}
     </View>
   );
 };

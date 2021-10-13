@@ -99,7 +99,9 @@ const Body = () => {
   );
 };
 
-const mainPage = ({navigation}) => {
+const mainPage = ({route, navigation}) => {
+  const {username} = route.params;
+
   const [items, setItems] = useState([
     {id: uuid(), text: 'always'},
     {id: uuid(), text: 'green'},
@@ -111,12 +113,12 @@ const mainPage = ({navigation}) => {
         <TouchableOpacity
           style={styles1.find_btn}
           onPress={() => {
-            navigation.navigate('findCar');
+            navigation.navigate('findCar', {username:username});
             console.log('next page');
           }}>
           <Text style={{fontSize: 18, fontWeight: 'bold', color: COLORS.drakGreen}}>
             {' '}
-            Find Car{' '}
+            ค้นหารถ{' '}
           </Text>
         </TouchableOpacity>
       </View>
@@ -144,7 +146,7 @@ const mainPage = ({navigation}) => {
           color={COLORS.primary}
           icon={{name: 'edit', color: COLORS.secondary}}
           title="Profile"
-          onPress={() => navigation.navigate('Profiles')} // for page kim
+          onPress={() => navigation.navigate('Profiles', {username:username})} // for page kim
         />
         <SpeedDial.Action
           color={COLORS.primary}

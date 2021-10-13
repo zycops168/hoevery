@@ -46,11 +46,11 @@ export class ContectYouSender extends Component {
               paddingLeft: 10,
             }}>
             <Text style={{color: COLORS.black, ...FONTS.h3}}>
-              Contact your sender
+              ติดต่อผู้ให้เช่า
             </Text>
             <View style={{flex: 1, flexDirectory: 'row'}}>
               <View style={{flex: 1, flexDirection: 'row'}}>
-                <Text style={{}}>Tel: </Text>
+                <Text style={{}}>โทร: </Text>
                 <Text style={{}}>084-1234567</Text>
               </View>
             </View>
@@ -83,7 +83,7 @@ export class OrderDetail extends Component {
               flexDirection: 'column',
               paddingLeft: 10,
             }}>
-            <Text style={{color: COLORS.black, ...FONTS.h3}}>Order Detail</Text>
+            <Text style={{color: COLORS.black, ...FONTS.h3}}>รายละเอียด</Text>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 1, flexDirection: 'column'}}>
                 <Text style={{}}>your order :</Text>
@@ -126,9 +126,9 @@ export class TotalPrice extends Component {
           />
 
           <Text style={{color: COLORS.black, ...FONTS.h3, paddingLeft: 5}}>
-            HoeveryPay
+            ชำระ
           </Text>
-          <Text style={{color: COLORS.black, ...FONTS.h3, paddingLeft: 50}}>
+          <Text style={{color: COLORS.black, ...FONTS.h3, paddingLeft: 100}}>
             ${this.props.msg_price}
           </Text>
         </View>
@@ -143,37 +143,61 @@ export default class afterPayment extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <LinearGradient
-          colors={[COLORS.white, COLORS.white]}
-          style={{flex: 1}}>
+        <LinearGradient colors={[COLORS.white, COLORS.white]} style={{flex: 1}}>
           <StatusBar
             backgroundColor={COLORS.primary}
             barStyle="light-content"
           />
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: SIZES.padding * 0,
-              paddingHorizontal: SIZES.padding * 2,
-              backgroundColor: COLORS.primary,
-            }}
-            onPress={() => this.props.navigation.goBack()}>
-            <Image
-              source={icons.back}
-              resizeMode="contain"
-              style={{width: 20, height: 20, tintColor: COLORS.white}}
-            />
+          <View style={{flexDirection: 'row', backgroundColor: COLORS.primary}}>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: SIZES.padding * 0,
+                marginBottom: SIZES.padding * 1,
+                paddingHorizontal: SIZES.padding * 2,
+              }}
+              onPress={() =>
+                this.props.navigation.navigate('payment', {price:price})
+              }>
+              <Image
+                source={icons.back}
+                resizeMode="contain"
+                style={{width: 20, height: 20, tintColor: COLORS.white}}
+              />
 
+              <Text
+                style={{
+                  marginLeft: SIZES.padding * 1.5,
+                  color: COLORS.white,
+                  ...FONTS.h4,
+                }}>
+                {/* Back */}
+              </Text>
+            </TouchableOpacity>
             <Text
               style={{
-                marginLeft: SIZES.padding * 1.5,
+                flexDirection: 'row',
                 color: COLORS.white,
-                ...FONTS.h4,
+                ...FONTS.h3,
+                fontWeight: 'bold',
+                right: -45,
+                top: 5,
               }}>
-              Back
+              รายละเอียดการเช่า
             </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: SIZES.padding * 0,
+                marginBottom: SIZES.padding * 1,
+                paddingHorizontal: SIZES.padding * 2,
+              }}
+              onPress={() =>
+                console.log('press filter button')
+              }></TouchableOpacity>
+          </View>
           <MapView
             provider={PROVIDER_GOOGLE}
             style={local_styles.map}
@@ -186,7 +210,7 @@ export default class afterPayment extends Component {
           <View style={{flex: 1, margin: 10, alignItems: 'center'}}>
             <ContectYouSender />
             <OrderDetail />
-            <TotalPrice msg_price={price}/>
+            <TotalPrice msg_price={price} />
             <TouchableOpacity
               style={{
                 borderRadius: 15,

@@ -31,11 +31,14 @@ const SignInScreen = ({navigation}) => {
     firstname: '',
     lastname: '',
     password: '',
-    comfirmPassword: '',
+    confirmPassword: '',
     tel: '',
     check_textInputChange: false,
-    secureTextEntry: true,
+    secureTextEntry1: true,
+    secureTextEntry2: true,
   });
+  const [isLoading, setLoading] = React.useState(false);
+  const [isSelected, setSelection] = React.useState(false);
 
   const textInputChange = val => {
     if (val.length != 0) {
@@ -59,27 +62,57 @@ const SignInScreen = ({navigation}) => {
       password: val,
     });
   };
-
-  const updateSecureTextEntry = () => {
+  const handlePasswordConfirmChange = val => {
     setData({
       ...data,
-      secureTextEntry: !data.secureTextEntry,
+      confirmPassword: val,
+    });
+  };
+  const handleFirstnameChange = val => {
+    setData({
+      ...data,
+      firstname: val,
+    });
+  };
+  const handleLastnameChange = val => {
+    setData({
+      ...data,
+      lastname: val,
     });
   };
 
-  const [isSelected, setSelection] = React.useState(false);
+  const handleTelChange = val => {
+    setData({
+      ...data,
+      tel: val,
+    });
+  };
 
-  const login = () => {
+  const updateSecureTextEntry1 = () => {
+    setData({
+      ...data,
+      secureTextEntry1: !data.secureTextEntry1,
+    });
+  };
+
+  const updateSecureTextEntry2 = () => {
+    setData({
+      ...data,
+      secureTextEntry2: !data.secureTextEntry2,
+    });
+  };
+
+  const register = async () => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
     var raw = JSON.stringify({
       username: data.username,
-      firstname: data.firstname,
-      firstname: data.lastname,
       password: data.password,
-      comfirmPassword: data.comfirmPassword,
+      firstname: data.firstname,
+      lastname: data.lastname,
       tel: data.tel,
+      image: '',
     });
 
     var requestOptions = {
@@ -88,30 +121,29 @@ const SignInScreen = ({navigation}) => {
       body: raw,
       redirect: 'follow',
     };
-    fetch('http://203.150.107.212/user/register', requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        try {
-          const responseJson = JSON.parse(result);
 
-          if (responseJson._uuid != null) {
-            var user = new UserModel();
-            user.uuid = responseJson._uuid;
-            user.username = responseJson.username;
-            user.role = responseJson.role;
-            user.access_token = responseJson.access_token;
+    if (data.password != data.confirmPassword) {
+      alert('your password not match');
+      return -1;
+    }
+    setLoading(true);
 
-            UserController.setListUser(user);
-            navigation.navigate('HomeScreen');
-          }
-        } catch (err) {
-          alert(result);
-        }
-      });
-    // .catch(error => alert('error', error));
-    navigation.navigate('HomeScreen');
+    const response = await fetch(`http://203.150.107.212/user/register`, requestOptions);
+
+    const result = await response.json();
+    console.log(result)
+    try {
+      if (result.ret == 0) {
+        setLoading(false);
+        navigation.navigate('mainPage');
+      } else {
+        alert(result.msg);
+      }
+    } catch (err) {
+      alert(err);
+    }
   };
-  
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={COLORS.gray} barStyle="light-content" />
@@ -156,10 +188,9 @@ const SignInScreen = ({navigation}) => {
                   <TextInput
                     style={styles.textInput}
                     placeholder=" *Firstname"
-                    autoCapitalize="none"
-                    onChangeText={val => textInputChange(val)}
+                    onChangeText={val => handleFirstnameChange(val)}
                     value={data.firstname}
-                    autoCapitalize="word"
+                    autoCapitalize="words"
                     autoCompleteType="name"
                   />
                 </View>
@@ -175,10 +206,9 @@ const SignInScreen = ({navigation}) => {
                   <TextInput
                     style={styles.textInput}
                     placeholder=" *Lastname"
-                    autoCapitalize="none"
-                    onChangeText={val => textInputChange(val)}
+                    onChangeText={val => handleLastnameChange(val)}
                     value={data.lastname}
-                    autoCapitalize="word"
+                    autoCapitalize="words"
                     autoCompleteType="name"
                   />
                 </View>
@@ -196,13 +226,13 @@ const SignInScreen = ({navigation}) => {
                     style={styles.textInput}
                     placeholder=" *Password"
                     autoCapitalize="none"
-                    secureTextEntry={data.secureTextEntry ? true : false}
+                    secureTextEntry={data.secureTextEntry1 ? true : false}
                     onChangeText={val => handlePasswordChange(val)}
                     value={data.password}
                     autoCompleteType="password"
                   />
-                  <TouchableOpacity style={{}} onPress={updateSecureTextEntry}>
-                    {data.secureTextEntry ? (
+                  <TouchableOpacity style={{}} onPress={updateSecureTextEntry1}>
+                    {data.secureTextEntry1 ? (
                       <Feather name="eye-off" color="grey" size={20} />
                     ) : (
                       <Feather name="eye" color="grey" size={20} />
@@ -223,13 +253,13 @@ const SignInScreen = ({navigation}) => {
                     style={styles.textInput}
                     placeholder=" *Confirm Password"
                     autoCapitalize="none"
-                    secureTextEntry={data.secureTextEntry ? true : false}
-                    onChangeText={val => handlePasswordChange(val)}
+                    secureTextEntry={data.secureTextEntry2 ? true : false}
+                    onChangeText={val => handlePasswordConfirmChange(val)}
                     value={data.confirmPassword}
                     autoCompleteType="password"
                   />
-                  <TouchableOpacity style={{}} onPress={updateSecureTextEntry}>
-                    {data.secureTextEntry ? (
+                  <TouchableOpacity style={{}} onPress={updateSecureTextEntry2}>
+                    {data.secureTextEntry2 ? (
                       <Feather name="eye-off" color="grey" size={20} />
                     ) : (
                       <Feather name="eye" color="grey" size={20} />
@@ -250,26 +280,27 @@ const SignInScreen = ({navigation}) => {
                     style={styles.textInput}
                     placeholder=" *Number Phone"
                     autoCapitalize="none"
-                    onChangeText={val => textInputChange(val)}
+                    onChangeText={val => handleTelChange(val)}
                     value={data.tel}
                     keyboardType="numeric"
                     autoCompleteType="tel"
                   />
-                  {data.check_textInputChange ? (
+                  {/* {data.check_textInputChange ? (
                     <Animatable.View animation="bounceIn">
                       <Feather name="check-circle" color="green" size={20} />
                     </Animatable.View>
-                  ) : null}
+                  ) : null} */}
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => login()}
+                  onPress={() => register()}
                   style={{marginTop: 10}}>
                   <View>
                     <LinearGradient
-                      colors={[COLORS.primary, COLORS.white]}
+                      colors={[COLORS.primary, COLORS.primary]}
                       style={styles.signIn}>
-                      <Text style={[styles.textSignIn, {color: COLORS.secondary}]}>
+                      <Text
+                        style={[styles.textSignIn, {color: COLORS.secondary}]}>
                         Sign Up
                       </Text>
                     </LinearGradient>
@@ -277,7 +308,8 @@ const SignInScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <View style={{flexDirection: 'row', paddingLeft: 5}}>
-                  <Text style={{fontSize: 14, margin: 5, color: COLORS.darkGray}}>
+                  <Text
+                    style={{fontSize: 14, margin: 5, color: COLORS.darkGray}}>
                     Already got an account ?
                   </Text>
                   <TouchableOpacity
