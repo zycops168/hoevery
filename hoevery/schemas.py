@@ -30,7 +30,7 @@ class LoginForm(BaseModel):
 
     class Config:
         title = "[USER] Login"
-        schema_extra = dict(example=dict(username="admin", password="1234"))
+        # schema_extra = dict(example=dict(username="admin", password="1234"))
 
 
 class AddCarForm(BaseModel):
@@ -40,7 +40,7 @@ class AddCarForm(BaseModel):
     type: str = None
     size: str = None
     price: dict = None
-    function: Optional[dict] = None
+    function: Optional[str] = None
     image: dict = None
     owner_id: int = None
 
@@ -53,18 +53,7 @@ class AddCarForm(BaseModel):
                 type="Excavator",
                 size="PC-30",
                 price={"Daily": "$278.00", "Weekly": " $874.00", "Monthly": "1,858.00"},
-                function={
-                    "*OPERATING WEIGHT": "8,340LBS",
-                    "MAXIMUM CUTTING HEIGHT": "16.3 FT",
-                    "MAXIMUM DUMPING HEIGHT": "11.9FT",
-                    "MAXIMUM DIGGING DEPTH": "11.4FT",
-                    "MAXIMUM DIGGING REACH": "18.1FT",
-                    "MINIMUM FRONT SWING RADIUS": "7.2FT",
-                    "TRANSPORT LENGTH": "15.7FT",
-                    "UPPER STRUCTURE WIDTH": "5.1FT",
-                    "CANOPY": "8.2FT",
-                    "CAB": "8.2FT",
-                },
+                function='{"*OPERATING WEIGHT": "8,340LBS", "MAXIMUM CUTTING HEIGHT": "16.3 FT", "MAXIMUM DUMPING HEIGHT": "11.9FT", "MAXIMUM DIGGING DEPTH": "11.4FT", "MAXIMUM DIGGING REACH": "18.1FT", "MINIMUM FRONT SWING RADIUS": "7.2FT","TRANSPORT LENGTH": "15.7FT", "UPPER STRUCTURE WIDTH": "5.1FT", "CANOPY": "8.2FT", "CAB": "8.2FT",}',
             )
         )
 
@@ -112,6 +101,7 @@ class RentalForm(BaseModel):
                 rental_by="admin",
             )
         )
+
 
 class InsertImageCarForm(BaseModel):
     id: int

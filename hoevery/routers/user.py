@@ -51,6 +51,15 @@ async def get_user_by_id(id, response: Response):
             response.status_code = status.HTTP_404_NOT_FOUND
             return dict(ret=-1, msg="Incorrect Username or Password")
         return dict(ret=0, msg="Complete.", data=user)
+        
+@router.get("/info/{username}", tags=["USER"], status_code=200)
+async def get_user_by_username(username:str, response: Response):    
+    with SessionContext() as se:
+        user = se.query(db.user).filter(db.user.username == username).first()
+        if not user:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return dict(ret=-1, msg="Incorrect Username or Password")
+        return dict(ret=0, msg="Complete.", data=dict(firstname=user.firstname, lastname=user.lastname, tel=user.tel, image=user.image))
 
 
 @router.post("/login", tags=["USER"], status_code=200)

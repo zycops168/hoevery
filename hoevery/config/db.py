@@ -61,7 +61,7 @@ class carForRent(Base):
     type = Column(String)
     size = Column(String)
     price = Column(JSON)
-    function = Column(JSON)
+    function = Column(String)
     image = Column(String)
     latitude = Column(Float)
     longitude = Column(Float)
