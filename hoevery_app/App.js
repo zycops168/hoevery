@@ -20,7 +20,9 @@ import payment from './src/screen/payment';
 import notify from './src/screen/nofity';
 import myRental from './src/screen/myRental';
 import afterPayment from './src/screen/afterPayment';
-import Profiles from './src/screen/Profiles'
+import Profiles from './src/screen/Profiles';
+import History from './src/screen/History';
+import AddressPro from './src/screen/AddressPro';
 
 
 const Stack = createStackNavigator();
@@ -48,6 +50,8 @@ function MyStack() {
       <Stack.Screen name="myRental" component={myRental} />
       <Stack.Screen name="afterPayment" component={afterPayment} />
       <Stack.Screen name="Profiles" component={Profiles} />
+      <Stack.Screen name="History" component={History} />
+      <Stack.Screen name="AddressPro" component={AddressPro} />
     </Stack.Navigator>
   );
 }
