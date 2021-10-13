@@ -284,6 +284,7 @@ export default class getDetailCar extends Component {
                 <TouchableOpacity
                   onPress={() =>
                     this.props.navigation.navigate('payment', {
+                      username:username,
                       price: this.state.pickerPrice,
                     })
                   }>

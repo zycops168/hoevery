@@ -139,7 +139,7 @@ export class TotalPrice extends Component {
 
 export default class afterPayment extends Component {
   render() {
-    const {price} = this.props.route.params;
+    const {username, price} = this.props.route.params;
 
     return (
       <View style={{flex: 1}}>
@@ -232,7 +232,7 @@ export default class afterPayment extends Component {
                 elevation: 2,
                 marginTop: 10,
               }}
-              onPress={() => this.props.navigation.navigate('mainPage')}>
+              onPress={() => this.props.navigation.navigate('mainPage', {username,username})}>
               <Text style={{color: COLORS.white, ...FONTS.h1}}>Home</Text>
             </TouchableOpacity>
           </View>

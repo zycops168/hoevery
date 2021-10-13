@@ -165,7 +165,7 @@ export default class payment extends Component {
   }
 
   render() {
-    const {price} = this.props.route.params;
+    const {username, price} = this.props.route.params;
     console.log(price);
 
     return (
@@ -248,6 +248,7 @@ export default class payment extends Component {
                 }}
                 onPress={() =>
                   this.props.navigation.navigate('afterPayment', {
+                    username: username,
                     price: price,
                   })
                 }>
