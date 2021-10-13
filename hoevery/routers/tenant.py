@@ -144,20 +144,24 @@ def get_detail_select_car(response: Response, car_id: int):
 def rental(response: Response, request: schemas.RentalForm):
     data = request.dict()
     with SessionContext() as se:
-        newRental = db.rentalHistory()
-        rental_by_id = (
-            se.query(db.user).filter(db.user.username == data["rental_by"]).first()
-        )
-        print(rental_by_id.id)
-        for key in data:
-            if hasattr(newRental, key):
-                print("key", key)
-                if key == "rental_by":
-                    setattr(newRental, "rental_by_id", rental_by_id.id)
-                else:
-                    setattr(newRental, key, data.get(key))
+        try:
+            newRental = db.rentalHistory()
+            rental_by_id = (
+                se.query(db.user).filter(db.user.username == data["rental_by"]).first()
+            )
+            print(rental_by_id.id)
+            for key in data:
+                if hasattr(newRental, key):
+                    print("key", key)
+                    if key == "rental_by":
+                        setattr(newRental, "rental_by_id", rental_by_id.id)
+                    else:
+                        setattr(newRental, key, data.get(key))
 
-        se.add(newRental)
-        se.commit()
-        se.refresh(newRental)
-        return dict(ret=0, msg="Complete.", data=f"data has been saved successfully.")
+            se.add(newRental)
+            se.commit()
+            se.refresh(newRental)
+            return dict(ret=0, msg="Complete.", data=f"data has been saved successfully.")
+        except Exception as e:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return dict(ret=-1, msg="[Error] not found")
