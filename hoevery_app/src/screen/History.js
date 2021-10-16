@@ -36,7 +36,7 @@ const History = ({navigation}) => {
         <Text style={styles.Text1}>March Backhole</Text>     
         <Text style={styles.t1}>รถขุดไฮดรอลิกชนิดโป๊ะเหล็กปุ้งกี๋ตักเข้า</Text>  
         <Text style={styles.total} >
-               <Icon name="money" size={25} color="black"/>
+               <Icon name="money" size={23} color="black"/>
                   Total : </Text>              
       </View>
 
@@ -49,7 +49,7 @@ const History = ({navigation}) => {
               right={60}>Dragline Excavator</Text>     
         <Text style={styles.t2}>รถขุดตีนตะขาบปุ้งกี๋ลาก</Text>  
         <Text style={styles.total} >
-               <Icon name="money" size={25} color="black"/>
+               <Icon name="money" size={23} color="black"/>
                   Total : </Text>  
       </View>
 
@@ -61,7 +61,7 @@ const History = ({navigation}) => {
         <Text style={styles.Text}>Hydraulic Backhoe</Text>     
         <Text style={styles.t1}>รถขุดไฮดรอลิกชนิดตีนตะขาบปุ้งกี๋ตักเข้า</Text>  
         <Text style={styles.total} >
-               <Icon name="money" size={25} color="black"/>
+               <Icon name="money" size={23} color="black"/>
                   Total : </Text>             
       </View>
 
@@ -73,7 +73,7 @@ const History = ({navigation}) => {
         <Text style={styles.Text}>Dragline Excavator</Text>     
         <Text style={styles.t2}>รถขุดตีนตะขาบปุ้งกี๋ลาก</Text>  
         <Text style={styles.total} >
-               <Icon name="money" size={25} color="black"/>
+               <Icon name="money" size={23} color="black"/>
                   Total : </Text>   
       </View>
 
@@ -85,7 +85,7 @@ const History = ({navigation}) => {
         <Text style={styles.Text1}>March Backhole</Text>     
         <Text style={styles.t1}>รถขุดไฮดรอลิกชนิดโป๊ะเหล็กปุ้งกี๋ตักเข้า</Text>  
         <Text style={styles.total} >
-               <Icon name="money" size={25} color="black"/>
+               <Icon name="money" size={23} color="black"/>
                   Total : </Text>              
       </View>
 

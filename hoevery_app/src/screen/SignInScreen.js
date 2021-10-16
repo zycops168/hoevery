@@ -35,6 +35,9 @@ const SignInScreen = ({navigation}) => {
     secureTextEntry: true,
   });
 
+  const [isLoading, setLoading] = React.useState(false);
+  const [isSelected, setSelection] = React.useState(false);
+
   const createChannels = () => {
     PushNotification.createChannel({
       channelId: 'test-channel',
@@ -75,45 +78,44 @@ const SignInScreen = ({navigation}) => {
     });
   };
 
-  const [isSelected, setSelection] = React.useState(false);
+  const login = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
 
-  const login = () => {
-    // var myHeaders = new Headers();
-    // myHeaders.append('Content-Type', 'application/json');
+    var raw = JSON.stringify({
+      username: data.username,
+      password: data.password,
+    });
 
-    // var raw = JSON.stringify({
-    //   username: data.username,
-    //   password: data.password,
-    // });
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
 
-    // var requestOptions = {
-    //   method: 'POST',
-    //   headers: myHeaders,
-    //   body: raw,
-    //   redirect: 'follow',
-    // };
-    // fetch('http://203.150.107.212/user/login', requestOptions)
-    //   .then(response => response.text())
-    //   .then(result => {
-    //     try {
-    //       const responseJson = JSON.parse(result);
+    if (data.username == '' || data.password == '') {
+      alert('username or password is empty');
+      return -1;
+    }
 
-    //       if (responseJson._uuid != null) {
-    //         var user = new UserModel();
-    //         user.uuid = responseJson._uuid;
-    //         user.username = responseJson.username;
-    //         user.role = responseJson.role;
-    //         user.access_token = responseJson.access_token;
+    const response = await fetch(
+      `http://203.150.107.212/user/login`,
+      requestOptions,
+    );
 
-    //         UserController.setListUser(user);
-    //         navigation.navigate('mainPage');
-    //       }
-    //     } catch (err) {
-    //       alert(result);
-    //     }
-    //   })
-    // .catch(error => alert('error', error));
-    navigation.navigate('mainPage');
+    const result = await response.json();
+    console.log(result);
+    try {
+      if (result.ret == 0) {
+        setLoading(false);
+        navigation.navigate('mainPage', {username: data.username});
+      } else {
+        alert(result.msg);
+      }
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
@@ -160,7 +162,12 @@ const SignInScreen = ({navigation}) => {
                   Terms of use
                 </Text>
               </TouchableOpacity>
-              <Text style={{paddingRight: 5, paddingLeft: 5, color: COLORS.secondary}}>
+              <Text
+                style={{
+                  paddingRight: 5,
+                  paddingLeft: 5,
+                  color: COLORS.secondary,
+                }}>
                 and our
               </Text>
               <TouchableOpacity onPress={() => {}} style={{}}>

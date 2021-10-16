@@ -137,6 +137,8 @@ export default class listCar extends Component {
   };
 
   render() {
+    const {username} = this.props.route.params;
+    console.log(username);
     return (
       <View style={styles_local.container}>
         <LinearGradient
@@ -166,11 +168,11 @@ export default class listCar extends Component {
 
               <Text
                 style={{
-                  marginLeft: SIZES.padding * 1.5,
+                  marginLeft: SIZES.padding * 4,
                   color: COLORS.white,
                   ...FONTS.h4,
                 }}>
-                Back
+                {/* Back */}
               </Text>
             </TouchableOpacity>
             <Text
@@ -182,7 +184,7 @@ export default class listCar extends Component {
                 right: -15,
                 top: 5,
               }}>
-              Search excavator
+              รถที่อยู่ใกล้กับคุณ
             </Text>
             <TouchableOpacity
               style={{
@@ -223,8 +225,9 @@ export default class listCar extends Component {
                   activeScale={0.95}
                   // bottomDivider>
                   onPress={() => {
-                    this.props.navigation.navigate('getDetail', {
-                      id: item.id,
+                    this.props.navigation.navigate('getDetailCar', {
+                      username: username,
+                      car_id: item.id,
                     });
                   }}>
                   <Avatar
@@ -240,7 +243,7 @@ export default class listCar extends Component {
                     <ListItem.Title>{item.type}</ListItem.Title>
                     <ListItem.Subtitle>{'location: 0.6 km'}</ListItem.Subtitle>
                   </ListItem.Content>
-                  <ListItem.Chevron color= {COLORS.primary} />
+                  <ListItem.Chevron color={COLORS.primary} />
                 </ListItem>
               )}
             />

@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: Platform.OS == 'ios' ? 0 : -15,
     paddingLeft: 10,
-    color: COLORS.gray,
+    color: COLORS.black,
   },
 
   signIn: {

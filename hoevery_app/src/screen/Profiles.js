@@ -45,7 +45,7 @@ export default function Profiles({navigation}) {
         <TouchableOpacity
           style={[styles.btn_main, styles.center]}
           onPress={() => navigation.navigate('AddCar',  { paramKey: items })}>
-          <Text style={[styles.text]}>ให้เช่า</Text>
+          <Text style={styles.text}>ให้เช่า</Text>
         </TouchableOpacity>
 
         <View style={{flex: 1, justifyContent: 'center'}}>

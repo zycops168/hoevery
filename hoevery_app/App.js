@@ -9,6 +9,7 @@ import SignInScreen from './src/screen/SignInScreen';
 import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import getDetail from './src/screen/getDetail';
+import getDetailCar from './src/screen/getDetailCar';
 import detailCar from './src/screen/detailCar';
 import AddCar from './src/screen/addCar';
 import mainPage from './src/screen/mainPage';
@@ -24,12 +25,15 @@ import Profiles from './src/screen/Profiles';
 import History from './src/screen/History';
 import AddressPro from './src/screen/AddressPro';
 
+import testDeploy from './src/screen/testDeploy';
+import testRegister from './src/screen/testRegister';
+
 
 const Stack = createStackNavigator();
 function MyStack() {
   return (
     <Stack.Navigator
-      // initialRouteName="SignInScreen"
+      initialRouteName="SignInScreen"
       screenOptions={({route, navigation}) => ({
         headerShown: false,
         gestureEnabled: true,
@@ -38,6 +42,7 @@ function MyStack() {
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="getDetail" component={getDetail} />
+      <Stack.Screen name="getDetailCar" component={getDetailCar} />
       <Stack.Screen name="detailCar" component={detailCar} />
       <Stack.Screen name="AddCar" component={AddCar} />
       <Stack.Screen name="mainPage" component={mainPage} />
@@ -52,6 +57,9 @@ function MyStack() {
       <Stack.Screen name="Profiles" component={Profiles} />
       <Stack.Screen name="History" component={History} />
       <Stack.Screen name="AddressPro" component={AddressPro} />
+      
+      <Stack.Screen name="testDeploy" component={testDeploy} />
+      <Stack.Screen name="testRegister" component={testRegister} />
     </Stack.Navigator>
   );
 }

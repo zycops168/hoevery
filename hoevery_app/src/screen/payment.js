@@ -33,7 +33,7 @@ export class RenderPrice extends Component {
           Total
         </Text>
         <Text style={{color: COLORS.green, ...FONTS.h1}}>
-          ${this.props.price_total}
+          ${this.props.price}
         </Text>
       </View>
     );
@@ -121,7 +121,7 @@ export class RenderForm extends Component {
           marginRight: SIZES.padding * 2,
           marginLeft: SIZES.padding * 2,
         }}>
-        <Text style={{color: COLORS.lightgreen, ...FONTS.body3}}>Address</Text>
+        <Text style={{color: COLORS.lightgreen, ...FONTS.body3}}>ที่อยู่</Text>
         {/* Addres */}
 
         <TextInput
@@ -165,8 +165,8 @@ export default class payment extends Component {
   }
 
   render() {
-    const {price_type, price_total} = this.props.route.params;
-    console.log(price_total);
+    const {username, price} = this.props.route.params;
+    console.log(price);
 
     return (
       <KeyboardAvoidingView
@@ -191,19 +191,19 @@ export default class payment extends Component {
                   paddingHorizontal: SIZES.padding * 2,
                 }}
                 onPress={() => this.props.navigation.goBack()}>
+                {/* onPress={() => this.props.navigation.navigate('')}> */}
                 <Image
                   source={icons.back}
                   resizeMode="contain"
                   style={{width: 20, height: 20, tintColor: COLORS.white}}
                 />
-
                 <Text
                   style={{
                     marginLeft: SIZES.padding * 1.5,
                     color: COLORS.white,
                     ...FONTS.h4,
                   }}>
-                  Back
+                  {/* Back */}
                 </Text>
               </TouchableOpacity>
               <Text
@@ -212,14 +212,14 @@ export default class payment extends Component {
                   color: COLORS.white,
                   ...FONTS.h3,
                   fontWeight: 'bold',
-                  right: -40,
+                  right: -85,
                 }}>
-                Payment
+                ชำระเงิน
               </Text>
             </View>
 
             <View style={{flex: 0.8}}>
-              <RenderPrice price_type={price_type} price_total={price_total} />
+              <RenderPrice price={price} />
             </View>
             <View style={{flex: 1.5, backgroundColor: COLORS.white}}>
               <RenderPayment />
@@ -248,10 +248,11 @@ export default class payment extends Component {
                 }}
                 onPress={() =>
                   this.props.navigation.navigate('afterPayment', {
-                      price: price_total,
-                    })
+                    username: username,
+                    price: price,
+                  })
                 }>
-                <Text style={{color: COLORS.white, ...FONTS.h1}}>Confirm</Text>
+                <Text style={{color: COLORS.white, ...FONTS.h1}}>ยืนยัน</Text>
               </TouchableOpacity>
             </View>
           </View>

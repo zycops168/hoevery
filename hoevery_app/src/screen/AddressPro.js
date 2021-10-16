@@ -16,11 +16,11 @@ import UserController from '../controller/UserController';
 
 const AddressPro = ({navigation}) => {
     const [data, setData] = React.useState({
-        username: '',
-        firstname: '',
-        lastname: '',
-        password: '',
-        comfirmPassword: '',
+        address: '',
+        streetaddress: '',
+        city: '',
+        state: '',
+        zip: '',
         tel: '',
         check_textInputChange: false,
         secureTextEntry: true,
@@ -30,24 +30,24 @@ const AddressPro = ({navigation}) => {
         if (val.length != 0) {
           setData({
             ...data,
-            username: val,
+            address: val,
             check_textInputChange: true,
           });
         } else {
           setData({
             ...data,
-            username: val,
+            address: val,
             check_textInputChange: false,
           });
         }
       };
     
-      const handlePasswordChange = val => {
-        setData({
-          ...data,
-          password: val,
-        });
-      };
+      // const handlePasswordChange = val => {
+      //   setData({
+      //     ...data,
+      //     password: val,
+      //   });
+      // };
     
       const updateSecureTextEntry = () => {
         setData({
@@ -58,16 +58,16 @@ const AddressPro = ({navigation}) => {
     
       const [isSelected, setSelection] = React.useState(false);
     
-      const login = () => {
+      const Address = () => {
         var myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
     
         var raw = JSON.stringify({
-          username: data.username,
-          firstname: data.firstname,
-          firstname: data.lastname,
-          password: data.password,
-          comfirmPassword: data.comfirmPassword,
+          address: data.address,
+          streetaddress: data.streetaddress,
+          city: data.city,
+          state: data.state,
+          zip: data.zip,
           tel: data.tel,
         });
     
@@ -84,13 +84,13 @@ const AddressPro = ({navigation}) => {
               const responseJson = JSON.parse(result);
     
               if (responseJson._uuid != null) {
-                var user = new UserModel();
-                user.uuid = responseJson._uuid;
-                user.username = responseJson.username;
-                user.role = responseJson.role;
-                user.access_token = responseJson.access_token;
+                var add = new UserModel();
+                add.uuid = responseJson._uuid;
+                add.address = responseJson.address;
+                add.role = responseJson.role;
+                add.access_token = responseJson.access_token;
     
-                UserController.setListUser(user);
+                UserController.setListUser(add);
                 navigation.navigate('HomeScreen');
               }
             } catch (err) {
@@ -112,7 +112,12 @@ const AddressPro = ({navigation}) => {
                   onPress={() => navigation.navigate('Profiles')}>
                       <Icon name="arrow-left" size={30} />
                   </TouchableOpacity>
-                  <Text style={styles.text}>My Address</Text>
+                  <Text style={{
+                    fontSize: 21,
+                    fontWeight: 'bold',
+                    right: 120,
+                    color: 'black',
+                  }}>My Address</Text>
               </View>
             </View>
 
@@ -134,8 +139,8 @@ const AddressPro = ({navigation}) => {
                         placeholder=" *Address"
                         autoCapitalize="none"
                         onChangeText={val => textInputChange(val)}
-                        value={data.username}
-                        autoCompleteType="username"
+                        value={data.address}
+                        autoCompleteType="off"
                       />
                     </View>
                     <Text
@@ -154,7 +159,7 @@ const AddressPro = ({navigation}) => {
                         onChangeText={val => textInputChange(val)}
                         value={data.firstname}
                         autoCapitalize="word"
-                        autoCompleteType="name"
+                        autoCompleteType="off"
                       />
                     </View>
                     <Text
@@ -172,8 +177,7 @@ const AddressPro = ({navigation}) => {
                         autoCapitalize="none"
                         onChangeText={val => textInputChange(val)}
                         value={data.lastname}
-                        autoCapitalize="word"
-                        autoCompleteType="name"
+                        autoCompleteType="off"
                       />
                     </View>
                     <Text
@@ -193,7 +197,7 @@ const AddressPro = ({navigation}) => {
                         secureTextEntry={data.secureTextEntry ? true : false}
                         onChangeText={val => handlePasswordChange(val)}
                         value={data.password}
-                        autoCompleteType="password"
+                        autoCompleteType="off"
                       />
                     </View>
                     <Text
@@ -209,11 +213,11 @@ const AddressPro = ({navigation}) => {
                       <TextInput
                         style={styles.textInput}
                         placeholder=" *Zip/Postal Code"
-                        autoCapitalize="none"
+                        //autoCapitalize="none"
                         secureTextEntry={data.secureTextEntry ? true : false}
                         onChangeText={val => handlePasswordChange(val)}
                         value={data.confirmPassword}
-                        autoCompleteType="password"
+                        autoCompleteType="off"
                       />
                     </View>
                     <Text
@@ -229,7 +233,7 @@ const AddressPro = ({navigation}) => {
                       <TextInput
                         style={styles.textInput}
                         placeholder=" *Number Phone"
-                        autoCapitalize="none"
+                        //autoCapitalize="none"
                         onChangeText={val => textInputChange(val)}
                         value={data.tel}
                         keyboardType="numeric"
@@ -299,13 +303,7 @@ const styles1 = StyleSheet.create({
     elevation: 10,
   },
 
-  text: {
-    padding: 5,
-    fontSize: 22,
-    fontWeight: 'bold',
-    right: 125,
-    color: COLORS.drakgreen,
-  },
+
 
 });
 
