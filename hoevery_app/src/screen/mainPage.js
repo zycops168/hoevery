@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { SpeedDial, LinearProgress } from 'react-native-elements';
 import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
@@ -111,17 +112,16 @@ const mainPage = ({ navigation }) => {
   }
   console.log("cookie on mainPage loop screen :", myCookie)
 
-  const getAsyncLogin = async () => {
-    try {
-      const value = await AsyncStorage.getItem('data.username')
-      if(value !== null) {
-        console.log(value);
+  const setAsyncLogout = async () => {
+      try {
+        await AsyncStorage.clear()
+        console.log(user)
+        console.log("asyncStorage logout Active");
+        navigation.navigate('SignInScreen');
+      } catch (e) {
+        console.log(error);
       }
-    } catch(e) {
-      // error reading value
-    }
   }
-  getAsyncLogin();
   const Footer = () => {
     return (
       <View style={styles1.footer}>
@@ -168,7 +168,7 @@ const mainPage = ({ navigation }) => {
           color={COLORS.primary}
           icon={{ name: 'logout', color: COLORS.secondary }}
           title="Logout"
-          onPress={() => navigation.navigate('SignInScreen')}
+          onPress={() =>{setAsyncLogout()}}
         />
       </SpeedDial>
     </View>

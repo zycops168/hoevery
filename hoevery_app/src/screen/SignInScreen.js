@@ -27,6 +27,7 @@ import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
+import { get } from 'mobx';
 
 const SignInScreen = ({ navigation }) => {
   const [data, setData] = React.useState({
@@ -92,35 +93,16 @@ const SignInScreen = ({ navigation }) => {
 
   const getAsyncData = () => {
     try {
-      AsyncStorage.getItem('login')
-        .then(value => {
-          if (value != null) {
-            navigation.navigate('mainPage');
-          }
-        })
+        AsyncStorage.getItem('app_user')
+            .then(value => {
+                if (value != null) {
+                    navigation.navigate('mainPage');
+                }
+            })
     } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const setAsyncLogin = async () => {
-    if (data.username.length == 0) {
-      alert("Please write Your id")
-    } else {
-      try {
-        var user = {
-          username: data.username,
-          password: data.password,
-        }
-        await AsyncStorage.setItem(`data.username`, JSON.stringify(user));
-        console.log("asyncStorage Active");
-        console.log(user)
-
-      } catch (e) {
         console.log(error);
-      }
     }
-  }
+}
 
   const login = async () => {
     get_post_cookie();
@@ -148,10 +130,9 @@ const SignInScreen = ({ navigation }) => {
           username: data.username,
           password: data.password,
         }
-        await AsyncStorage.setItem('login', JSON.stringify(user));
-        console.log("asyncStorage Active");
+        await AsyncStorage.setItem('app_user', JSON.stringify(user));
+        console.log("asyncStorage login Active");
         console.log(user)
-
       } catch (e) {
         console.log(error);
       }

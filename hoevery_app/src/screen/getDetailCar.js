@@ -16,6 +16,7 @@ import MapView, {
   Callout,
   Polygon,
   Circle,
+  AnimatedRegion 
 } from 'react-native-maps';
 import {LinearProgress, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,8 +24,10 @@ import PushNotification from 'react-native-push-notification';
 import {Picker} from '@react-native-picker/picker';
 import Cookie from 'react-native-cookie';
 import Geolocation from '@react-native-community/geolocation';
+import MapViewDirections from 'react-native-maps-directions';
 
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import {GOOGLE_MAP_KEY} from '../constants/API_KEY';
 
 export default class getDetailCar extends Component {
   constructor(props) {
@@ -45,7 +48,14 @@ export default class getDetailCar extends Component {
       latitude: 0,
       longitude: 0,
       error: null,
+      // destinationCords: {latitude: '', longitude: ''},
+      CarLatitude: '',
+      CarLongitude: '',
+      distance: '',
+      time: '',
     };
+    this.mapRef = React.createRef();
+    this.makerRef = React.createRef();
   }
 
   componentDidMount() {
@@ -64,7 +74,10 @@ export default class getDetailCar extends Component {
       error => this.setState({error: error.message}),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000},
     );
+
+    this.renderLoading();
   }
+
   getDetailCar = async () => {
     var requestOptions = {
       method: 'GET',
@@ -79,13 +92,15 @@ export default class getDetailCar extends Component {
     try {
       if (result.ret == 0) {
         this.setState({
-          loading: false,
+          // loading: false,
           detailCar: result.data,
           pickerPrice: result.data.price.Daily,
           priceDaily: result.data.price.Daily,
           priceWeekly: result.data.price.Weekly,
           priceMonthly: result.data.price.Monthly,
           _function: result.data.function,
+          CarLatitude: result.data.latitude,
+          CarLongitude: result.data.longitude,
         });
         console.log(result.data);
       } else {
@@ -150,6 +165,25 @@ export default class getDetailCar extends Component {
 
   toggleOverlay = () => {
     this.setState({visible: !this.state.visible});
+  };
+
+  fetchTime = (d, t) => {
+    this.setState(state => ({distance: d, time: t}));
+  };
+
+  renderLoading = () => {
+    if (!this.state.loading) return null;
+    console.log('loading ....' + this.state.loading);
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: COLORS.darkGray,
+        }}>
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
   };
 
   render() {
@@ -238,96 +272,150 @@ export default class getDetailCar extends Component {
               console.log('press filter button')
             }></TouchableOpacity>
         </View>
-        <View style={styles.body_shadow}>
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={styles.map}
-            region={{
-              latitude: this.state.latitude,
-              longitude: this.state.longitude,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
+
+        {/* google Map */}
+        {this.state.loading ? (
+          <View
+            style={{
+              paddingVertical: 20,
+              borderTopWidth: 1,
+              borderColor: COLORS.darkGray,
             }}>
-            <Marker
-              coordinate={{
+            <ActivityIndicator animating size="large" />
+          </View>
+        ) : (
+          <View style={styles.body_shadow}>
+            <MapView
+              ref={this.mapRef}
+              provider={PROVIDER_GOOGLE}
+              style={styles.map}
+              region={{
                 latitude: this.state.latitude,
                 longitude: this.state.longitude,
-              }}
-              // image={require('../../assets/images/banner/user_onMap.png')}
-              title="Excavator01"
-              description="tel: 082-1234567">
-              <Image
-                source={images.user_marker}
-                style={{width: 50, height: 50}}
-                resizeMode="contain"
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
+              }}>
+              <Marker
+                coordinate={{
+                  latitude: this.state.CarLatitude,
+                  longitude: this.state.CarLongitude,
+                }}
+                image={require('../../assets/images/banner/map_mark.png')}
+                title="Excavator01"
+                description="tel: 082-1234567"
+                onCalloutPress={() => this.props.navigation.navigate('inSpect')}
               />
-            </Marker>
-            <Circle
-              center={{
-                latitude: this.state.latitude,
-                longitude: this.state.longitude,
-              }}
-              radius={1500}
-              fillColor={'rgba(200, 300, 200, 0.5)'}
-              strokeWidth={0}
-            />
 
-            <Marker
-              coordinate={{latitude: 13.9411105, longitude: 100.6403282}}
-              image={require('../../assets/images/banner/map_mark.png')}
-              title="Excavator01"
-              description="tel: 082-1234567"
-              onCalloutPress={() =>
-                this.props.navigation.navigate('inSpect')
-              }></Marker>
+              <MapViewDirections
+                origin={{
+                  latitude: this.state.latitude,
+                  longitude: this.state.longitude,
+                }}
+                destination={{
+                  latitude: this.state.CarLatitude,
+                  longitude: this.state.CarLongitude,
+                }}
+                apikey={GOOGLE_MAP_KEY}
+                strokeWidth={6}
+                strokeColor="dodgerblue"
+                optimizeWaypoints={true}
+                onStart={params => {
+                  console.log(
+                    `Started routing between "${this.state.latitude}, ${this.state.longitude} " and "${this.state.CarLatitude}, ${this.state.CarLongitude}"`,
+                  );
+                }}
+                onReady={result => {
+                  console.log(`Distance: ${result.distance} km`);
+                  console.log(`Duration: ${result.duration} min.`);
+                  this.fetchTime(result.distance, result.duration),
+                    this.mapRef.current.fitToCoordinates(result.coordinates, {
+                      edgePadding: {
+                        // right: 30,
+                        // bottom: 300,
+                        // left: 30,
+                        // top: 100,
+                      },
+                    });
+                }}
+                onError={errorMessage => {
+                  // console.log('GOT AN ERROR');
+                }}
+              />
 
-            <Marker
-              coordinate={{latitude: 13.9364533, longitude: 100.641779}}
-              image={require('../../assets/images/banner/map_mark.png')}
-              title="Excavator02"
-              description="tel: 082-1234567">
-              <Callout tooltip>
-                <View>
-                  <View style={styles.bubble}>
-                    <Text style={styles.name}>Excavator02</Text>
-                    {/* <Text>A short description</Text> */}
-                    <Image
-                      style={styles.image}
-                      source={require('../../assets/images/excavators/excavator2.jpg')}
-                    />
+              <Marker
+                coordinate={{
+                  latitude: this.state.latitude,
+                  longitude: this.state.longitude,
+                }}
+                // image={require('../../assets/images/banner/user_onMap.png')}
+                title="Excavator01"
+                description="tel: 082-1234567">
+                <Image
+                  source={images.user_marker}
+                  style={{width: 50, height: 50}}
+                  resizeMode="contain"
+                />
+              </Marker>
+              <Circle
+                center={{
+                  latitude: this.state.latitude,
+                  longitude: this.state.longitude,
+                }}
+                radius={1500}
+                fillColor={'rgba(200, 300, 200, 0.5)'}
+                strokeWidth={0}
+              />
+
+              {/* <Marker
+                coordinate={{latitude: 13.9364533, longitude: 100.641779}}
+                image={require('../../assets/images/banner/map_mark.png')}
+                title="Excavator02"
+                description="tel: 082-1234567">
+                <Callout tooltip>
+                  <View>
+                    <View style={styles.bubble}>
+                      <Text style={styles.name}>Excavator02</Text>
+                      <Text>A short description</Text>
+                      <Image
+                        style={styles.image}
+                        source={require('../../assets/images/excavators/excavator2.jpg')}
+                      />
+                    </View>
+                    <View style={styles.arrowBorder} />
+                    <View style={styles.arrow} />
                   </View>
-                  <View style={styles.arrowBorder} />
-                  <View style={styles.arrow} />
-                </View>
-              </Callout>
-            </Marker>
-          </MapView>
-          {/*  under googleMap */}
-          <View style={styles.body_text}>
-            <View style={styles.body_text_inside}>
-              <Text style={styles.text_inside}>
-                ผู้ให้เช่า :
-                <Text style={styles.text_2inside}>
-                  {' '}
-                  {this.state.detailCar.provider}
-                  {/* {detailCar.provider} */}
+                </Callout>
+              </Marker> */}
+
+            </MapView>
+            {/*  End googleMap */}
+            <View style={styles.body_text}>
+              <View style={styles.body_text_inside}>
+                <Text style={styles.text_inside}>
+                  ผู้ให้เช่า :
+                  <Text style={styles.text_2inside}>
+                    {' '}
+                    {this.state.detailCar.provider}
+                    {/* {detailCar.provider} */}
+                  </Text>
                 </Text>
-              </Text>
-              {/* <Text style={styles.text_2inside}> {userData[1].username}</Text> */}
+                {/* <Text style={styles.text_2inside}> {userData[1].username}</Text> */}
+              </View>
+            </View>
+
+            <View style={styles.body_text}>
+              <View style={styles.body_text_inside}>
+                <Text style={styles.text_inside}>
+                  เบอร์โทรศัพท์ :
+                  <Text style={styles.text_2inside}>
+                    {' '}
+                    {this.state.userData.tel}
+                  </Text>
+                </Text>
+              </View>
             </View>
           </View>
-          <View style={styles.body_text}>
-            <View style={styles.body_text_inside}>
-              <Text style={styles.text_inside}>
-                เบอร์โทรศัพท์ :
-                <Text style={styles.text_2inside}>
-                  {' '}
-                  {this.state.userData.tel}
-                </Text>
-              </Text>
-            </View>
-          </View>
-        </View>
+        )}
         <View style={styles.body_text}>
           <View style={styles.body_text_inside_detail}>
             <Text style={styles.text_inside}> รายละเอียด :</Text>
