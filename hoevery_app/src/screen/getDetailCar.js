@@ -279,7 +279,7 @@ export default class getDetailCar extends Component {
                 ผู้ให้เช่า :
                 <Text style={styles.text_2inside}>
 
-                  {' '}{this.state.userData.provider}
+                  {' '}{this.state.detailCar.provider}
                   {/* {detailCar.provider} */}
                 </Text>
               </Text>
