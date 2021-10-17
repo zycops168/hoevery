@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
 import { Input } from 'react-native-elements';
 import Cookie from 'react-native-cookie';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { styles } from '../style';
@@ -20,7 +21,7 @@ const Header = () => {
   return (
     <View style={styles1.header}>
       <View style={styles1.header_text}>
-        <Text style={styles1.text_header}> Add a new information </Text>
+        <Text style={styles1.text_header}> รายละเอียดข้อมูลรถ</Text>
       </View>
     </View>
   );
@@ -34,6 +35,8 @@ const detailCar = ({ navigation }) => {
   const [Price_weekly, setPrice_weekly] = useState();
   const [Price_monthly, setPrice_monthly] = useState();
   const [func, setFunc] = useState();
+  const [image, setImage] = useState('');
+
   const onChangeName = textValue => setText_excavator_name(textValue);
   const onChangeSize = textValue => setSize(textValue);
   const onChangeDaily = textValue => setPrice_daily(textValue);
@@ -48,11 +51,12 @@ const detailCar = ({ navigation }) => {
     console.log(text_excavator_name);
     console.log(cookieUsername['username']);
     console.log(size);
-    console.log(typeof (pickerTypeValue));
+    console.log(pickerTypeValue);
     console.log(Price_daily);
     console.log(Price_weekly);
     console.log(Price_monthly);
-    console.log(typeof (func));
+    console.log(func);
+    console.log(image);
 
     var raw = JSON.stringify({
       carname: text_excavator_name,
@@ -64,7 +68,7 @@ const detailCar = ({ navigation }) => {
         Weekly: Price_weekly,
         Monthly: Price_monthly,
       },
-      function: func
+      function: func,
     });
     var requestOptions = {
       method: 'POST',
@@ -75,7 +79,19 @@ const detailCar = ({ navigation }) => {
     const response = await fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
     const json = await response.json();
     console.log(json);
+    navigation.navigate('AddCar');
   };
+
+  const chooseFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+      setImage(image.path);
+    });
+  }
   return (
     <View style={styles.container}>
       {/* header */}
@@ -83,36 +99,72 @@ const detailCar = ({ navigation }) => {
       {/* body */}
       <View style={styles1.body}>
         <ScrollView style={styles1.scroll_view}>
-          <TouchableOpacity 
-          style={{
-            justifyContent:'center',
-            alignItems:'center',
-          }}>
-        <Image
-            style={
-              {
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              style={
+                {
                   width: 100,
                   height: 100,
+                }
+              }
+              source={
+                {
+                  uri: image ? image : null
+                }
+              }
+              onPress={() => { }}
+              borderRadius={10}
+            />
+          </TouchableOpacity>
+          <View style={
+            {
+              flex: 1,
+              backgroundColor: COLORS.white,
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 10,
+            }
+          }>
+            <TouchableOpacity style={
+              {
+                width: "90%",
+                height: 50,
+                backgroundColor: COLORS.primary,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                shadowColor: COLORS.secondary,
+                shadowOffset: {
+                  width: 2,
+                  height: 3,
+                },
+                shadowOpacity: 1.22,
+                shadowRadius: 1.22,
+                elevation: 10,
               }
             }
-            source={images.user_detail_car}
-            onPress={() => { }}
-            borderRadius={10}
-          />
-           </TouchableOpacity>
+              onPress={chooseFromLibrary}
+            >
+              <Text style={{ fontSize: 18 }}>เพิ่มรูปรถจากอัลบั้ม</Text>
+            </TouchableOpacity>
+          </View>
           <Input
-            placeholder="Excacator name"
+            placeholder="ชื่อรถขุดเจาะ"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'bus' }}
             onChangeText={onChangeName}></Input>
           <Input
-            placeholder="size"
+            placeholder="ขนาด"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'expand' }}
             onChangeText={onChangeSize}></Input>
-          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#a9a9a9' }}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#a9a9a9' }}>
             {' '}
-            Type of excavator :{' '}
+            ประเภทของรถขุดเจาะ {' '}
           </Text>
           <Picker
             style={styles1.picker}
@@ -127,36 +179,36 @@ const detailCar = ({ navigation }) => {
           </Picker>
           <Text style={{ fontSize: 19, fontWeight: 'bold', color: '#000' }}>
             {' '}
-            Price :{' '}
+            ราคา :{' '}
           </Text>
           <Input
-            placeholder=" Daily $"
+            placeholder=" รายวัน $"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeDaily}></Input>
           <Input
-            placeholder=" Weekly $"
+            placeholder=" รายอาทิตย์ $"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeWeekly}></Input>
           <Input
-            placeholder=" Monthly $"
+            placeholder=" รายเดือน $"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
-            onChangeText={onChangeMonthly}></Input>
-
+            onChangeText={onChangeMonthly}>
+          </Input>
           <Input
-            placeholder="detail your excavator"
-            label="Function"
+            placeholder="รายละเอียด"
+            label="คุณสมบัติ"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'gear' }}
             fontSize={15}
             onChangeText={onChangeFunc}
-          // multiline={true}
-          // numberOfLines={20}
+            multiline={true}
+            numberOfLines={10}
           >
           </Input>
         </ScrollView>
@@ -166,10 +218,8 @@ const detailCar = ({ navigation }) => {
         <TouchableOpacity
           style={styles1.next_button}
           onPress={() => InsertExData()}
-          onPressOut={() => {
-            navigation.navigate('AddCar');
-          }}>
-          <Text style={{ fontSize: 18 }}>SAVE</Text>
+        >
+          <Text style={{ fontSize: 18 }}>บันทึกช้อมูล</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -194,6 +244,7 @@ const styles1 = StyleSheet.create({
     borderColor: COLORS.gray,
     borderRadius: 10,
     borderTopWidth: 0.4,
+    padding: 5,
   },
   body: {
     flex: 1,
@@ -202,6 +253,7 @@ const styles1 = StyleSheet.create({
   footer: {
     flex: 0.12,
     backgroundColor: COLORS.white,
+    padding: 15,
   },
   box_view: {
     flex: 1,
@@ -213,7 +265,7 @@ const styles1 = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   header_text: {
-    padding: 10,
+    padding: 5,
     flex: 1,
     backgroundColor: COLORS.primary,
     borderRadius: 10,
@@ -254,7 +306,7 @@ const styles1 = StyleSheet.create({
   next_button: {
     flex: 0.7,
     padding: 5,
-    backgroundColor: 'gold',
+    backgroundColor: COLORS.green,
     justifyContent: 'center',
     alignSelf: 'stretch',
     alignItems: 'center',

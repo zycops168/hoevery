@@ -43,8 +43,8 @@ export default function AddCar({ navigation, route }) {
   }
   useEffect(() => {
     getExData();
-    const dataInterval = setInterval(() => getExData(), 5 * 1000);
-    return () => clearInterval(dataInterval);
+    // const dataInterval = setInterval(() => getExData(), 5 * 1000);
+    // return () => clearInterval(dataInterval);
   }, []);
 
   const Badge = () => { // count
@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    padding:5,
   },
   body: {
     flex: 0.8,
