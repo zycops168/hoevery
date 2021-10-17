@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
@@ -47,11 +48,11 @@ const detailCar = ({ navigation }) => {
     console.log(text_excavator_name);
     console.log(cookieUsername['username']);
     console.log(size);
-    console.log(typeof(pickerTypeValue));
+    console.log(typeof (pickerTypeValue));
     console.log(Price_daily);
     console.log(Price_weekly);
     console.log(Price_monthly);
-    console.log(typeof(func));
+    console.log(typeof (func));
 
     var raw = JSON.stringify({
       carname: text_excavator_name,
@@ -82,15 +83,30 @@ const detailCar = ({ navigation }) => {
       {/* body */}
       <View style={styles1.body}>
         <ScrollView style={styles1.scroll_view}>
+          <TouchableOpacity 
+          style={{
+            justifyContent:'center',
+            alignItems:'center',
+          }}>
+        <Image
+            style={
+              {
+                  width: 100,
+                  height: 100,
+              }
+            }
+            source={images.user_detail_car}
+            onPress={() => { }}
+            borderRadius={10}
+          />
+           </TouchableOpacity>
           <Input
-            placeholder=""
-            label="Excacator name :"
+            placeholder="Excacator name"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'bus' }}
             onChangeText={onChangeName}></Input>
           <Input
-            placeholder="example : pc-30"
-            label="Size :"
+            placeholder="size"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'expand' }}
             onChangeText={onChangeSize}></Input>
@@ -109,48 +125,39 @@ const detailCar = ({ navigation }) => {
             <Picker.Item label="Long Reach" value="Long Reach" />
             <Picker.Item label="Mini Crawler" value="Mini Crawler" />
           </Picker>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
+          <Text style={{ fontSize: 19, fontWeight: 'bold', color: '#000' }}>
             {' '}
             Price :{' '}
           </Text>
           <Input
-            placeholder=" xxxxxx $"
-            label="Daily"
+            placeholder=" Daily $"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeDaily}></Input>
           <Input
-            placeholder=" xxxxxx $"
-            label="Weekly"
+            placeholder=" Weekly $"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeWeekly}></Input>
           <Input
-            placeholder=" xxxxxx $"
-            label="Monthly"
+            placeholder=" Monthly $"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeMonthly}></Input>
 
           <Input
-            placeholder="Example:  
-                             OPERATING WEIGHT: 8,340LBS /
-                             MAXIMUM CUTTING HEIGHT: 16.3 FT /
-                             MAXIMUM DUMPING HEIGHT: 11.9FT /
-                             MAXIMUM DIGGING DEPTH: 11.4FT /
-                             MAXIMUM DIGGING REACH: 18.1FT /
-                             "
+            placeholder="detail your excavator"
             label="Function"
             renderErrorMessage={true}
             leftIcon={{ type: 'font-awesome', name: 'gear' }}
             fontSize={15}
             onChangeText={onChangeFunc}
-            // multiline={true}
-            // numberOfLines={20}
-            >
+          // multiline={true}
+          // numberOfLines={20}
+          >
           </Input>
         </ScrollView>
       </View>

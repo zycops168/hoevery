@@ -5,12 +5,9 @@ import {
   View,
   TouchableOpacity,
   Image,
-  TouchableOpacityBase,
 } from 'react-native';
 import { styles } from '../style';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { SpeedDial, LinearProgress } from 'react-native-elements';
-import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -263,21 +260,3 @@ const styles1 = StyleSheet.create({
   },
 });
 export default mainPage;
-
-//  {/* body */}
-//  <View style={styles1.body}>
-//  {/* <View style={styles1.rent_btn}>
-//  <TouchableOpacity style={styles1.footer}
-//           onPress={()=> navigation.navigate('AddCar')}>
-//      <Icon name="user" size={50} color="#900" />
-//      {/* <Text styles={styles1.text_select}>Provider</Text>
-//      </TouchableOpacity>
-//  </View>   */}
-//  {/* <View style={styles1.customer_btn}> */}
-
-//      />
-//      {/* <Icon name="car" size={50} color="#900" />    */}
-//      {/* <Text style={styles1.text_select}> Customers</Text> */}
-//      </TouchableOpacity>
-//     </View>
-//  </View>
