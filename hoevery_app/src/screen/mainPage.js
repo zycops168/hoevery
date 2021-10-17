@@ -101,6 +101,7 @@ const Body = () => {
   );
 };
 
+
 const mainPage = ({ navigation }) => {
   const [myCookie, setMyCookie] = useState();
   const getCookie = async () => {
@@ -111,16 +112,14 @@ const mainPage = ({ navigation }) => {
     return cookie
   }
   console.log("cookie on mainPage loop screen :", myCookie)
-
   const setAsyncLogout = async () => {
-      try {
-        await AsyncStorage.clear()
-        console.log(user)
-        console.log("asyncStorage logout Active");
-        navigation.navigate('SignInScreen');
-      } catch (e) {
-        console.log(error);
-      }
+    try {
+      await AsyncStorage.clear()
+      console.log("asyncStorage logout Active");
+      navigation.navigate('SignInScreen');
+    } catch (e) {
+      console.log(e);
+    }
   }
   const Footer = () => {
     return (
@@ -168,7 +167,7 @@ const mainPage = ({ navigation }) => {
           color={COLORS.primary}
           icon={{ name: 'logout', color: COLORS.secondary }}
           title="Logout"
-          onPress={() =>{setAsyncLogout()}}
+          onPress={() => setAsyncLogout()}
         />
       </SpeedDial>
     </View>
