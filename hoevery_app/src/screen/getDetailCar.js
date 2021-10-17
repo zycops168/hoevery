@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -17,13 +17,14 @@ import MapView, {
   Polygon,
   Circle,
 } from 'react-native-maps';
-import { LinearProgress, Overlay } from 'react-native-elements';
+import {LinearProgress, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import PushNotification from 'react-native-push-notification';
-import { Picker } from '@react-native-picker/picker';
+import {Picker} from '@react-native-picker/picker';
 import Cookie from 'react-native-cookie';
+import Geolocation from '@react-native-community/geolocation';
 
-import { COLORS, SIZES, FONTS, icons, images } from '../constants';
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 export default class getDetailCar extends Component {
   constructor(props) {
@@ -41,6 +42,9 @@ export default class getDetailCar extends Component {
       priceMonthly: '',
       _function: '',
       isLoading: false,
+      latitude: 0,
+      longitude: 0,
+      error: null,
     };
   }
 
@@ -48,13 +52,25 @@ export default class getDetailCar extends Component {
     this.getDetailCar();
     this.getUserData();
 
+    Geolocation.getCurrentPosition(
+      position => {
+        console.log(position);
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      error => this.setState({error: error.message}),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000},
+    );
   }
   getDetailCar = async () => {
     var requestOptions = {
       method: 'GET',
       redirect: 'follow',
     };
-    this.setState({ loading: true });
+    this.setState({loading: true});
     const response = await fetch(
       `http://203.150.107.212/tenant/get-detail?car_id=${this.props.route.params.car_id}`,
       requestOptions,
@@ -85,9 +101,9 @@ export default class getDetailCar extends Component {
       method: 'GET',
       redirect: 'follow',
     };
-    this.setState({ loading: true });
+    this.setState({loading: true});
     const cookie = await Cookie.get('203.150.107.212');
-    console.log("cookie on getDetail screen ;", cookie)
+    console.log('cookie on getDetail screen ;', cookie);
     const response = await fetch(
       `http://203.150.107.212/user/info/${cookie['username']}`,
       requestOptions,
@@ -95,7 +111,7 @@ export default class getDetailCar extends Component {
     const result = await response.json();
     try {
       if (result.ret == 0) {
-        this.setState({ loading: false, userData: result.data });
+        this.setState({loading: false, userData: result.data});
         console.log(result.data);
       } else {
         alert(result.msg);
@@ -105,8 +121,8 @@ export default class getDetailCar extends Component {
     }
   };
   postOrder = () => {
-    console.log("postOrder Active")
-    this.toggleOverlay
+    console.log('postOrder Active');
+    this.toggleOverlay;
     var id = 0;
     if (id !== 9999) {
       id += 1;
@@ -128,13 +144,12 @@ export default class getDetailCar extends Component {
     // const response = await fetch('', requestOptions)
     // const json = await response.json();
     // console.log(json);
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
     this.props.navigator.navigate('mainPage');
   };
 
-
   toggleOverlay = () => {
-    this.setState({ visible: !this.state.visible });
+    this.setState({visible: !this.state.visible});
   };
 
   render() {
@@ -145,7 +160,8 @@ export default class getDetailCar extends Component {
           channelId: 'test-channel',
           title: 'Your' + 'order No.999',
           message: 'READ MORE...',
-          bigText: 'There is a list of products you need to make a decision on.',
+          bigText:
+            'There is a list of products you need to make a decision on.',
           color: 'orange',
           playSound: false, // (optional) default: true
         });
@@ -167,12 +183,12 @@ export default class getDetailCar extends Component {
       }
     };
 
-    const { username } = {};
+    const {username} = {};
 
     return (
       <View style={styles.body}>
         {/* header */}
-        <View style={{ flexDirection: 'row', backgroundColor: COLORS.primary }}>
+        <View style={{flexDirection: 'row', backgroundColor: COLORS.primary}}>
           <TouchableOpacity
             style={{
               flexDirection: 'row',
@@ -181,11 +197,13 @@ export default class getDetailCar extends Component {
               marginBottom: SIZES.padding * 1,
               paddingHorizontal: SIZES.padding * 2,
             }}
-            onPress={() => this.props.navigation.navigate('listCar', { username: username })}>
+            onPress={() =>
+              this.props.navigation.navigate('listCar', {username: username})
+            }>
             <Image
               source={icons.back}
               resizeMode="contain"
-              style={{ width: 20, height: 20, tintColor: COLORS.white }}
+              style={{width: 20, height: 20, tintColor: COLORS.white}}
             />
 
             <Text
@@ -225,25 +243,37 @@ export default class getDetailCar extends Component {
             provider={PROVIDER_GOOGLE}
             style={styles.map}
             region={{
-              latitude: 13.9411105,
-              longitude: 100.6403282,
+              latitude: this.state.latitude,
+              longitude: this.state.longitude,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}>
             <Marker
-              coordinate={{ latitude: 13.943206, longitude: 100.6516846 }}
-              image={require('../../assets/images/banner/user_onMap.png')}
+              coordinate={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+              }}
+              // image={require('../../assets/images/banner/user_onMap.png')}
               title="Excavator01"
-              description="tel: 082-1234567"></Marker>
+              description="tel: 082-1234567">
+              <Image
+                source={images.user_marker}
+                style={{width: 50, height: 50}}
+                resizeMode="contain"
+              />
+            </Marker>
             <Circle
-              center={{ latitude: 13.943206, longitude: 100.6516846 }}
+              center={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude,
+              }}
               radius={1500}
               fillColor={'rgba(200, 300, 200, 0.5)'}
               strokeWidth={0}
             />
 
             <Marker
-              coordinate={{ latitude: 13.9411105, longitude: 100.6403282 }}
+              coordinate={{latitude: 13.9411105, longitude: 100.6403282}}
               image={require('../../assets/images/banner/map_mark.png')}
               title="Excavator01"
               description="tel: 082-1234567"
@@ -252,7 +282,7 @@ export default class getDetailCar extends Component {
               }></Marker>
 
             <Marker
-              coordinate={{ latitude: 13.9364533, longitude: 100.641779 }}
+              coordinate={{latitude: 13.9364533, longitude: 100.641779}}
               image={require('../../assets/images/banner/map_mark.png')}
               title="Excavator02"
               description="tel: 082-1234567">
@@ -278,8 +308,8 @@ export default class getDetailCar extends Component {
               <Text style={styles.text_inside}>
                 ผู้ให้เช่า :
                 <Text style={styles.text_2inside}>
-
-                  {' '}{this.state.detailCar.provider}
+                  {' '}
+                  {this.state.detailCar.provider}
                   {/* {detailCar.provider} */}
                 </Text>
               </Text>
@@ -312,10 +342,13 @@ export default class getDetailCar extends Component {
                 selectedValue={this.state.pickerPrice}
                 // onValueChange={itemValue => setPickerItemValue(itemValue)}>
                 onValueChange={itemValue =>
-                  this.setState({ pickerPrice: itemValue })
+                  this.setState({pickerPrice: itemValue})
                 }>
                 <Picker.Item label="รายวัน" value={this.state.priceDaily} />
-                <Picker.Item label="รายสัปดาห์" value={this.state.priceWeekly} />
+                <Picker.Item
+                  label="รายสัปดาห์"
+                  value={this.state.priceWeekly}
+                />
                 <Picker.Item label="รายเดือน" value={this.state.priceMonthly} />
               </Picker>
             </View>
@@ -326,14 +359,14 @@ export default class getDetailCar extends Component {
           <TouchableOpacity
             style={styles.btn_readmore}
             onPress={() =>
-              this.props.navigation.navigate('mainPage', { username: username })
+              this.props.navigation.navigate('mainPage', {username: username})
             }>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>หน้าหลัก</Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>หน้าหลัก</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.btn_readmore}
             onPress={this.toggleOverlay}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>ยืนยัน</Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>ยืนยัน</Text>
             <Overlay
               isVisible={this.state.visible}
               onBackdropPress={this.toggleOverlay}
@@ -344,13 +377,11 @@ export default class getDetailCar extends Component {
               }}>
               <View style={styles.overlay_container}>
                 <TouchableOpacity
-                onPress={() => this.postOrder}
-                  style={
-                    {
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }
-                  }>
+                  onPress={() => this.postOrder}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                   <Icon name="check" size={40} color={COLORS.primary} />
                   <Text> กำลังดำเนินการ...</Text>
                 </TouchableOpacity>
@@ -426,7 +457,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -483,7 +514,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     padding: 10,
     borderRadius: 10,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -508,7 +539,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.white,
     padding: 10,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -520,7 +551,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.white,
     padding: 10,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,

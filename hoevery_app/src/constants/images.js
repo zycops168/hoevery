@@ -13,6 +13,9 @@ const skid_steel = require('../../assets/images/type_ex/4_skid_steel.png');
 const long_reach = require('../../assets/images/type_ex/5_long_reach.png');
 const mini_crawler = require('../../assets/images/type_ex/6_mini_crawler.png');
 
+// user ICON Marker
+const user_marker = require('../../assets/images/banner/user_onMap.png')
+
 export default {
   facebookLogo,
   googleLogo,
@@ -25,4 +28,5 @@ export default {
   skid_steel,
   long_reach,
   mini_crawler,
+  user_marker  
 };
