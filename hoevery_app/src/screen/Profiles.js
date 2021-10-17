@@ -11,14 +11,23 @@ import {
 import {Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import uuid from 'uuid-random';
+import Cookie from 'react-native-cookie';
+
+
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 export default function App({navigation}) {
   const [visible, setVisible] = useState(false);
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
+  const toggleOverlay = () => {setVisible(!visible)};
+  const [myCookie, setMyCookie] = useState();
+  const getCookie = async () => {
+    const cookie = await Cookie.get('203.150.107.212');
+    setMyCookie(cookie);
+    console.log("cookie on Profile screen ;", cookie)
+    return cookie
+  }
+  console.log("cookie on Profile loop screen :" ,myCookie)
+ //getCookie();
 
   const close = () => {
     BackHandler.exitApp();

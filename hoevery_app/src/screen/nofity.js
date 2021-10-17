@@ -3,32 +3,34 @@ import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 import uuid from 'uuid-random'
 import { Overlay } from 'react-native-elements';
+import Cookie from 'react-native-cookie';
 
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 export default function nofity({ navigation, route }) {
-    const [items, setItems] = useState([
-        { id: uuid(), text: "busy" },
-        { id: uuid(), text: "red" },
-      ])
-      
-    const [userData, setUserData] = useState([{}]);
-    const getUserData = async () => {
-        var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
-        const response = await fetch("http://203.150.107.212/user/all", requestOptions)
-        const result = await response.text();
-        const userdata = await JSON.parse(result); setUserData(userdata);
-        console.log(result);
-    }
-    //getExData();
+
+    const [myCookie, setMyCookie] = useState()
+    const [userData, setUserData] = useState();
+
+
     useEffect(() => {
-        //   getExData();
-        getUserData();
-        //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
-        //  return () => clearInterval(dataInterval);
+
+        getUserData = async () => {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+            const cookie = await Cookie.get('203.150.107.212');
+            setMyCookie(cookie);
+            const response = await fetch("http://203.150.107.212/user/all", requestOptions)
+            const result = await response.text();
+            const userdata = await JSON.parse(result);
+            setUserData(userdata);
+            console.log(result);
+            console.log("cookie on notify screen ;", cookie)
+        }
+        const dataInterval = setInterval(() => getUserData(), 5 * 1000);
+        return () => clearInterval(dataInterval);
     }, []);
 
     const [visible, setVisible] = useState(false);
@@ -56,7 +58,7 @@ export default function nofity({ navigation, route }) {
             <View style={styles.body}>
                 <View style={styles.body_fetch}>
                     <FlatList
-                        data={items}
+                        data={userData}
                         renderItem={({ item }) => (
                             <View style={
                                 {
@@ -74,41 +76,10 @@ export default function nofity({ navigation, route }) {
                                         justifyContent: 'space-between',
                                     }}>
                                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-                                        ORDER NO.999 , ID: {route.params.paramKey[1].text}
+                                        ORDER NO.999  ID:
                                     </Text>
-                                    <Text style={{ fontSize: 14, fontWeight: 'bold' }}>Please accept or deny your order  </Text>
-                                    <Text>Excavator name: {item.text}</Text>
-                                    <TouchableOpacity style={
-                                        {
-
-                                        }
-                                    }
-                                        onPress={() => { toggleOverlay }}
-                                    >
-                                        <Text style={{ fontWeight: 'bold' }}>See more..</Text>
-                                        <Overlay isVisible={visible}
-                                            onBackdropPress={toggleOverlay}
-                                            overlayStyle={{
-                                                backgroundColor: '#eee',
-                                                borderRadius: 20,
-                                            }}>
-                                            <View style={
-                                                {
-                                                    width: 200,
-                                                    height: 200,
-                                                    justifyContent: 'center',
-                                                    alignItems: 'center',
-                                                    backgroundColor: '#fff',
-                                                    borderRadius: 20,
-                                                }
-                                            }>
-                                                <TouchableOpacity onPress={() => {
-                                                }}>
-                                                    <Text style={{}}>Loading...</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </Overlay>
-                                    </TouchableOpacity>
+                                    <Text style={{ fontSize: 14, fontWeight: 'bold' }}>โปรดยืนยันรายการคำขอในการส่งรถ  </Text>
+                                    <Text>ชื่อผู้ขอใช้บริการ: {item.username}</Text>
                                 </View>
                                 <View style={
                                     {
@@ -140,7 +111,7 @@ export default function nofity({ navigation, route }) {
                                                 {
                                                     // no style
                                                 }}
-                                                onPress={() => navigation.navigate('AddCar',{ paramKey: items })}
+                                                onPress={() => navigation.navigate('AddCar')}
                                             >
                                                 <Icon name="check" size={20} />
                                             </TouchableOpacity>
@@ -232,7 +203,7 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOpacity: 5.0,
         shadowRadius: 5.0,
-        elevation: 10 ,
+        elevation: 10,
     },
     text: {
         padding: 5,

@@ -1,4 +1,4 @@
-import React, {useState, createRef} from 'react';
+import React, { useState, createRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,11 +8,12 @@ import {
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import {Picker} from '@react-native-picker/picker';
-import {Input} from 'react-native-elements';
+import { Picker } from '@react-native-picker/picker';
+import { Input } from 'react-native-elements';
+import Cookie from 'react-native-cookie';
 
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
-import {styles} from '../style';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
+import { styles } from '../style';
 
 const Header = () => {
   return (
@@ -23,15 +24,15 @@ const Header = () => {
     </View>
   );
 };
-const detailCar = ({navigation}) => {
-  const [text_excavator_name, setText_excavator_name] = useState('');
-  const [create, setCreate] = useState('charmuar');
-  const [size, setSize] = useState('');
-  const [pickerTypeValue, setPickerTypeValue] = useState('click..');
-  const [Price_daily, setPrice_daily] = useState('');
-  const [Price_weekly, setPrice_weekly] = useState('');
-  const [Price_monthly, setPrice_monthly] = useState('');
-  const [func, setFunc] = useState('');
+const detailCar = ({ navigation }) => {
+  const [text_excavator_name, setText_excavator_name] = useState();
+  const [create, setCreate] = useState();
+  const [size, setSize] = useState();
+  const [pickerTypeValue, setPickerTypeValue] = useState("NULL");
+  const [Price_daily, setPrice_daily] = useState();
+  const [Price_weekly, setPrice_weekly] = useState();
+  const [Price_monthly, setPrice_monthly] = useState();
+  const [func, setFunc] = useState();
   const onChangeName = textValue => setText_excavator_name(textValue);
   const onChangeSize = textValue => setSize(textValue);
   const onChangeDaily = textValue => setPrice_daily(textValue);
@@ -39,31 +40,61 @@ const detailCar = ({navigation}) => {
   const onChangeMonthly = textValue => setPrice_monthly(textValue);
   const onChangeFunc = textvalue => setFunc(textvalue);
 
-  // console.log(text_excavator_name);
-  // console.log(size);
-  // console.log(pickerTypeValue);
-  // console.log(Price_daily);
-  // console.log(Price_weekly);
-  // console.log(Price_monthly);
-  // console.log(func);
+  const InsertExData = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    const cookieUsername = await Cookie.get('203.150.107.212');
+    console.log(text_excavator_name);
+    console.log(cookieUsername['username']);
+    console.log(size);
+    console.log(typeof(pickerTypeValue));
+    console.log(Price_daily);
+    console.log(Price_weekly);
+    console.log(Price_monthly);
+    console.log(typeof(func));
 
-  const Body_input = () => {
-    return (
+    var raw = JSON.stringify({
+      carname: text_excavator_name,
+      create_by: cookieUsername['username'],
+      type: pickerTypeValue,
+      size: size,
+      price: {
+        Daily: Price_daily,
+        Weekly: Price_weekly,
+        Monthly: Price_monthly,
+      },
+      function: func
+    });
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    const response = await fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
+    const json = await response.json();
+    console.log(json);
+  };
+  return (
+    <View style={styles.container}>
+      {/* header */}
+      <Header />
+      {/* body */}
       <View style={styles1.body}>
         <ScrollView style={styles1.scroll_view}>
           <Input
             placeholder=""
             label="Excacator name :"
             renderErrorMessage={true}
-            leftIcon={{type: 'font-awesome', name: 'bus'}}
+            leftIcon={{ type: 'font-awesome', name: 'bus' }}
             onChangeText={onChangeName}></Input>
           <Input
             placeholder="example : pc-30"
             label="Size :"
             renderErrorMessage={true}
-            leftIcon={{type: 'font-awesome', name: 'expand'}}
+            leftIcon={{ type: 'font-awesome', name: 'expand' }}
             onChangeText={onChangeSize}></Input>
-          <Text style={{fontSize: 16, fontWeight: 'bold', color: '#a9a9a9'}}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#a9a9a9' }}>
             {' '}
             Type of excavator :{' '}
           </Text>
@@ -78,7 +109,7 @@ const detailCar = ({navigation}) => {
             <Picker.Item label="Long Reach" value="Long Reach" />
             <Picker.Item label="Mini Crawler" value="Mini Crawler" />
           </Picker>
-          <Text style={{fontSize: 20, fontWeight: 'bold', color: '#000'}}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
             {' '}
             Price :{' '}
           </Text>
@@ -86,21 +117,21 @@ const detailCar = ({navigation}) => {
             placeholder=" xxxxxx $"
             label="Daily"
             renderErrorMessage={true}
-            leftIcon={{type: 'font-awesome', name: 'money'}}
+            leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeDaily}></Input>
           <Input
             placeholder=" xxxxxx $"
             label="Weekly"
             renderErrorMessage={true}
-            leftIcon={{type: 'font-awesome', name: 'money'}}
+            leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeWeekly}></Input>
           <Input
             placeholder=" xxxxxx $"
             label="Monthly"
             renderErrorMessage={true}
-            leftIcon={{type: 'font-awesome', name: 'money'}}
+            leftIcon={{ type: 'font-awesome', name: 'money' }}
             keyboardType="decimal-pad"
             onChangeText={onChangeMonthly}></Input>
 
@@ -114,17 +145,16 @@ const detailCar = ({navigation}) => {
                              "
             label="Function"
             renderErrorMessage={true}
-            leftIcon={{type: 'font-awesome', name: 'gear'}}
+            leftIcon={{ type: 'font-awesome', name: 'gear' }}
             fontSize={15}
             onChangeText={onChangeFunc}
-            multiline={true}
-            numberOfLines={20}></Input>
+            // multiline={true}
+            // numberOfLines={20}
+            >
+          </Input>
         </ScrollView>
       </View>
-    );
-  };
-  const Footer = () => {
-    return (
+      {/* footer */}
       <View style={styles1.footer}>
         <TouchableOpacity
           style={styles1.next_button}
@@ -132,78 +162,9 @@ const detailCar = ({navigation}) => {
           onPressOut={() => {
             navigation.navigate('AddCar');
           }}>
-          <Text style={{fontSize: 18}}>SAVE</Text>
+          <Text style={{ fontSize: 18 }}>SAVE</Text>
         </TouchableOpacity>
       </View>
-    );
-  };
-  // Insert Excavatorr data and detail
-  const fedex2 = () => {
-    // not active
-    var raw = JSON.stringify({
-      carname: 'text_excavator_name',
-      create_by: 'charmuar',
-      type: 'pickerTypeValue',
-      size: 'size',
-      price: {
-        Daily: 'Price_daily',
-        Weekly: 'Price_weekly',
-        Monthly: 'Price_monthly',
-      },
-      function: {
-        detail: 'func',
-      },
-    });
-
-    console.log(raw);
-    var requestOptions = {
-      method: 'POST',
-      body: raw,
-      redirect: 'follow',
-    };
-    fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  };
-
-  const InsertExData = () => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-
-    var raw = JSON.stringify({
-      carname: text_excavator_name,
-      create_by: create,
-      type: pickerTypeValue,
-      size: size,
-      price: {
-        Daily: Price_daily,
-        Weekly: Price_weekly,
-        Monthly: Price_monthly,
-      },
-      function: {
-        detail: func,
-      },
-    });
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-    fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  };
-  return (
-    <View style={styles.container}>
-      {/* header */}
-      <Header />
-      {/* body */}
-      <Body_input />
-      {/* footer */}
-      <Footer />
     </View>
   );
 };

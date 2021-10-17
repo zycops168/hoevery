@@ -1,22 +1,36 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, StatusBar } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  StatusBar,
+  Image
+} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { LinearProgress, Button, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Cookie from 'react-native-cookie';
+
 
 import TypeWorkModel from '../models/TypeWorkModel';
 import WorkController from '../controller/WorkController';
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { styles } from '../style';
 
-
 const findCar = ({ navigation }) => {
+  const [myCookie, setMyCookie] = useState();
+  const getCookie = async () => {
+    const cookie = await Cookie.get('203.150.107.212');
+    setMyCookie(cookie);
+    console.log("cookie on findCar screen ;", cookie)
+    return cookie
+  }
+  console.log("cookie on findCar loop screen :" ,myCookie)
+
   const [pickerValue, setPickerItemValue] = useState('click..');
-  console.log(pickerValue);
   const [visible, setVisible] = useState(false);
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
+  const toggleOverlay = () => {setVisible(!visible);};
 
   var requestOptions = {
     method: 'GET',
@@ -28,10 +42,10 @@ const findCar = ({ navigation }) => {
     if (pickerValue != 'none') {
       work.workname = pickerValue;
       WorkController.setWork(work);
-      navigation.navigate('listCar');
+      navigation.navigate('listCar',);
     }
   };
-  const unused = () => {
+  const unused = () => { 
     fetch(
       `http://203.150.107.212/tenant/get-car-with-type?typeOfWork=${pickerValue}`,
       requestOptions,
@@ -75,6 +89,7 @@ const findCar = ({ navigation }) => {
   const Check_getExData = pickerValue => {
     if (pickerValue != 'none') {
       getExData();
+      getCookie();
     } else {
       alert('Select Type Work');
     }
@@ -202,7 +217,7 @@ const styles1 = StyleSheet.create({
     flex: 0.08,
     backgroundColor: COLORS.white,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     padding: 10,
   },
   picker: {
@@ -228,7 +243,7 @@ const styles1 = StyleSheet.create({
     borderRadius: 12,
   },
   find_btn: {
-    backgroundColor: '#ffd700',
+    backgroundColor: COLORS.primary,
     width: "25%",
     justifyContent: 'center',
     alignItems: 'center',

@@ -14,11 +14,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
+import Cookie from 'react-native-cookie';
 
 import {styles} from '../style';
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 
 import WorkController from '../controller/WorkController';
+import { get } from 'mobx';
 
 const RenderHeader = () => {
   return (
@@ -137,6 +139,14 @@ export default class listCar extends Component {
   };
 
   render() {
+    const getCookie = async () => {
+      const cookie = await Cookie.get('203.150.107.212')
+      console.log("cookie on listCar screen ;", cookie)
+      this.setState({username: cookie})
+    }
+   // getCookie();
+    const {username} = "charmuar";
+    console.log("cookie on username (listcar screen ): ", username);
     return (
       <View style={styles_local.container}>
         <LinearGradient
@@ -166,11 +176,11 @@ export default class listCar extends Component {
 
               <Text
                 style={{
-                  marginLeft: SIZES.padding * 1.5,
+                  marginLeft: SIZES.padding * 4,
                   color: COLORS.white,
                   ...FONTS.h4,
                 }}>
-                Back
+                {/* Back */}
               </Text>
             </TouchableOpacity>
             <Text
@@ -182,7 +192,7 @@ export default class listCar extends Component {
                 right: -15,
                 top: 5,
               }}>
-              Search excavator
+              รถที่อยู่ใกล้กับคุณ
             </Text>
             <TouchableOpacity
               style={{
@@ -223,8 +233,9 @@ export default class listCar extends Component {
                   activeScale={0.95}
                   // bottomDivider>
                   onPress={() => {
-                    this.props.navigation.navigate('getDetail', {
-                      id: item.id,
+                    this.props.navigation.navigate('getDetailCar', {
+                      username: username,
+                      car_id: item.id,
                     });
                   }}>
                   <Avatar
@@ -240,7 +251,7 @@ export default class listCar extends Component {
                     <ListItem.Title>{item.type}</ListItem.Title>
                     <ListItem.Subtitle>{'location: 0.6 km'}</ListItem.Subtitle>
                   </ListItem.Content>
-                  <ListItem.Chevron color= {COLORS.primary} />
+                  <ListItem.Chevron color={COLORS.primary} />
                 </ListItem>
               )}
             />

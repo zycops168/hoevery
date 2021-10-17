@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Profiler} from 'react';
+import React, { useState, useEffect, Profiler } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,16 +9,12 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import uuid from 'uuid-random';
+import Cookie from 'react-native-cookie';
 
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 export default function AddCar({ navigation, route }) {
 
-  const [items, setItems] = useState([
-    { id: uuid(), text: "รถเบ๊น" },
-    { id: uuid(), text: "รถเบ๊น" },
-    //   { id: uuid(), text: "รถเบ๊น" },
-  ])
   const [Id_user, setId_user] = useState();
   const [isLoading, setLoading] = useState(true);
   const [exData, setExData] = useState([]);
@@ -28,28 +24,55 @@ export default function AddCar({ navigation, route }) {
       method: 'GET',
       redirect: 'follow'
     };
-    const response = await fetch(`http://203.150.107.212/lessor/my-product?username=charmuar`, requestOptions,);
+    const cookie = await Cookie.get('203.150.107.212');
+    console.log("cookie on addCar screen ;", cookie)
+    const response = await fetch(`http://203.150.107.212/lessor/my-product?username=${cookie['username']}`, requestOptions);
     console.log(response);
     const result = await response.json();
-    console.log(result);
-    try{
-      if (result.ret == 0){
+    console.log("result : ", result.msg);
+    try {
+      if (result.ret == 0) {
         setExData(result.data.row);
       }
       else {
         alert(result.msg);
       }
-    }catch(err){
+    } catch (err) {
       alert(err)
     }
   }
   useEffect(() => {
     getExData();
-    //  const dataInterval = setInterval(() => getExData(), 5 * 1000);
-    //  return () => clearInterval(dataInterval);
-
+    const dataInterval = setInterval(() => getExData(), 5 * 1000);
+    return () => clearInterval(dataInterval);
   }, []);
 
+  const Badge = () => { // count
+    return (
+      <View style={
+        {
+          width: 20,
+          height: 20,
+          borderRadius: 18, 
+          backgroundColor: 'red',
+          position: 'absolute',
+          left: 15,
+          top: -5,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }
+      }>
+        <Text style={
+          {
+            color: "#fff",
+            fontSize: 13,
+          }
+        }>
+          20
+        </Text>
+      </View>
+    )
+  }
   const Header = () => {
     return (
       <View style={styles.header}>
@@ -58,19 +81,34 @@ export default function AddCar({ navigation, route }) {
             onPress={() => navigation.navigate('mainPage')}>
             <Icon name="arrow-left" size={30} />
           </TouchableOpacity>
-          <Text style={styles.text}>MY EXCAVATOR</Text>
+          <Text style={styles.text}>รายการรถที่เพิ่ม</Text>
           <TouchableOpacity styles={{}}
-            onPress={() => navigation.navigate(
-              'notify', { paramKey: items }
-            )}>
+            onPress={() => navigation.navigate('notify')}>
             <Icon name="bell" size={30} />
+            <Badge />
           </TouchableOpacity>
         </View>
       </View>
     )
   }
-  const Body = () => {
+
+  const Footer = () => {
     return (
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.footer_btn}
+          onPress={() => navigation.navigate('detailCar')}>
+          <Text style={styles.textaddbtn}>เพิ่มรถ</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.container}>
+      {/* header */}
+      <Header />
+      {/* body */}
+      {/* <Body /> */}
       <View style={styles.body}>
         <View style={
           {
@@ -158,7 +196,7 @@ export default function AddCar({ navigation, route }) {
                         {
                           width: 20,
                           height: 20,
-                          backgroundColor: route.params.paramKey[1].text,
+                          backgroundColor: 'green',
                           borderRadius: 100,
                           bottom: -10,
                         }
@@ -172,25 +210,6 @@ export default function AddCar({ navigation, route }) {
             )} />
         </View>
       </View >
-    )
-  }
-  const Footer = () => {
-    return (
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footer_btn}
-          onPress={() => navigation.navigate('detailCar')}>
-          <Text style={styles.textaddbtn}> ADD NEW EXCAVATOR </Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-
-  return (
-    <View style={styles.container}>
-      {/* header */}
-      <Header />
-      {/* body */}
-      <Body />
       {/* footer */}
       <Footer />
     </View>
@@ -246,7 +265,7 @@ const styles = StyleSheet.create({
     height: 55,
     backgroundColor: 'gold',
     borderRadius: 10,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -268,7 +287,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,

@@ -2,6 +2,12 @@
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity} from 'react-native'
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import Cookie from 'react-native-cookie';
+
+// const getCookie = () => {
+//   Cookie.get('203.150.107.212').then((cookie) => setMyCookie(cookie)).then(console.log("cookie on History screen ;", myCookie));
+// }
+//  getCookie();
 
 
 

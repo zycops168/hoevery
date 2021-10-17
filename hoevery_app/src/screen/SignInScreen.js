@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import {
   Text,
   Platform,
@@ -19,21 +19,26 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import CheckBox from '@react-native-community/checkbox';
 import PushNotification from 'react-native-push-notification';
+import Cookie from 'react-native-cookie';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {styles} from '../style';
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import { styles } from '../style';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
 import AddCar from './addCar';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = ({ navigation }) => {
   const [data, setData] = React.useState({
     username: '',
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
   });
+
+  const [isLoading, setLoading] = React.useState(false);
+  const [isSelected, setSelection] = React.useState(false);
 
   const createChannels = () => {
     PushNotification.createChannel({
@@ -43,6 +48,7 @@ const SignInScreen = ({navigation}) => {
   };
   useEffect(() => {
     createChannels();
+    getAsyncData();
   }, []);
 
   const textInputChange = val => {
@@ -75,45 +81,100 @@ const SignInScreen = ({navigation}) => {
     });
   };
 
-  const [isSelected, setSelection] = React.useState(false);
+  const [cookie, setMycookie] = useState();
 
-  const login = () => {
-    // var myHeaders = new Headers();
-    // myHeaders.append('Content-Type', 'application/json');
+  const get_post_cookie = () => {
+    Cookie.clear();
+    Cookie.set('203.150.107.212', `username`, `${data.username}`).then(() => console.log('success'));
+    // Cookie.set('203.150.107.212', `another`, `${data.username}`).then(() => console.log('success'));
+    Cookie.get('203.150.107.212').then((cookie) => setMycookie(cookie));
 
-    // var raw = JSON.stringify({
-    //   username: data.username,
-    //   password: data.password,
-    // });
+  }
 
-    // var requestOptions = {
-    //   method: 'POST',
-    //   headers: myHeaders,
-    //   body: raw,
-    //   redirect: 'follow',
-    // };
-    // fetch('http://203.150.107.212/user/login', requestOptions)
-    //   .then(response => response.text())
-    //   .then(result => {
-    //     try {
-    //       const responseJson = JSON.parse(result);
+  const getAsyncData = () => {
+    try {
+      AsyncStorage.getItem('login')
+        .then(value => {
+          if (value != null) {
+            navigation.navigate('mainPage');
+          }
+        })
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-    //       if (responseJson._uuid != null) {
-    //         var user = new UserModel();
-    //         user.uuid = responseJson._uuid;
-    //         user.username = responseJson.username;
-    //         user.role = responseJson.role;
-    //         user.access_token = responseJson.access_token;
+  const setAsyncLogin = async () => {
+    if (data.username.length == 0) {
+      alert("Please write Your id")
+    } else {
+      try {
+        var user = {
+          username: data.username,
+          password: data.password,
+        }
+        await AsyncStorage.setItem(`data.username`, JSON.stringify(user));
+        console.log("asyncStorage Active");
+        console.log(user)
 
-    //         UserController.setListUser(user);
-    //         navigation.navigate('mainPage');
-    //       }
-    //     } catch (err) {
-    //       alert(result);
-    //     }
-    //   })
-    // .catch(error => alert('error', error));
-    navigation.navigate('mainPage');
+      } catch (e) {
+        console.log(error);
+      }
+    }
+  }
+
+  const login = async () => {
+    get_post_cookie();
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    var raw = JSON.stringify({
+      username: data.username,
+      password: data.password,
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    if (data.username == '' || data.password == '') {
+      alert('username or password is empty');
+      return -1;
+    } else {
+      try {
+        var user = {
+          username: data.username,
+          password: data.password,
+        }
+        await AsyncStorage.setItem('login', JSON.stringify(user));
+        console.log("asyncStorage Active");
+        console.log(user)
+
+      } catch (e) {
+        console.log(error);
+      }
+    }
+
+    const response = await fetch(
+      `http://203.150.107.212/user/login`,
+      requestOptions,
+    );
+
+    const result = await response.json();
+    console.log(result);
+    try {
+      if (result.ret == 0) {
+        setLoading(false);
+        navigation.navigate('mainPage', { username: data.username });
+      } else {
+        alert(result.msg);
+      }
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
@@ -134,18 +195,18 @@ const SignInScreen = ({navigation}) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={[styles.text_header1, {color: '#800080'}]}>H </Text>
-            <Text style={[styles.text_header1, {color: '#00008b'}]}>O </Text>
-            <Text style={[styles.text_header1, {color: '#00ced1'}]}>E </Text>
-            <Text style={[styles.text_header1, {color: '#00ff7f'}]}>V </Text>
-            <Text style={[styles.text_header1, {color: '#ffff00'}]}>E </Text>
-            <Text style={[styles.text_header1, {color: '#ff8c00'}]}>R </Text>
-            <Text style={[styles.text_header1, {color: '#DA1503'}]}>Y </Text>
+            <Text style={[styles.text_header1, { color: '#800080' }]}>H </Text>
+            <Text style={[styles.text_header1, { color: '#00008b' }]}>O </Text>
+            <Text style={[styles.text_header1, { color: '#00ced1' }]}>E </Text>
+            <Text style={[styles.text_header1, { color: '#00ff7f' }]}>V </Text>
+            <Text style={[styles.text_header1, { color: '#ffff00' }]}>E </Text>
+            <Text style={[styles.text_header1, { color: '#ff8c00' }]}>R </Text>
+            <Text style={[styles.text_header1, { color: '#DA1503' }]}>Y </Text>
           </View>
           <Text style={styles.text_header2}>
             Registering to this website,
             {'\n'} you accept our {'\n'}
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('afterPayment');
@@ -160,10 +221,15 @@ const SignInScreen = ({navigation}) => {
                   Terms of use
                 </Text>
               </TouchableOpacity>
-              <Text style={{paddingRight: 5, paddingLeft: 5, color: COLORS.secondary}}>
+              <Text
+                style={{
+                  paddingRight: 5,
+                  paddingLeft: 5,
+                  color: COLORS.secondary,
+                }}>
                 and our
               </Text>
-              <TouchableOpacity onPress={() => {}} style={{}}>
+              <TouchableOpacity onPress={() => { }} style={{}}>
                 <Text
                   style={{
                     fontWeight: 'bold',
@@ -180,7 +246,7 @@ const SignInScreen = ({navigation}) => {
         <Animatable.View animation="fadeInUpBig" style={styles.body}>
           <View style={styles.box}>
             <View style={styles.form}>
-              <View style={{flex: 1, paddingRight: 10, paddingLeft: 10}}>
+              <View style={{ flex: 1, paddingRight: 10, paddingLeft: 10 }}>
                 <Text
                   style={{
                     fontSize: 16,
@@ -191,7 +257,7 @@ const SignInScreen = ({navigation}) => {
                 </Text>
                 <View style={styles.action}>
                   <Feather
-                    style={{marginLeft: 5}}
+                    style={{ marginLeft: 5 }}
                     name="user"
                     color={COLORS.primary}
                     size={20}
@@ -220,7 +286,7 @@ const SignInScreen = ({navigation}) => {
                 </Text>
                 <View style={styles.action}>
                   <Feather
-                    style={{marginLeft: 5}}
+                    style={{ marginLeft: 5 }}
                     name="lock"
                     color={COLORS.primary}
                     size={20}
@@ -241,19 +307,20 @@ const SignInScreen = ({navigation}) => {
                     )}
                   </TouchableOpacity>
                 </View>
-                <View style={{paddingTop: 5}}>
+                <View style={{ paddingTop: 5 }}>
                   <View style={styles.checkboxContainer}>
                     <CheckBox
                       value={isSelected}
                       onValueChange={setSelection}
+
                       style={styles.checkbox}
                     />
                     <Text style={styles.label}>Remember me</Text>
                   </View>
                   {isSelected ? true : false}
                 </View>
-                <TouchableOpacity onPress={() => {}} style={styles.label}>
-                  <Text style={{fontWeight: 'bold', color: '#362222'}}>
+                <TouchableOpacity onPress={() => { }} style={styles.label}>
+                  <Text style={{ fontWeight: 'bold', color: '#362222' }}>
                     Forgot your password?
                   </Text>
                 </TouchableOpacity>
@@ -264,16 +331,16 @@ const SignInScreen = ({navigation}) => {
                       colors={[COLORS.primary, COLORS.primary]}
                       style={styles.signIn}>
                       <Text
-                        style={[styles.textSignIn, {color: COLORS.secondary}]}>
+                        style={[styles.textSignIn, { color: COLORS.secondary }]}>
                         Sign In
                       </Text>
                     </LinearGradient>
                   </View>
                 </TouchableOpacity>
 
-                <View style={{flexDirection: 'row', paddingLeft: 5}}>
+                <View style={{ flexDirection: 'row', paddingLeft: 5 }}>
                   <Text
-                    style={{fontSize: 14, margin: 5, color: COLORS.secondary}}>
+                    style={{ fontSize: 14, margin: 5, color: COLORS.secondary }}>
                     Not a member ?
                   </Text>
                   <TouchableOpacity
