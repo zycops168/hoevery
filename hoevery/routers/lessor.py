@@ -170,23 +170,45 @@ async def order(response: Response, username: str):
         return dict(
             ret=0,
             msg="Complete.",
-            data=dict(
-                count=query_filtered,
-                waiting=orderWaiting_filtered,
-                row=data
-            )
+            data=dict(count=query_filtered, waiting=orderWaiting_filtered, row=data),
         )
 
-@router.delete("/delelt-car")
+
+@router.put("/update-status-order")
+async def update_status_order(order_id: int, status: str, response: Response):
+    with SessionContext() as se:
+        try:
+            order = se.query(db.order).filter(db.order.id == order_id).first()
+            if not order:
+                response.status_code = status.HTTP_404_NOT_FOUND
+                return dict(ret=-1, msg="Order not found")
+
+            if hasattr(order, "id"):
+                setattr(order, "id", order_id)
+            if hasattr(order, "status"):
+                setattr(order, "status", status)
+
+            se.commit()
+            se.refresh(order)
+
+            return dict(ret=0, msg="Complete.", data={"data has been updated "})
+
+        except Exception as e:
+            return dict(ret=-1, msg=f"Error")
+
+
+@router.delete("/delete-car")
 async def delete_user(car_id: int):
     with SessionContext() as se:
-        try: 
-            deleteCar_id = se.query(db.carForRent).filter(db.carForRent.id == car_id).first()
+        try:
+            deleteCar_id = (
+                se.query(db.carForRent).filter(db.carForRent.id == car_id).first()
+            )
             if deleteCar_id:
                 tmp = deleteCar_id.id
                 se.delete(deleteCar_id)
                 se.commit()
-                return dict(ret=0, msg="data has deleted.", data=dict(deleted_id = tmp))
+                return dict(ret=0, msg="data has deleted.", data=dict(deleted_id=tmp))
             else:
                 return "not found"
         except Exception as e:
