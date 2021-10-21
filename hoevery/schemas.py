@@ -92,6 +92,7 @@ class WorkOfTypeForm(BaseModel):
 class RentalForm(BaseModel):
     car_id: int
     rental_by: str
+    status: str
 
     class Config:
         title = "[TENANT] Insert"
@@ -99,6 +100,7 @@ class RentalForm(BaseModel):
             example=dict(
                 car_id=1,
                 rental_by="admin",
+                status="waiting"
             )
         )
 
@@ -110,6 +112,29 @@ class InsertImageCarForm(BaseModel):
     class Config:
         title = "[FILE] Insert Image Car"
         schema_extra = dict(example=dict(id="1", username="admin"))
+
+
+class PaymentForm(BaseModel):
+    rental_by : str
+    car_id : int
+    price : int
+    rental_agreement : str
+    address : str
+    address_detail : str
+    order_id : int
+
+    class Config:
+        title = "[TENANT] payment"
+        schema_extra = dict(example=dict(
+            rental_by = 'admin',
+            car_id = 1,
+            price = 123,
+            rental_agreement = 'Daily',
+            address = "bkk",
+            address_detail = 'abc village',
+            order_id = 1)
+        )
+
 
 
 ## demo

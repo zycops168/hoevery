@@ -38,8 +38,8 @@ async def create_upload_file(username:str = "username_file", uploaded_file: Uplo
         file_object.write(uploaded_file.file.read())
     return dict(ret=0, msg="Complete.", data={"info": f"file '{uploaded_file.filename}' saved at '{file_location}'"})
 
-@router.put("/upload-file-car")
-async def create_upload_file(car_id:int, username:str = "username_file", uploaded_file: UploadFile = File(...)):
+@router.put("/update-picture-car")
+async def update_picture_car(car_id:int, username:str = "username_file", uploaded_file: UploadFile = File(...)):
     with SessionContext() as se:
         try: 
             file_location = f"static/files/upload/{username}_{uploaded_file.filename}"

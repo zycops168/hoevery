@@ -9,6 +9,8 @@ from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.sql import expression
 from sqlalchemy.types import String, Unicode, UnicodeText, Integer, DateTime, Boolean, Float
 import sys
+import datetime
+import pytz
 
 db = sys.modules[__name__]
 
@@ -50,7 +52,7 @@ class user(Base):
     image = Column(String)
     
     mycar=relationship('carForRent', back_populates="creator")
-    rental_=relationship('rentalHistory', back_populates="rental_by")
+    rental_=relationship('order', back_populates="rental_by")
 
 
 
@@ -65,10 +67,11 @@ class carForRent(Base):
     image = Column(String)
     latitude = Column(Float)
     longitude = Column(Float)
+    created_date = Column(DateTime, default=datetime.datetime.now(tz=pytz.timezone("Asia/Bangkok")))
     owner_id = Column(Integer, ForeignKey('USER.id'))
-
+    
     creator = relationship("user", back_populates="mycar")
-    car_ = relationship("rentalHistory", back_populates="car")
+    car_ = relationship("order", back_populates="car")
 
 class typeOfWork(Base):
     __tablename__ = 'WORK_TYPE'
@@ -76,15 +79,32 @@ class typeOfWork(Base):
     name = Column(String)
     machine_type = Column(JSON)
     
-class rentalHistory(Base):
-    __tablename__ = 'RENTAL_HISTORY'
+class order(Base):
+    __tablename__ = 'ORDER'
     id = Column(Integer, primary_key=True, index=True)
+    status = Column(String)
+    owner_car = Column(String)
+    created_date = Column(DateTime, default=datetime.datetime.now(tz=pytz.timezone("Asia/Bangkok")))
     car_id = Column(Integer, ForeignKey('CAR_FOR_RENT.id'))
     rental_by_id = Column(Integer, ForeignKey('USER.id'))
 
     car = relationship("carForRent", back_populates="car_")
     rental_by = relationship("user", back_populates="rental_")
+    order_no = relationship("payment", back_populates="order")
+
+class payment(Base):
+    __tablename__ = 'PAYMENT'
+    id = Column(Integer, primary_key=True, index=True)
+    rental_by = Column(String)
+    car_id = Column(Integer)
+    price = Column(Integer)
+    rental_agreement = Column(String)
+    address = Column(String)
+    address_detail = Column(String)
+    created_date = Column(DateTime, default=datetime.datetime.now(tz=pytz.timezone("Asia/Bangkok")))
+    order_id = Column(Integer, ForeignKey('ORDER.id'))
     
+    order = relationship("order", back_populates="order_no")
 
 # class Blog(Base):
 #     __tablename__ = 'blogs'

@@ -109,7 +109,7 @@ def get_price_with_car_selected(response: Response, car_id: int):
 
 
 @router.get("/get-detail", status_code=200, tags=["TENANT"])
-def get_detail_select_car(response: Response, car_id: int):
+async def get_detail_select_car(response: Response, car_id: int):
     with SessionContext() as se:
         try:
             query = se.query(db.carForRent)
@@ -140,28 +140,82 @@ def get_detail_select_car(response: Response, car_id: int):
         )
 
 
-@router.post("/rental", status_code=200, tags=["TENANT"])
-def rental(response: Response, request: schemas.RentalForm):
+@router.post("/create-order", status_code=200, tags=["TENANT"])
+async def create_order(response: Response, request: schemas.RentalForm):
     data = request.dict()
     with SessionContext() as se:
         try:
-            newRental = db.rentalHistory()
+            newOrder = db.order()
             rental_by_id = (
                 se.query(db.user).filter(db.user.username == data["rental_by"]).first()
             )
-            print(rental_by_id.id)
+            dataCar = (
+                se.query(db.carForRent).filter(db.carForRent.id == data["car_id"]).first()
+            )
+            ownerCar = (
+                se.query(db.user).filter(db.user.id == dataCar.owner_id).first()
+            )
             for key in data:
-                if hasattr(newRental, key):
+                if hasattr(newOrder, key):
                     print("key", key)
                     if key == "rental_by":
-                        setattr(newRental, "rental_by_id", rental_by_id.id)
+                        setattr(newOrder, "rental_by_id", rental_by_id.id)
                     else:
-                        setattr(newRental, key, data.get(key))
+                        setattr(newOrder, key, data.get(key))
+                        setattr(newOrder, "owner_car", ownerCar.username)
 
-            se.add(newRental)
+            se.add(newOrder)
             se.commit()
-            se.refresh(newRental)
+            se.refresh(newOrder)
             return dict(ret=0, msg="Complete.", data=f"data has been saved successfully.")
         except Exception as e:
             response.status_code = status.HTTP_404_NOT_FOUND
             return dict(ret=-1, msg="[Error] not found")
+
+
+@router.get("/history-order", status_code=200, tags=["TENANT"])
+async def history_order(response: Response, username: str):
+    with SessionContext() as se:
+        try:
+            datauser = se.query(db.user).filter(db.user.username == username).first()
+            order = se.query(db.order).filter(db.order.rental_by_id == datauser.id).all()
+            if not order:
+                response.status_code = status.HTTP_404_NOT_FOUND
+                return dict(ret=-1, msg="Can't find the car")
+
+        except Exception as e:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return dict(ret=-1, msg="Can't find the car")
+
+        
+        return dict(
+            ret=0,
+            msg="Complete.",
+            data=order
+        )
+
+@router.post("/payment", status_code=200, tags=["TENANT"])
+async def paymant(request: schemas.PaymentForm, response: Response):
+    data = request.dict()
+    with SessionContext() as se:
+        try:
+            order_id = se.query(db.order).filter(db.order.id == data['order_id']).first().id
+
+            if not order_id:
+                response.status_code = status.HTTP_404_NOT_FOUND
+                return dict(ret=-1, msg="Order not found")
+                
+            newPayment = db.payment()
+            for key in data:
+                if hasattr(newPayment, key):
+                    setattr(newPayment, key, data.get(key))
+            
+            se.add(newPayment)
+            se.commit()
+            se.refresh(newPayment)
+            
+            return dict(ret=0, msg="Complete.", data=f"data has been saved successfully.")
+
+        except Exception as e:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return dict(ret=-1, msg="Order not found")
