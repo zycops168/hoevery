@@ -155,7 +155,8 @@ async def order(response: Response, username: str):
         try:
             datauser = se.query(db.user).filter(db.user.username == username).first()
             order = se.query(db.order).filter(db.order.owner_car == datauser.username)
-            orderWaiting = se.query(db.order).filter(db.order.status == "waiting")
+            # orderWaiting = se.query(db.order).filter(db.order.status == "waiting")
+            orderWaiting = se.query(db.order).filter(and_(getattr(db.order, 'status') == "waiting", getattr(db.order, 'owner_car') == username))
             if not order:
                 response.status_code = status.HTTP_404_NOT_FOUND
                 return dict(ret=-1, msg="Can't find the car")
