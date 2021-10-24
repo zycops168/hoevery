@@ -104,36 +104,32 @@ export default class getDetailCar extends Component {
       alert(err);
     }
   };
-  postOrder = () => {
+  postOrder = async () => {
     console.log("postOrder Active")
-    this.toggleOverlay
-    var id = 0;
-    if (id !== 9999) {
-      id += 1;
-      return;
-    }
-    console.log(id);
-    // var myHeaders = new Headers();
-    // myHeaders.append('Content-Type', 'application/json');
-    // var raw = JSON.stringify({
-    //   orderID: id,
-    // },
-    // );
-    // var requestOptions = {
-    //   method: 'POST',
-    //   headers: myHeaders,
-    //   body: raw,
-    //   redirect: 'follow',
-    // };
-    // const response = await fetch('', requestOptions)
-    // const json = await response.json();
-    // console.log(json);
+    const cookie = await Cookie.get('203.150.107.212');
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    var raw = JSON.stringify({
+      car_id: this.props.route.params.car_id,
+      rental_by: cookie['username'],
+      status: "waiting"
+    },
+    );
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    const response = await fetch(`http://203.150.107.212/tenant/create-order`, requestOptions)
+    const json = await response.json();
+    console.log(json);
     this.setState({ isLoading: true });
-    this.props.navigator.navigate('mainPage');
+    this.props.navigation.navigate('mainPage')
   };
 
 
-  toggleOverlay = () => {
+   toggleOverlay = () => {
     this.setState({ visible: !this.state.visible });
   };
 
@@ -332,19 +328,20 @@ export default class getDetailCar extends Component {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.btn_readmore}
-            onPress={this.toggleOverlay}>
+            onPress={this.postOrder}
+            >
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>ยืนยัน</Text>
             <Overlay
               isVisible={this.state.visible}
               onBackdropPress={this.toggleOverlay}
-              onPress={() => postOrder}
+              onPress={this.toggleOverlay}
               overlayStyle={{
                 backgroundColor: COLORS.white,
                 borderRadius: 20,
               }}>
               <View style={styles.overlay_container}>
                 <TouchableOpacity
-                onPress={() => this.postOrder}
+                  onPress={() => { }}
                   style={
                     {
                       justifyContent: 'center',

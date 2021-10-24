@@ -13,6 +13,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Input } from 'react-native-elements';
 import Cookie from 'react-native-cookie';
 import ImagePicker from 'react-native-image-crop-picker';
+import DocumentPicker from 'react-native-document-picker';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { styles } from '../style';
@@ -37,6 +38,9 @@ const detailCar = ({ navigation }) => {
   const [func, setFunc] = useState();
   const [image, setImage] = useState('');
 
+  const [singleFile, setSingleFile] = useState(null);
+
+
   const onChangeName = textValue => setText_excavator_name(textValue);
   const onChangeSize = textValue => setSize(textValue);
   const onChangeDaily = textValue => setPrice_daily(textValue);
@@ -47,16 +51,21 @@ const detailCar = ({ navigation }) => {
   const InsertExData = async () => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
+
+    var formdata = new FormData();
+    formdata.append("uploaded_file", image, image.uri);
+
     const cookieUsername = await Cookie.get('203.150.107.212');
-    console.log(text_excavator_name);
-    console.log(cookieUsername['username']);
-    console.log(size);
-    console.log(pickerTypeValue);
-    console.log(Price_daily);
-    console.log(Price_weekly);
-    console.log(Price_monthly);
-    console.log(func);
-    console.log(image);
+    setCreate(cookieUsername['username']);
+    console.log("name : ", text_excavator_name);
+    console.log("create by : ", cookieUsername['username']);
+    console.log("size : ", size);
+    console.log("type : ", pickerTypeValue);
+    console.log("Daily : ", Price_daily);
+    console.log("Week : ", Price_weekly);
+    console.log("Monthly : ", Price_monthly);
+    console.log("function : ", func);
+    console.log("image : ", image);
 
     var raw = JSON.stringify({
       carname: text_excavator_name,
@@ -69,6 +78,7 @@ const detailCar = ({ navigation }) => {
         Monthly: Price_monthly,
       },
       function: func,
+      uploaded_file: image.path
     });
     var requestOptions = {
       method: 'POST',
@@ -86,12 +96,49 @@ const detailCar = ({ navigation }) => {
     ImagePicker.openPicker({
       width: 300,
       height: 300,
-      cropping: true
     }).then(image => {
-      console.log(image);
-      setImage(image.path);
+      console.log('image :', image);
+      setImage(image);
+      image.name = "exca1.jpg"
+      image.uri = image.path;
+      image.type = image.mime;
+      image.dateModified = new Date();
+      // console.log('uri:', image.uri);
+      // console.log('type:', image.type);
+      // console.log('date:', image.dateModified);
+      // console.log(image);
     });
   }
+  const uploadImage = async () => {
+    console.log('upload image active!')
+    var formdata = new FormData();
+    formdata.append("uploaded_file", image, image.uri);
+
+    var requestOptions = {
+      method: 'PUT',
+      body: formdata,
+      redirect: 'follow'
+    };
+    const cookie = await Cookie.get('203.150.107.212');
+    console.log('cookie : ', cookie);
+    const response = await fetch(`http://203.150.107.212/file/upload-file-car?car_id=1&username=${cookie['username']}`, requestOptions);
+    console.log('response: ', response);
+    const result = response.json();
+    console.log('result', result);
+    try {
+      if (result.ret == 0) {
+        // console.log(result.ret);
+      }
+      else {
+        alert(result.msg);
+      }
+
+    } catch (err) { () => console.log(err) }
+
+  };
+  console.log("type: :", pickerTypeValue);
+  console.log("create: :", create);
+
   return (
     <View style={styles.container}>
       {/* header */}
@@ -113,7 +160,7 @@ const detailCar = ({ navigation }) => {
               }
               source={
                 {
-                  uri: image ? image : null
+                  uri: image.uri
                 }
               }
               onPress={() => { }}
@@ -149,7 +196,29 @@ const detailCar = ({ navigation }) => {
             }
               onPress={chooseFromLibrary}
             >
-              <Text style={{ fontSize: 18 }}>เพิ่มรูปรถจากอัลบั้ม</Text>
+              <Text style={{ fontSize: 18 }}>เพิ่มรูปรถจากอัลบั้ม </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={
+              {
+                width: "90%",
+                height: 50,
+                backgroundColor: COLORS.primary,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                shadowColor: COLORS.secondary,
+                shadowOffset: {
+                  width: 2,
+                  height: 3,
+                },
+                shadowOpacity: 1.22,
+                shadowRadius: 1.22,
+                elevation: 10,
+              }
+            }
+              onPress={uploadImage}
+            >
+              <Text style={{ fontSize: 18 }}>อัพโหลด</Text>
             </TouchableOpacity>
           </View>
           <Input
@@ -170,6 +239,7 @@ const detailCar = ({ navigation }) => {
             style={styles1.picker}
             selectedValue={pickerTypeValue}
             onValueChange={itemValue => setPickerTypeValue(itemValue)}>
+            <Picker.Item label="Select..." value="none" />
             <Picker.Item label="Crawler" value="Crawler" />
             <Picker.Item label="Drag Line" value="Drag Line" />
             <Picker.Item label="Suction" value="Suction" />
@@ -207,8 +277,7 @@ const detailCar = ({ navigation }) => {
             leftIcon={{ type: 'font-awesome', name: 'gear' }}
             fontSize={15}
             onChangeText={onChangeFunc}
-            multiline={true}
-            numberOfLines={10}
+            multiline={false}
           >
           </Input>
         </ScrollView>
@@ -306,7 +375,7 @@ const styles1 = StyleSheet.create({
   next_button: {
     flex: 0.7,
     padding: 5,
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.primary,
     justifyContent: 'center',
     alignSelf: 'stretch',
     alignItems: 'center',

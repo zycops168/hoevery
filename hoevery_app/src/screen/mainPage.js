@@ -101,6 +101,10 @@ const Body = () => {
 
 const mainPage = ({ navigation }) => {
   const [myCookie, setMyCookie] = useState();
+
+  useEffect( () => {
+    getCookie();
+  }, [])
   const getCookie = async () => {
 
     const cookie = await Cookie.get('203.150.107.212');
@@ -126,7 +130,6 @@ const mainPage = ({ navigation }) => {
           onPress={() => {
             navigation.navigate('findCar');
             console.log('next page');
-            getCookie();
           }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.drakGreen }}>
             {' '}

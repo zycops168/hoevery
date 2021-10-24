@@ -37,7 +37,7 @@ const SignInScreen = ({ navigation }) => {
     check_textInputChange: false,
     secureTextEntry: true,
   });
-
+  const [cookie, setMycookie] = useState();
   const [isLoading, setLoading] = React.useState(false);
   const [isSelected, setSelection] = React.useState(false);
 
@@ -82,7 +82,7 @@ const SignInScreen = ({ navigation }) => {
     });
   };
 
-  const [cookie, setMycookie] = useState();
+
 
   const get_post_cookie = () => {
     Cookie.clear();

@@ -1,4 +1,4 @@
-import React, {Component, Profiler, useState} from 'react';
+import React, { Component, Profiler, useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,27 +7,33 @@ import {
   Image,
   BackHandler,
   navigation,
+  FlatList
 } from 'react-native';
-import {Overlay} from 'react-native-elements';
+import { Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
-export default function App({navigation}) {
+export default function App({ navigation }) {
   const [visible, setVisible] = useState(false);
-  const toggleOverlay = () => {setVisible(!visible)};
+  const toggleOverlay = () => { setVisible(!visible) };
   const [myCookie, setMyCookie] = useState();
+
+  useEffect(() => {
+
+    getCookie();
+  }, [])
   const getCookie = async () => {
     const cookie = await Cookie.get('203.150.107.212');
     setMyCookie(cookie);
     console.log("cookie on Profile screen ;", cookie)
-    return cookie
   }
-  console.log("cookie on Profile loop screen :" ,myCookie)
- //getCookie();
+  console.log("cookie on Profile loop screen :", myCookie)
+  //getCookie();
 
   const close = () => {
     BackHandler.exitApp();
@@ -39,25 +45,39 @@ export default function App({navigation}) {
     { id: uuid(), text: "green" },
   ])
 
+  const setAsyncLogout = async () => {
+    try {
+      await AsyncStorage.clear()
+      console.log("asyncStorage logout Active");
+      navigation.navigate('SignInScreen');
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.name}>MochiMochi</Text>
-        <Text style={styles.mail}>kim_mo27@hotmail.com</Text>
+        <FlatList
+          data={myCookie}
+          renderItem={({ item }) => (
+            <View>
+              <Text> {item['username']}hi </Text>
+            </View>
+          )}/>
         <Image
-          style={styles.Images1}
-          source={require('../../assets/images/photo/kim.png')}
+        style={styles.Images1}
+        source={require('../../assets/images/photo/kim.png')}
         />
       </View>
 
       <View style={styles.inside}>
         <TouchableOpacity
           style={[styles.btn_main, styles.center]}
-          onPress={() => navigation.navigate('AddCar',  { paramKey: items })}>
+          onPress={() => navigation.navigate('AddCar')}>
           <Text style={[styles.text]}>ให้เช่า</Text>
         </TouchableOpacity>
 
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           <TouchableOpacity style={styles.btn1} onPress={toggleOverlay}>
             <Icon name="history" size={40} color="black" />
           </TouchableOpacity>
@@ -81,11 +101,11 @@ export default function App({navigation}) {
               color: COLORS.drakGreen,
               fontWeight: 'bold',
             }}>
-            HISTORY
+            ประวัติการให้เช่ารถ
           </Text>
         </View>
 
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           <TouchableOpacity
             style={styles.btn2}
             onPress={() => navigation.navigate('ADDRESS')}>
@@ -114,7 +134,7 @@ export default function App({navigation}) {
           </Text>
         </View>
 
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           <TouchableOpacity
             style={styles.btn3}
             onPress={() => navigation.navigate('PRIVACY')}>
@@ -131,10 +151,10 @@ export default function App({navigation}) {
           </Text>
         </View>
 
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           <TouchableOpacity
             style={styles.btn4}
-            onPress={() => navigation.navigate('PRIVACY')}>
+            onPress={() => navigation.navigate('myRental')}>
             <Icon name="heart" size={35} color="black" />
           </TouchableOpacity>
           <Text
@@ -144,11 +164,11 @@ export default function App({navigation}) {
               color: COLORS.drakGreen,
               fontWeight: 'bold',
             }}>
-            LIKE
+            ประวัติการเช่า
           </Text>
         </View>
 
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
           <TouchableOpacity
             style={styles.btn5}
             onPress={() => navigation.navigate('PRIVACY')}>
@@ -166,10 +186,10 @@ export default function App({navigation}) {
         </View>
       </View>
 
-      <View style={{flex: 1, justifyContent: 'center'}}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         <TouchableOpacity
           style={styles.btn6}
-          onPress={() => navigation.navigate('PRIVACY')}>
+          onPress={() => setAsyncLogout()}>
           <Icon name="lock" size={40} color="black" />
         </TouchableOpacity>
         <Text

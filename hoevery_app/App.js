@@ -24,7 +24,6 @@ import Profiles from './src/screen/Profiles'
 import testDeploy from './src/screen/testDeploy'
 import testRegister from './src/screen/testRegister'
 
-
 const Stack = createStackNavigator();
 function MyStack() {
   return (
