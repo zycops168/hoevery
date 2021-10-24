@@ -104,7 +104,7 @@ const myRental = ({ navigation }) => {
                                             <Text style={{ fontWeight: 'bold', color: "red" }}> {item.status}</Text>
                                         </View>
                                         <View style={styles.flat_total}>
-                                            {item.status === "success" ?
+                                            {item.status === "accept" ?
                                                 <TouchableOpacity style={styles.next_button}
                                                onPress={() => _goToPayment()}
                                                 >

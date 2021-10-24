@@ -52,11 +52,9 @@ const detailCar = ({ navigation }) => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
-    var formdata = new FormData();
-    formdata.append("uploaded_file", image, image.uri);
-
     const cookieUsername = await Cookie.get('203.150.107.212');
     setCreate(cookieUsername['username']);
+
     console.log("name : ", text_excavator_name);
     console.log("create by : ", cookieUsername['username']);
     console.log("size : ", size);
@@ -67,23 +65,20 @@ const detailCar = ({ navigation }) => {
     console.log("function : ", func);
     console.log("image : ", image);
 
-    var raw = JSON.stringify({
-      carname: text_excavator_name,
-      create_by: cookieUsername['username'],
-      type: pickerTypeValue,
-      size: size,
-      price: {
-        Daily: Price_daily,
-        Weekly: Price_weekly,
-        Monthly: Price_monthly,
-      },
-      function: func,
-      uploaded_file: image.path
-    });
+    var formdata = new FormData();
+    formdata.append("uploaded_file", image, image.path);
+    formdata.append("carname", text_excavator_name);
+    formdata.append("create_by", cookieUsername['username']);
+    formdata.append("type", pickerTypeValue);
+    formdata.append("size", size);
+    formdata.append("Daily",Price_daily);
+    formdata.append("Weekly",Price_weekly);
+    formdata.append("Monthly",Price_monthly);
+    formdata.append("function",func);
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: raw,
+      body: formdata,
       redirect: 'follow',
     };
     const response = await fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
@@ -99,10 +94,11 @@ const detailCar = ({ navigation }) => {
     }).then(image => {
       console.log('image :', image);
       setImage(image);
-      image.name = "exca1.jpg"
+      image.name = "1_crawler.png"
       image.uri = image.path;
       image.type = image.mime;
       image.dateModified = new Date();
+      // console.log("image after : ",image);
       // console.log('uri:', image.uri);
       // console.log('type:', image.type);
       // console.log('date:', image.dateModified);
@@ -121,7 +117,7 @@ const detailCar = ({ navigation }) => {
     };
     const cookie = await Cookie.get('203.150.107.212');
     console.log('cookie : ', cookie);
-    const response = await fetch(`http://203.150.107.212/file/upload-file-car?car_id=1&username=${cookie['username']}`, requestOptions);
+    const response = await fetch(`http://203.150.107.212/file/upload-file-car?car_id=22&username=${cookie['username']}`, requestOptions);
     console.log('response: ', response);
     const result = response.json();
     console.log('result', result);
@@ -136,8 +132,6 @@ const detailCar = ({ navigation }) => {
     } catch (err) { () => console.log(err) }
 
   };
-  console.log("type: :", pickerTypeValue);
-  console.log("create: :", create);
 
   return (
     <View style={styles.container}>
@@ -288,7 +282,7 @@ const detailCar = ({ navigation }) => {
           style={styles1.next_button}
           onPress={() => InsertExData()}
         >
-          <Text style={{ fontSize: 18 }}>บันทึกช้อมูล</Text>
+          <Text style={{ fontSize: 18 }}>บันทึกข้อมูล</Text>
         </TouchableOpacity>
       </View>
     </View>

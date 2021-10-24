@@ -22,7 +22,6 @@ export default function AddCar({ navigation, route }) {
   useEffect(() => {
     getExData();
     getNotiData();
-    Badge();
     // const dataInterval = setInterval(() => getExData(), 5 * 1000);
     // return () => clearInterval(dataInterval);
   }, []);
@@ -58,7 +57,7 @@ export default function AddCar({ navigation, route }) {
     const response = await fetch(`http://203.150.107.212/lessor/order?username=${cookie['username']}`, requestOptions)
     const result = await response.text();
     const countData = await JSON.parse(result);
-    setCount(countData.data.waiting);
+    setCount(countData.data);
     console.log("count : ", countData.data.waiting);
 
   }
@@ -99,7 +98,7 @@ export default function AddCar({ navigation, route }) {
             fontSize: 13,
           }
         }>
-          {/* {count.count} */}10
+          {count.waiting}
         </Text>
 
       </View>
@@ -175,6 +174,8 @@ export default function AddCar({ navigation, route }) {
           <TouchableOpacity styles={{}}
             onPress={() => navigation.navigate('notify')}>
             <Icon name="bell" size={30} />
+            <Badge/ >
+{/*             
             <FlatList
             data={count}
             renderItem={({item}) => (
@@ -201,7 +202,7 @@ export default function AddCar({ navigation, route }) {
                 </Text>
               </View>
             )}
-            />
+            /> */}
           </TouchableOpacity>
         </View>
       </View>

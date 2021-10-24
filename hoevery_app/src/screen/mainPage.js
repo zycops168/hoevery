@@ -10,7 +10,6 @@ import { styles } from '../style';
 import { SpeedDial, LinearProgress } from 'react-native-elements';
 import Cookie from 'react-native-cookie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 const Header_looking = () => {
