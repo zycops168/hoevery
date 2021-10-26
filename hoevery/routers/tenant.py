@@ -159,7 +159,7 @@ async def create_order(response: Response, request: schemas.RentalForm):
                 if hasattr(newOrder, key):
                     print("key", key)
                     if key == "rental_by":
-                        setattr(newOrder, "rental_by_id", rental_by_id.username)
+                        setattr(newOrder, "rental_by_id", rental_by_id.id)
                     else:
                         setattr(newOrder, key, data.get(key))
                         setattr(newOrder, "owner_car", ownerCar.username)
