@@ -159,7 +159,7 @@ async def create_order(response: Response, request: schemas.RentalForm):
                 if hasattr(newOrder, key):
                     print("key", key)
                     if key == "rental_by":
-                        setattr(newOrder, "rental_by_id", rental_by_id.id)
+                        setattr(newOrder, "rental_by_id", rental_by_id.username)
                     else:
                         setattr(newOrder, key, data.get(key))
                         setattr(newOrder, "owner_car", ownerCar.username)
@@ -200,7 +200,9 @@ async def paymant(request: schemas.PaymentForm, response: Response):
     with SessionContext() as se:
         try:
             order_id = se.query(db.order).filter(db.order.id == data['order_id']).first().id
-
+            rental_by_username = (
+                se.query(db.user).filter(db.user.id == data["rental_by_id"]).first()
+            ).username
             if not order_id:
                 response.status_code = status.HTTP_404_NOT_FOUND
                 return dict(ret=-1, msg="Order not found")
@@ -208,6 +210,10 @@ async def paymant(request: schemas.PaymentForm, response: Response):
             newPayment = db.payment()
             for key in data:
                 if hasattr(newPayment, key):
+                    if key == "rental_by":
+                        setattr(newOrder, "rental_by", rental_by_username)
+                    else:
+                        setattr(newOrder, key, data.get(key))
                     setattr(newPayment, key, data.get(key))
             
             se.add(newPayment)

@@ -115,7 +115,7 @@ class InsertImageCarForm(BaseModel):
 
 
 class PaymentForm(BaseModel):
-    rental_by : str
+    rental_by_id : int
     car_id : int
     price : int
     rental_agreement : str
