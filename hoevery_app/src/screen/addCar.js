@@ -174,35 +174,7 @@ export default function AddCar({ navigation, route }) {
           <TouchableOpacity styles={{}}
             onPress={() => navigation.navigate('notify')}>
             <Icon name="bell" size={30} />
-            <Badge/ >
-{/*             
-            <FlatList
-            data={count}
-            renderItem={({item}) => (
-              <View style={
-                {
-                  width: 19,
-                  height: 19,
-                  borderRadius: 18,
-                  backgroundColor: 'red',
-                  position: 'absolute',
-                  left: 15,
-                  top: -5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }
-              }>
-                <Text style={
-                  {
-                    color: "#fff",
-                    fontSize: 13,
-                  }
-                }>
-                  {item.waiting}10
-                </Text>
-              </View>
-            )}
-            /> */}
+            <Badge />
           </TouchableOpacity>
         </View>
       </View>

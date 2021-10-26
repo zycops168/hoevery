@@ -23,9 +23,9 @@ const myRental = ({ navigation }) => {
         const response = await fetch(`http://203.150.107.212/tenant/history-order?username=${cookie['username']}`, requestOptions);
         const result = await response.text();
         const listNotiData = await JSON.parse(result);
-        // console.log(listNotiData);
+        console.log(listNotiData);
         setNotifyData(listNotiData.data);
-        console.log("2" ,listNotiData.data[2].status);
+        // console.log("2" ,listNotiData.data[2].status);
     }
     const Header = () => {
         return (
