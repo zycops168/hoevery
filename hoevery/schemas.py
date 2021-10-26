@@ -126,7 +126,7 @@ class PaymentForm(BaseModel):
     class Config:
         title = "[TENANT] payment"
         schema_extra = dict(example=dict(
-            rental_by = 'admin',
+            rental_by_id = 1,
             car_id = 1,
             price = 123,
             rental_agreement = 'Daily',

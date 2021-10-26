@@ -210,11 +210,9 @@ async def paymant(request: schemas.PaymentForm, response: Response):
             newPayment = db.payment()
             for key in data:
                 if hasattr(newPayment, key):
-                    if key == "rental_by":
-                        setattr(newOrder, "rental_by", rental_by_username)
-                    else:
-                        setattr(newOrder, key, data.get(key))
                     setattr(newPayment, key, data.get(key))
+                elif key == "rental_by_id":
+                    setattr(newPayment, "rental_by", rental_by_username)
             
             se.add(newPayment)
             se.commit()
