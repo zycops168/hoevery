@@ -8,7 +8,6 @@ import {styles} from '../style';
 import SignInScreen from './src/screen/SignInScreen';
 import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
-import getDetail from './src/screen/getDetail';
 import getDetailCar from './src/screen/getDetailCar';
 import detailCar from './src/screen/detailCar';
 import AddCar from './src/screen/addCar';
@@ -25,7 +24,6 @@ import Profiles from './src/screen/Profiles'
 import testDeploy from './src/screen/testDeploy'
 import testRegister from './src/screen/testRegister'
 
-
 const Stack = createStackNavigator();
 function MyStack() {
   return (
@@ -38,7 +36,6 @@ function MyStack() {
       <Stack.Screen name="SignInScreen" component={SignInScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="getDetail" component={getDetail} />
       <Stack.Screen name="getDetailCar" component={getDetailCar} />
       <Stack.Screen name="detailCar" component={detailCar} />
       <Stack.Screen name="AddCar" component={AddCar} />
@@ -52,7 +49,6 @@ function MyStack() {
       <Stack.Screen name="myRental" component={myRental} />
       <Stack.Screen name="afterPayment" component={afterPayment} />
       <Stack.Screen name="Profiles" component={Profiles} />
-      
       <Stack.Screen name="testDeploy" component={testDeploy} />
       <Stack.Screen name="testRegister" component={testRegister} />
     </Stack.Navigator>

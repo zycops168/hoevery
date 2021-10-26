@@ -5,15 +5,11 @@ import {
   View,
   TouchableOpacity,
   Image,
-  TouchableOpacityBase,
 } from 'react-native';
 import { styles } from '../style';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { SpeedDial, LinearProgress } from 'react-native-elements';
-import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 const Header_looking = () => {
@@ -101,8 +97,13 @@ const Body = () => {
   );
 };
 
+
 const mainPage = ({ navigation }) => {
   const [myCookie, setMyCookie] = useState();
+
+  useEffect( () => {
+    getCookie();
+  }, [])
   const getCookie = async () => {
 
     const cookie = await Cookie.get('203.150.107.212');
@@ -111,16 +112,14 @@ const mainPage = ({ navigation }) => {
     return cookie
   }
   console.log("cookie on mainPage loop screen :", myCookie)
-
   const setAsyncLogout = async () => {
-      try {
-        await AsyncStorage.clear()
-        console.log(user)
-        console.log("asyncStorage logout Active");
-        navigation.navigate('SignInScreen');
-      } catch (e) {
-        console.log(error);
-      }
+    try {
+      await AsyncStorage.clear()
+      console.log("asyncStorage logout Active");
+      navigation.navigate('SignInScreen');
+    } catch (e) {
+      console.log(e);
+    }
   }
   const Footer = () => {
     return (
@@ -130,7 +129,6 @@ const mainPage = ({ navigation }) => {
           onPress={() => {
             navigation.navigate('findCar');
             console.log('next page');
-            getCookie();
           }}>
           <Text style={{ fontSize: 18, fontWeight: 'bold', color: COLORS.drakGreen }}>
             {' '}
@@ -168,7 +166,7 @@ const mainPage = ({ navigation }) => {
           color={COLORS.primary}
           icon={{ name: 'logout', color: COLORS.secondary }}
           title="Logout"
-          onPress={() =>{setAsyncLogout()}}
+          onPress={() => setAsyncLogout()}
         />
       </SpeedDial>
     </View>
@@ -264,21 +262,3 @@ const styles1 = StyleSheet.create({
   },
 });
 export default mainPage;
-
-//  {/* body */}
-//  <View style={styles1.body}>
-//  {/* <View style={styles1.rent_btn}>
-//  <TouchableOpacity style={styles1.footer}
-//           onPress={()=> navigation.navigate('AddCar')}>
-//      <Icon name="user" size={50} color="#900" />
-//      {/* <Text styles={styles1.text_select}>Provider</Text>
-//      </TouchableOpacity>
-//  </View>   */}
-//  {/* <View style={styles1.customer_btn}> */}
-
-//      />
-//      {/* <Icon name="car" size={50} color="#900" />    */}
-//      {/* <Text style={styles1.text_select}> Customers</Text> */}
-//      </TouchableOpacity>
-//     </View>
-//  </View>

@@ -166,7 +166,7 @@ export default class payment extends Component {
   }
 
   render() {
-    const {username, price} = this.props.route.params;
+    const {username, price} = "";
     console.log(price);
 
     return (

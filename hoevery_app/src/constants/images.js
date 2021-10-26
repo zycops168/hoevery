@@ -16,6 +16,7 @@ const mini_crawler = require('../../assets/images/type_ex/6_mini_crawler.png');
 // user ICON Marker
 const user_marker = require('../../assets/images/banner/user_onMap.png')
 
+const user_detail_car = require('../../assets/images/banner/user.png')
 export default {
   facebookLogo,
   googleLogo,
@@ -28,5 +29,6 @@ export default {
   skid_steel,
   long_reach,
   mini_crawler,
-  user_marker  
+  user_marker,
+  user_detail_car,
 };

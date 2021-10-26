@@ -145,7 +145,7 @@ export default class listCar extends Component {
       this.setState({username: cookie})
     }
    // getCookie();
-    const {username} = "charmuar";
+    const {username} = "";
     console.log("cookie on username (listcar screen ): ", username);
     return (
       <View style={styles_local.container}>

@@ -135,55 +135,33 @@ export default class getDetailCar extends Component {
       alert(err);
     }
   };
-  postOrder = () => {
-    console.log('postOrder Active');
-    this.toggleOverlay;
-    var id = 0;
-    if (id !== 9999) {
-      id += 1;
-      return;
-    }
-    console.log(id);
-    // var myHeaders = new Headers();
-    // myHeaders.append('Content-Type', 'application/json');
-    // var raw = JSON.stringify({
-    //   orderID: id,
-    // },
-    // );
-    // var requestOptions = {
-    //   method: 'POST',
-    //   headers: myHeaders,
-    //   body: raw,
-    //   redirect: 'follow',
-    // };
-    // const response = await fetch('', requestOptions)
-    // const json = await response.json();
-    // console.log(json);
-    this.setState({isLoading: true});
-    this.props.navigator.navigate('mainPage');
-  };
-
-  toggleOverlay = () => {
-    this.setState({visible: !this.state.visible});
-  };
-
-  fetchTime = (d, t) => {
-    this.setState(state => ({distance: d, time: t.toFixed(2)}));
-  };
-
-  renderLoading = () => {
-    if (!this.state.loading) return null;
-    console.log('loading ....' + this.state.loading);
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: COLORS.darkGray,
-        }}>
-        <ActivityIndicator animating size="large" />
-      </View>
+  postOrder = async () => {
+    console.log("postOrder Active")
+    const cookie = await Cookie.get('203.150.107.212');
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    var raw = JSON.stringify({
+      car_id: this.props.route.params.car_id,
+      rental_by: cookie['username'],
+      status: "waiting"
+    },
     );
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    const response = await fetch(`http://203.150.107.212/tenant/create-order`, requestOptions)
+    const json = await response.json();
+    console.log(json);
+    this.setState({ isLoading: true });
+    this.props.navigation.navigate('mainPage')
+  };
+
+
+   toggleOverlay = () => {
+    this.setState({ visible: !this.state.visible });
   };
 
   render() {
@@ -431,51 +409,47 @@ export default class getDetailCar extends Component {
                     Function :<Text> {this.state._function}</Text>
                   </Text>
 
-                  <Picker
-                    style={styles.picker}
-                    selectedValue={this.state.pickerPrice}
-                    // onValueChange={itemValue => setPickerItemValue(itemValue)}>
-                    onValueChange={itemValue =>
-                      this.setState({pickerPrice: itemValue})
-                    }>
-                    <Picker.Item label="รายวัน" value={this.state.priceDaily} />
-                    <Picker.Item
-                      label="รายสัปดาห์"
-                      value={this.state.priceWeekly}
-                    />
-                    <Picker.Item
-                      label="รายเดือน"
-                      value={this.state.priceMonthly}
-                    />
-                  </Picker>
-                </View>
-              </View>
-            </ScrollView>
-          {/* footer */}
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={styles.btn_readmore}
-              onPress={() =>
-                this.props.navigation.navigate('payment', {username: username})
-              }>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}}>หน้าหลัก</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.btn_readmore}
-              onPress={this.toggleOverlay}>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}}>ยืนยัน</Text>
-              <Overlay
-                isVisible={this.state.visible}
-                onBackdropPress={this.toggleOverlay}
-                onPress={() => postOrder}
-                overlayStyle={{
-                  backgroundColor: COLORS.white,
-                  borderRadius: 20,
-                }}>
-                <View style={styles.overlay_container}>
-                  <TouchableOpacity
-                    onPress={() => this.postOrder}
-                    style={{
+              <Picker
+                style={styles.picker}
+                selectedValue={this.state.pickerPrice}
+                // onValueChange={itemValue => setPickerItemValue(itemValue)}>
+                onValueChange={itemValue =>
+                  this.setState({ pickerPrice: itemValue })
+                }>
+                <Picker.Item label="รายวัน" value={this.state.priceDaily} />
+                <Picker.Item label="รายสัปดาห์" value={this.state.priceWeekly} />
+                <Picker.Item label="รายเดือน" value={this.state.priceMonthly} />
+              </Picker>
+            </View>
+          </View>
+        </View>
+        {/* Render */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.btn_readmore}
+            onPress={() =>
+              this.props.navigation.navigate('mainPage', { username: username })
+            }>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>หน้าหลัก</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.btn_readmore}
+            onPress={this.postOrder}
+            >
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>ยืนยัน</Text>
+            <Overlay
+              isVisible={this.state.visible}
+              onBackdropPress={this.toggleOverlay}
+              onPress={this.toggleOverlay}
+              overlayStyle={{
+                backgroundColor: COLORS.white,
+                borderRadius: 20,
+              }}>
+              <View style={styles.overlay_container}>
+                <TouchableOpacity
+                  onPress={() => { }}
+                  style={
+                    {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
