@@ -12,7 +12,7 @@ buildscript {
         supportLibVersion   = "30.0.2"
         playServicesVersion = "17.0.0" // or find latest version
         // androidMapsUtilsVersion = "2.2.5"
-        androidMapsUtilsVersion = "1.2.1"
+        androidMapsUtilsVersion = "2.3.0"
     }
     repositories {
         google()

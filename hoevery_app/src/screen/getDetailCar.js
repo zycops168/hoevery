@@ -16,7 +16,7 @@ import MapView, {
   Callout,
   Polygon,
   Circle,
-  AnimatedRegion 
+  AnimatedRegion,
 } from 'react-native-maps';
 import {LinearProgress, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -48,11 +48,11 @@ export default class getDetailCar extends Component {
       latitude: 0,
       longitude: 0,
       error: null,
-      // destinationCords: {latitude: '', longitude: ''},
       CarLatitude: '',
       CarLongitude: '',
       distance: '',
       time: '',
+      showInfo: true,
     };
     this.mapRef = React.createRef();
     this.makerRef = React.createRef();
@@ -168,7 +168,7 @@ export default class getDetailCar extends Component {
   };
 
   fetchTime = (d, t) => {
-    this.setState(state => ({distance: d, time: t}));
+    this.setState(state => ({distance: d, time: t.toFixed(2)}));
   };
 
   renderLoading = () => {
@@ -220,7 +220,7 @@ export default class getDetailCar extends Component {
     const {username} = {};
 
     return (
-      <View style={styles.body}>
+      <View style={styles.container}>
         {/* header */}
         <View style={{flexDirection: 'row', backgroundColor: COLORS.primary}}>
           <TouchableOpacity
@@ -272,101 +272,104 @@ export default class getDetailCar extends Component {
               console.log('press filter button')
             }></TouchableOpacity>
         </View>
-
-        {/* google Map */}
-        {this.state.loading ? (
-          <View
-            style={{
-              paddingVertical: 20,
-              borderTopWidth: 1,
-              borderColor: COLORS.darkGray,
-            }}>
-            <ActivityIndicator animating size="large" />
-          </View>
-        ) : (
-          <View style={styles.body_shadow}>
-            <MapView
-              ref={this.mapRef}
-              provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              region={{
-                latitude: this.state.latitude,
-                longitude: this.state.longitude,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
+        
+        <View style={styles.body}>
+          {/* google Map */}
+          {this.state.loading ? (
+            <View
+              style={{
+                paddingVertical: 20,
+                borderTopWidth: 1,
+                borderColor: COLORS.darkGray,
               }}>
-              <Marker
-                coordinate={{
-                  latitude: this.state.CarLatitude,
-                  longitude: this.state.CarLongitude,
-                }}
-                image={require('../../assets/images/banner/map_mark.png')}
-                title="Excavator01"
-                description="tel: 082-1234567"
-                onCalloutPress={() => this.props.navigation.navigate('inSpect')}
-              />
-
-              <MapViewDirections
-                origin={{
+              <ActivityIndicator animating size="large" />
+            </View>
+          ) : (
+            <View style={styles.body_shadow}>
+              <MapView
+                ref={this.mapRef}
+                provider={PROVIDER_GOOGLE}
+                style={styles.map}
+                region={{
                   latitude: this.state.latitude,
                   longitude: this.state.longitude,
-                }}
-                destination={{
-                  latitude: this.state.CarLatitude,
-                  longitude: this.state.CarLongitude,
-                }}
-                apikey={GOOGLE_MAP_KEY}
-                strokeWidth={6}
-                strokeColor="dodgerblue"
-                optimizeWaypoints={true}
-                onStart={params => {
-                  console.log(
-                    `Started routing between "${this.state.latitude}, ${this.state.longitude} " and "${this.state.CarLatitude}, ${this.state.CarLongitude}"`,
-                  );
-                }}
-                onReady={result => {
-                  console.log(`Distance: ${result.distance} km`);
-                  console.log(`Duration: ${result.duration} min.`);
-                  this.fetchTime(result.distance, result.duration),
-                    this.mapRef.current.fitToCoordinates(result.coordinates, {
-                      edgePadding: {
-                        // right: 30,
-                        // bottom: 300,
-                        // left: 30,
-                        // top: 100,
-                      },
-                    });
-                }}
-                onError={errorMessage => {
-                  // console.log('GOT AN ERROR');
-                }}
-              />
-
-              <Marker
-                coordinate={{
-                  latitude: this.state.latitude,
-                  longitude: this.state.longitude,
-                }}
-                // image={require('../../assets/images/banner/user_onMap.png')}
-                title="Excavator01"
-                description="tel: 082-1234567">
-                <Image
-                  source={images.user_marker}
-                  style={{width: 50, height: 50}}
-                  resizeMode="contain"
+                  latitudeDelta: 0.015,
+                  longitudeDelta: 0.0121,
+                }}>
+                <Marker
+                  coordinate={{
+                    latitude: this.state.CarLatitude,
+                    longitude: this.state.CarLongitude,
+                  }}
+                  image={require('../../assets/images/banner/map_mark.png')}
+                  title="Excavator01"
+                  description="tel: 082-1234567"
+                  onCalloutPress={() =>
+                    this.props.navigation.navigate('inSpect')
+                  }
                 />
-              </Marker>
-              <Circle
-                center={{
-                  latitude: this.state.latitude,
-                  longitude: this.state.longitude,
-                }}
-                radius={1500}
-                fillColor={'rgba(200, 300, 200, 0.5)'}
-                strokeWidth={0}
-              />
 
-              {/* <Marker
+                <MapViewDirections
+                  origin={{
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude,
+                  }}
+                  destination={{
+                    latitude: this.state.CarLatitude,
+                    longitude: this.state.CarLongitude,
+                  }}
+                  apikey={GOOGLE_MAP_KEY}
+                  strokeWidth={6}
+                  strokeColor="dodgerblue"
+                  optimizeWaypoints={true}
+                  onStart={params => {
+                    console.log(
+                      `Started routing between "${this.state.latitude}, ${this.state.longitude} " and "${this.state.CarLatitude}, ${this.state.CarLongitude}"`,
+                    );
+                  }}
+                  onReady={result => {
+                    console.log(`Distance: ${result.distance} km`);
+                    console.log(`Duration: ${result.duration} min.`);
+                    this.fetchTime(result.distance, result.duration),
+                      this.mapRef.current.fitToCoordinates(result.coordinates, {
+                        edgePadding: {
+                          // right: 30,
+                          // bottom: 300,
+                          // left: 30,
+                          // top: 100,
+                        },
+                      });
+                  }}
+                  onError={errorMessage => {
+                    // console.log('GOT AN ERROR');
+                  }}
+                />
+
+                <Marker
+                  coordinate={{
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude,
+                  }}
+                  // image={require('../../assets/images/banner/user_onMap.png')}
+                  title="Excavator01"
+                  description="tel: 082-1234567">
+                  <Image
+                    source={images.user_marker}
+                    style={{width: 50, height: 50}}
+                    resizeMode="contain"
+                  />
+                </Marker>
+                <Circle
+                  center={{
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude,
+                  }}
+                  radius={1500}
+                  fillColor={'rgba(200, 300, 200, 0.5)'}
+                  strokeWidth={0}
+                />
+
+                {/* <Marker
                 coordinate={{latitude: 13.9364533, longitude: 100.641779}}
                 image={require('../../assets/images/banner/map_mark.png')}
                 title="Excavator02"
@@ -386,12 +389,19 @@ export default class getDetailCar extends Component {
                   </View>
                 </Callout>
               </Marker> */}
-
-            </MapView>
-            {/*  End googleMap */}
-            <View style={styles.body_text}>
-              <View style={styles.body_text_inside}>
+              </MapView>
+              {/*  End googleMap */}
+            </View>
+          )}
+          {/* detail */}
+            <ScrollView
+              contentContainerStyle={[
+                styles.body_text,
+                {backgroundColor: 'red'},
+              ]}>
+              <View style={styles.body_text_inside_detail}>
                 <Text style={styles.text_inside}>
+                  {' '}
                   ผู้ให้เช่า :
                   <Text style={styles.text_2inside}>
                     {' '}
@@ -399,83 +409,83 @@ export default class getDetailCar extends Component {
                     {/* {detailCar.provider} */}
                   </Text>
                 </Text>
-                {/* <Text style={styles.text_2inside}> {userData[1].username}</Text> */}
-              </View>
-            </View>
-
-            <View style={styles.body_text}>
-              <View style={styles.body_text_inside}>
                 <Text style={styles.text_inside}>
+                  {' '}
                   เบอร์โทรศัพท์ :
                   <Text style={styles.text_2inside}>
                     {' '}
                     {this.state.userData.tel}
                   </Text>
                 </Text>
-              </View>
-            </View>
-          </View>
-        )}
-        <View style={styles.body_text}>
-          <View style={styles.body_text_inside_detail}>
-            <Text style={styles.text_inside}> รายละเอียด :</Text>
-            <View style={styles.body_detail}>
-              {/* <View style={styles.body_text_inside}> */}
-              <Text style={styles.text_inside_detail}>
-                Function :<Text> {this.state._function}</Text>
-              </Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={styles.text_inside}> รายละเอียด : </Text>
+                  <Text style={{color: COLORS.green}}>
+                    {' '}
+                    {this.state.time} นาที
+                  </Text>
+                  <Text> ({this.state.distance} กิโลเมตร)</Text>
+                </View>
+                <View style={styles.body_detail}>
+                  {/* <View style={styles.body_text_inside}> */}
+                  <Text style={styles.text_inside_detail}>
+                    Function :<Text> {this.state._function}</Text>
+                  </Text>
 
-              <Picker
-                style={styles.picker}
-                selectedValue={this.state.pickerPrice}
-                // onValueChange={itemValue => setPickerItemValue(itemValue)}>
-                onValueChange={itemValue =>
-                  this.setState({pickerPrice: itemValue})
-                }>
-                <Picker.Item label="รายวัน" value={this.state.priceDaily} />
-                <Picker.Item
-                  label="รายสัปดาห์"
-                  value={this.state.priceWeekly}
-                />
-                <Picker.Item label="รายเดือน" value={this.state.priceMonthly} />
-              </Picker>
-            </View>
-          </View>
-        </View>
-        {/* Render */}
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={styles.btn_readmore}
-            onPress={() =>
-              this.props.navigation.navigate('mainPage', {username: username})
-            }>
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>หน้าหลัก</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btn_readmore}
-            onPress={this.toggleOverlay}>
-            <Text style={{fontSize: 18, fontWeight: 'bold'}}>ยืนยัน</Text>
-            <Overlay
-              isVisible={this.state.visible}
-              onBackdropPress={this.toggleOverlay}
-              onPress={() => postOrder}
-              overlayStyle={{
-                backgroundColor: COLORS.white,
-                borderRadius: 20,
-              }}>
-              <View style={styles.overlay_container}>
-                <TouchableOpacity
-                  onPress={() => this.postOrder}
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Icon name="check" size={40} color={COLORS.primary} />
-                  <Text> กำลังดำเนินการ...</Text>
-                </TouchableOpacity>
+                  <Picker
+                    style={styles.picker}
+                    selectedValue={this.state.pickerPrice}
+                    // onValueChange={itemValue => setPickerItemValue(itemValue)}>
+                    onValueChange={itemValue =>
+                      this.setState({pickerPrice: itemValue})
+                    }>
+                    <Picker.Item label="รายวัน" value={this.state.priceDaily} />
+                    <Picker.Item
+                      label="รายสัปดาห์"
+                      value={this.state.priceWeekly}
+                    />
+                    <Picker.Item
+                      label="รายเดือน"
+                      value={this.state.priceMonthly}
+                    />
+                  </Picker>
+                </View>
               </View>
-            </Overlay>
-          </TouchableOpacity>
+            </ScrollView>
+          {/* footer */}
+          <View style={styles.footer}>
+            <TouchableOpacity
+              style={styles.btn_readmore}
+              onPress={() =>
+                this.props.navigation.navigate('payment', {username: username})
+              }>
+              <Text style={{fontSize: 18, fontWeight: 'bold'}}>หน้าหลัก</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btn_readmore}
+              onPress={this.toggleOverlay}>
+              <Text style={{fontSize: 18, fontWeight: 'bold'}}>ยืนยัน</Text>
+              <Overlay
+                isVisible={this.state.visible}
+                onBackdropPress={this.toggleOverlay}
+                onPress={() => postOrder}
+                overlayStyle={{
+                  backgroundColor: COLORS.white,
+                  borderRadius: 20,
+                }}>
+                <View style={styles.overlay_container}>
+                  <TouchableOpacity
+                    onPress={() => this.postOrder}
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Icon name="check" size={40} color={COLORS.primary} />
+                    <Text> กำลังดำเนินการ...</Text>
+                  </TouchableOpacity>
+                </View>
+              </Overlay>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -484,8 +494,7 @@ export default class getDetailCar extends Component {
 
 const styles = StyleSheet.create({
   map: {
-    height: '65%',
-    flex: 1,
+    height: '100%',
   },
   // Callout bubble
   bubble: {
@@ -552,15 +561,15 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   body: {
-    flex: 1,
+    flex: 7,
     backgroundColor: COLORS.white,
   },
   body_shadow: {
-    flex: 2,
+    flex: 0.8,
   },
   footer: {
-    flex: 0.3,
-    backgroundColor: COLORS.white,
+    flex: 0.1,
+    backgroundColor: 'red',
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
@@ -609,12 +618,11 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   body_text: {
-    // flex: 1,
     flexDirection: 'row',
     backgroundColor: '#fff',
     justifyContent: 'center',
     // alignItems: 'center',
-    margin: 10,
+    padding: 10,
   },
   body_detail: {
     flexDirection: 'column',
