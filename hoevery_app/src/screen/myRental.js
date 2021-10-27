@@ -4,7 +4,7 @@ import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Cookie from 'react-native-cookie';
 
-const myRental = ({ navigation }) => {
+const myRental = ({ navigation,route }) => {
 
     const [NotifyData, setNotifyData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -90,7 +90,7 @@ const myRental = ({ navigation }) => {
                                             onPress={() => { }}
                                             borderRadius={10}
                                         />
-                                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}> {'\n'}วัน/เวลาทำการ {'\n'} <Text style={{ fontSize: 12, fontWeight: 'normal' }}>{item.created_date}</Text></Text>
+                                        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{'\n'}วัน/เวลาทำการ {'\n'} <Text style={{ fontSize: 12, fontWeight: 'normal' }}>{item.created_date}</Text></Text>
                                     </View>
                                     <View style={styles.flat_grid_margin}>
                                         <View style={styles.flat_header_text}>

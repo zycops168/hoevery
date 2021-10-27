@@ -47,7 +47,6 @@ export default class getDetailCar extends Component {
   componentDidMount() {
     this.getDetailCar();
     this.getUserData();
-
   }
   getDetailCar = async () => {
     var requestOptions = {
@@ -125,9 +124,8 @@ export default class getDetailCar extends Component {
     const json = await response.json();
     console.log(json);
     this.setState({ isLoading: true });
-    this.props.navigation.navigate('mainPage')
+    this.props.navigation.navigate('myRental')
   };
-
 
    toggleOverlay = () => {
     this.setState({ visible: !this.state.visible });

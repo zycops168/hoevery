@@ -149,7 +149,6 @@ export default function AddCar({ navigation, route }) {
       </View>
     )
   }
-
   const Footer = () => {
     return (
       <View style={styles.footer}>
@@ -160,7 +159,6 @@ export default function AddCar({ navigation, route }) {
       </View>
     )
   }
-
   return (
     <View style={styles.container}>
       {/* header */}
@@ -178,7 +176,6 @@ export default function AddCar({ navigation, route }) {
           </TouchableOpacity>
         </View>
       </View>
-      {/* body */}
       {/* <Body /> */}
       <View style={styles.body}>
         <View style={
@@ -268,7 +265,7 @@ export default function AddCar({ navigation, route }) {
                           width: 50,
                           height: 20,
                           backgroundColor: COLORS.green,
-                          borderRadius: 3,
+                          borderRadius: 5,
                           justifyContent: 'center',
                           alignItems: 'center',
                         }
@@ -290,7 +287,7 @@ export default function AddCar({ navigation, route }) {
                         }
                         onPress={() => DeleteExcaData(item.id)}
                       >
-                        <Icon name="bitbucket" size={30} color="red" />
+                        <Icon name="trash" size={30} color="red" />
                       </TouchableOpacity>
                     </View>
                   </TouchableOpacity>

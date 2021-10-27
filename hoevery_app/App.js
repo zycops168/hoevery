@@ -23,6 +23,7 @@ import afterPayment from './src/screen/afterPayment';
 import Profiles from './src/screen/Profiles'
 import testDeploy from './src/screen/testDeploy'
 import testRegister from './src/screen/testRegister'
+import History from './src/screen/History';
 
 const Stack = createStackNavigator();
 function MyStack() {
@@ -51,6 +52,7 @@ function MyStack() {
       <Stack.Screen name="Profiles" component={Profiles} />
       <Stack.Screen name="testDeploy" component={testDeploy} />
       <Stack.Screen name="testRegister" component={testRegister} />
+      <Stack.Screen name="History" component={History} />
     </Stack.Navigator>
   );
 }

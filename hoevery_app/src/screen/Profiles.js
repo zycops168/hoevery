@@ -9,7 +9,7 @@ import {
   navigation,
   FlatList
 } from 'react-native';
-import { Overlay } from 'react-native-elements';
+import { colors, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
@@ -21,30 +21,45 @@ import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 export default function App({ navigation }) {
   const [visible, setVisible] = useState(false);
   const toggleOverlay = () => { setVisible(!visible) };
+  const [exData, setExData] = useState([]);
   const [myCookie, setMyCookie] = useState();
-
-  useEffect(() => {
-
-    getCookie();
-  }, [])
-  const getCookie = async () => {
-    const cookie = await Cookie.get('203.150.107.212');
-    setMyCookie(cookie);
-    console.log("cookie on Profile screen ;", cookie)
-  }
-  console.log("cookie on Profile loop screen :", myCookie)
-  //getCookie();
-
-  const close = () => {
-    BackHandler.exitApp();
-    return true;
-  };
-
   const [items, setItems] = useState([
     { id: uuid(), text: "always" },
     { id: uuid(), text: "green" },
   ])
 
+  useEffect(() => {
+    getCookie();
+    getExData();
+  }, [])
+
+  const getCookie = async () => {
+    const cookie = await Cookie.get('203.150.107.212');
+    setMyCookie(cookie);
+    console.log("cookie on Profile screen ;", cookie)
+  }
+  const getExData = async () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    const cookie = await Cookie.get('203.150.107.212');
+    // console.log("cookie on addCar screen ;", cookie)
+    const response = await fetch(`http://203.150.107.212/lessor/my-product?username=${cookie['username']}`, requestOptions);
+    // console.log(response);
+    const result = await response.json();
+    console.log("result : ", result.data.row);
+    try {
+      if (result.ret == 0) {
+        setExData(result.data.row);
+      }
+      else {
+        alert(result.msg);
+      }
+    } catch (err) {
+      alert(err)
+    }
+  }
   const setAsyncLogout = async () => {
     try {
       await AsyncStorage.clear()
@@ -54,155 +69,123 @@ export default function App({ navigation }) {
       console.log(e);
     }
   }
+  const Body = () => {
+    return (
+      <View style={styles.body}>
+        <View style={styles.margin_body}>
+          <View style={styles.body_btn}>
+            <TouchableOpacity
+              style={styles.rent_btn}
+              onPress={() => navigation.navigate('AddCar')}>
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', fontSize: 18 }}>
+                ลงทะเบียนรถใหม่
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.body_btn_2}>
+            <View style={styles.layer_left}>
+              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
+                onPress={() => navigation.navigate('History')}>
+                <Icon name="history" size={35} color="black" />
+                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
+                  {'\n'}ประวัติการให้เช่ารถ
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.layer_right}>
+              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
+                style={{ justifyContent: 'center', alignItems: 'center' }} >
+                <Icon name="building" size={35} color="black" />
+                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
+                  {'\n'}ที่อยู่
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.body_btn_3}>
+            <View style={styles.layer_left}>
+              <TouchableOpacity onPress={() => navigation.navigate('myRental')}
+                style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Icon name="heart" size={35} color="black" />
+                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
+                  ประวัติการเช่า
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.layer_right}>
+              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
+                onPress={() => navigation.navigate('PRIVACY')}>
+                <Icon name="eye-slash" size={35} color="black" />
+                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
+                  PRIVACY
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.body_btn_4}>
+            <View style={styles.layer_right}>
+              <TouchableOpacity onPress={() => navigation.navigate('PRIVACY')}
+                style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Icon name="info" size={35} color="black" />
+                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
+                  HELP
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </View>
+
+    )
+  }
+  const Footer = () => {
+    return (
+      <View style={styles.footer}>
+        <View style={styles.footer_btn}>
+          <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
+            onPress={() => setAsyncLogout()}>
+            <Icon name="lock" size={40} color="black" />
+            <Text style={{ fontSize: 15, color: 'black', fontWeight: 'bold', }}>
+              LOGOUT
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+      </View>
+    )
+  }
+  console.log("cookie on Profile loop screen :", myCookie)
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <FlatList
-          data={myCookie}
-          renderItem={({ item }) => (
-            <View>
-              <Text> {item['username']}hi </Text>
-            </View>
-          )}/>
-        <Image
-        style={styles.Images1}
-        source={require('../../assets/images/photo/kim.png')}
-        />
-      </View>
-
-      <View style={styles.inside}>
-        <TouchableOpacity
-          style={[styles.btn_main, styles.center]}
-          onPress={() => navigation.navigate('AddCar')}>
-          <Text style={[styles.text]}>ให้เช่า</Text>
-        </TouchableOpacity>
-
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <TouchableOpacity style={styles.btn1} onPress={toggleOverlay}>
-            <Icon name="history" size={40} color="black" />
+        <View style={styles.header_text}>
+          <TouchableOpacity  style={{width:110,height:"100%"}}
+          onPress={() => {}} >
+          <Image
+            style={
+              {
+                width: 85,
+                height: 85,
+                borderRadius: 50,
+              }
+            }
+            source={require('../../assets/images/photo/kim.png')}
+          />
           </TouchableOpacity>
-
-          {/* <Overlay onBackdropPress={toggleOverlay}>  
-            <View style={styles.inbutton}>
-              <Text style={styles.text}>HISTORY</Text>  
-              <TouchableOpacity style={[styles.btnModel,styles.center]} 
-              onPress={close} >
-                <Text style={[styles.text]}>
-                  CLOSE
-                </Text>
-              </TouchableOpacity>   
-            </View> 
-          </Overlay>     */}
-
-          <Text
-            style={{
-              bottom: 10,
-              left: 35,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            ประวัติการให้เช่ารถ
-          </Text>
-        </View>
-
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <TouchableOpacity
-            style={styles.btn2}
-            onPress={() => navigation.navigate('ADDRESS')}>
-            <Icon name="building" size={40} color="black" />
-          </TouchableOpacity>
-
-          {/* <Overlay onBackdropPress={toggleOverlay}>  
-            <View style={styles.inbutton}>
-              <Text style={styles.text}>ADDRESS</Text>  
-              <TouchableOpacity style={[styles.btnModel,styles.center]} onClose={() => setOpen(!open)}>
-                <Text style={[styles.text]}>
-                  CLOSE
-                </Text>
-              </TouchableOpacity>                  
-            </View> 
-        </Overlay>   */}
-
-          <Text
-            style={{
-              bottom: 73,
-              left: 148,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            ADDRESS
-          </Text>
-        </View>
-
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <TouchableOpacity
-            style={styles.btn3}
-            onPress={() => navigation.navigate('PRIVACY')}>
-            <Icon name="eye-slash" size={40} color="black" />
-          </TouchableOpacity>
-          <Text
-            style={{
-              bottom: 137,
-              left: 255,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            PRIVACY
-          </Text>
-        </View>
-
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <TouchableOpacity
-            style={styles.btn4}
-            onPress={() => navigation.navigate('myRental')}>
-            <Icon name="heart" size={35} color="black" />
-          </TouchableOpacity>
-          <Text
-            style={{
-              bottom: 90,
-              left: 90,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            ประวัติการเช่า
-          </Text>
-        </View>
-
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <TouchableOpacity
-            style={styles.btn5}
-            onPress={() => navigation.navigate('PRIVACY')}>
-            <Icon name="info" size={40} color="black" />
-          </TouchableOpacity>
-          <Text
-            style={{
-              bottom: 155,
-              left: 227,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            HELP
-          </Text>
+          <View style={styles.header_name}>
+          <Text style={{fontWeight:'bold',fontSize:18}}>ID: CHARMUAR{'\n'}</Text>
+          <Text style={{fontWeight:'normal'}}>จำนวนรถในคลัง : </Text>
         </View>
       </View>
-
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <TouchableOpacity
-          style={styles.btn6}
-          onPress={() => setAsyncLogout()}>
-          <Icon name="lock" size={40} color="black" />
-        </TouchableOpacity>
-        <Text
-          style={{
-            top: 240,
-            left: 135,
-            fontSize: 15,
-            color: 'black',
-            fontWeight: 'bold',
-          }}>
-          LOGOUT
-        </Text>
-      </View>
+        </View>  
+      {/* Body */}
+      <Body />
+      {/* Footer */}
+      <Footer />
     </View>
   );
 }
@@ -210,146 +193,143 @@ export default function App({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.gray,
-    alignItems: 'center',
-    height: 750,
+    flex: 1
   },
-
-  modelButton: {
-    flex: 0.1,
+  header: {
+    backgroundColor: COLORS.white,
+    flex: 0.2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+  },
+  body: {
+    backgroundColor: 'white',
+    flex: 0.8
+  },
+  footer: {
+    flex: 0.2,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    padding: 10,
+  },
+  // another style 
+  header_text: {
+    padding: 10,
+    width: '100%',
+    height: 110,
+    flexDirection: 'row',
     backgroundColor: COLORS.primary,
-    borderRadius: 100,
-    borderWidth: 1,
-    width: 140,
-    height: 30,
-    top: 350,
-    left: 100,
+    borderRadius: 10,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 4,
+  },
+  margin_body: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'orange',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
     elevation: 10,
   },
-
-  center: {
+  body_btn: {
+    flex: 0.4,
+    backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-  text: {
-    fontSize: 23,
-    color: 'black',
-    fontWeight: '600',
-    fontFamily: 'Avenir',
-  },
-
-  btnModel: {
-    flex: 1,
-    alignSelf: 'center',
-    margin: 240,
-    top: 200,
-    width: 150,
-    borderRadius: 100 / 2,
-    shadowColor: COLORS.drakGreen,
-    shadowOpacity: 0.5,
-    backgroundColor: COLORS.primary,
-    elevation: 10,
-  },
-
-  header: {
-    backgroundColor: COLORS.primary,
-    alignItems: 'flex-start',
+  body_btn_2: {
+    flex: 0.4,
+    flexDirection: 'row',
+    backgroundColor: COLORS.white,
+    justifyContent: 'space-around',
     alignItems: 'center',
-    height: 115,
-    width: 400,
+    padding: 5,
   },
-
-  Images1: {
-    alignSelf: 'center',
-    borderRadius: 100 / 2,
+  body_btn_3: {
+    flex: 0.4,
+    flexDirection: 'row',
+    backgroundColor: COLORS.white,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 5,
+  },
+  body_btn_4: {
+    flex: 0.4,
+    flexDirection: 'row',
+    backgroundColor: COLORS.white,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 5,
+  },
+  footer_btn: {
     width: 90,
     height: 90,
-    top: -40,
-    right: 95,
+    backgroundColor: COLORS.white,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 10,
   },
-
-  name: {
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: 25,
-    top: 25,
-    left: 60,
-  },
-  mail: {
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: 15,
-    top: 30,
-    left: 77,
-  },
-
-  inside: {
-    backgroundColor: 'white',
-    borderRadius: 100 / 2,
-    position: 'absolute',
-    top: 133,
-    height: 500,
-    width: 350,
-  },
-
-  btn_main: {
-    flex: 1,
-    margin: 60,
-    left: 30,
-    width: 170,
-    borderRadius: 100 / 2,
-    shadowColor: COLORS.drakGreen,
-    shadowOpacity: 0.5,
+  rent_btn: {
+    width: 200,
+    height: 80,
     backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 12,
+  },
+  layer_left: {
+    width: 130,
+    height: 100,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
     elevation: 10,
   },
-
-  inbutton: {
-    // paddingTop:20,
-    // margin: 20,
-    //position: 'absolute',
-    borderRadius: 10,
-    backgroundColor: COLORS.gray,
-    width: 340,
-    height: 550,
-    alignSelf: 'center',
-  },
-
-  btn1: {
-    bottom: 20,
-    left: 48,
-  },
-  btn2: {
-    bottom: 85,
-    left: 165,
-  },
-  btn3: {
-    bottom: 150,
-    left: 264,
-  },
-  btn4: {
-    bottom: 100,
-    left: 88,
-  },
-  btn5: {
-    bottom: 160,
-    left: 235,
-  },
-  btn6: {
-    top: 240,
-    left: 150,
-  },
-
-  box1: {
-    borderRadius: 100 / 2,
-    position: 'absolute',
-    top: 133,
-    height: 500,
-    width: 350,
-    top: 0,
-    backgroundColor: COLORS.pink,
+  layer_right: {
+    width: 130,
+    height: 100,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
     elevation: 10,
   },
+  header_name: {
+    flex: 1,
+    justifyContent:'center',
+    alignItems:'flex-start',
+    padding:10,
+  },
+
 });
 
 //export default Profiles;
