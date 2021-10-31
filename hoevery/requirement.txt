@@ -9,3 +9,5 @@ gunicorn
 openpyxl
 pyexcel
 python-multipart
+geocoder
+geopy

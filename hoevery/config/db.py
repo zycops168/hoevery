@@ -85,6 +85,8 @@ class order(Base):
     status = Column(String)
     owner_car = Column(String)
     created_date = Column(DateTime, default=datetime.datetime.now(tz=pytz.timezone("Asia/Bangkok")))
+    price = Column(Float)
+    price_type = Column(String)
     car_id = Column(Integer, ForeignKey('CAR_FOR_RENT.id'))
     rental_by_id = Column(Integer, ForeignKey('USER.id'))
 

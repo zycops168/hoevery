@@ -93,6 +93,8 @@ class RentalForm(BaseModel):
     car_id: int
     rental_by: str
     status: str
+    price: float
+    price_type: str
 
     class Config:
         title = "[TENANT] Insert"
@@ -100,7 +102,9 @@ class RentalForm(BaseModel):
             example=dict(
                 car_id=1,
                 rental_by="admin",
-                status="waiting"
+                status="waiting",
+                price= 123,
+                price_type="Daily"
             )
         )
 

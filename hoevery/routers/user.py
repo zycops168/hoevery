@@ -41,6 +41,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 async def get_user_all():
     with SessionContext() as se:
         user = se.query(db.user).all()
+        print(type(user))
         return user
 
 @router.get("/{id}", tags=["USER"], status_code=200)
