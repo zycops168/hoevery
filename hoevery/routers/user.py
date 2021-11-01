@@ -44,7 +44,7 @@ async def get_user_all():
         print(type(user))
         return user
 
-@router.get("/{id}", tags=["USER"], status_code=200)
+#@router.get("/{id}", tags=["USER"], status_code=200)
 async def get_user_by_id(id, response: Response):    
     with SessionContext() as se:
         user = se.query(db.user).filter(db.user.id == id).first()
@@ -103,3 +103,14 @@ async def create(request: schemas.RegisterForm, response: Response):
         se.commit()
         se.refresh(newUser)
         return dict(ret=0, msg="Complete.", data= f"Hello {request.username}, Welcome  to HOEVERY")
+
+
+@router.get("/{car_id}", tags=["USER"], status_code=200)
+async def find_owner_car(car_id:int, response: Response):    
+    with SessionContext() as se:
+        owner_id = se.query(db.carForRent).filter(db.carForRent.id == 1).first().owner_id
+        owner_tel = se.query(db.user).filter(db.user.id == owner_id).first().tel
+        if not owner_tel:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return dict(ret=-1, msg="Incorrect Username or Password")
+        return dict(ret=0, msg="Complete.", data=owner_tel)

@@ -39,8 +39,8 @@ c = {"price": {"Daily": "255.00","Monthly": "1,853.00"},
             "function": "test","latitude": 13.9411105,"created_date": "null","distance": 0}
 
 # lines.sort() is more efficient than lines = lines.sorted()
-print(products)
-products.sort(key=sort_ditance, reverse=False)
+# print(products)
+# products.sort(key=sort_ditance, reverse=False)
 
 # print(b['distance'])
 # bisect.insort(_list, b['distance'])
@@ -48,7 +48,7 @@ products.sort(key=sort_ditance, reverse=False)
 # bisect.insort(_list, car[i])
 
 # printing the list
-print(products)
+# print(products)
 # Print the original data
 # print("The original JSON data:\n{0}".format(products))
 # Sort the JSON data based on the value of the brand key
@@ -59,7 +59,7 @@ print(products)
 
 # geocoder = Nominatim(user_agent="i know python")
 
-lat1, long1=(13.948239), (100.6194506)
+lat1, long1=(13.941980000000001), (100.64771)
 lat2, long2=(13.9411105), (100.6403282)
 
 place1=(lat1,long1)

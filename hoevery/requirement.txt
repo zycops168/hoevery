@@ -11,3 +11,4 @@ pyexcel
 python-multipart
 geocoder
 geopy
+googlemaps

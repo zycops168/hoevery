@@ -331,3 +331,25 @@ async def paymant(request: schemas.PaymentForm, response: Response):
         except Exception as e:
             response.status_code = status.HTTP_404_NOT_FOUND
             return dict(ret=-1, msg="Order not found")
+
+    
+@router.get("/payment", status_code=200, tags=["TENANT"])
+async def history_order(response: Response, username: str):
+    with SessionContext() as se:
+        try:
+            datauser = se.query(db.user).filter(db.user.username == username).first()
+            order = se.query(db.order).filter(db.order.rental_by_id == datauser.id).all()
+            if not order:
+                response.status_code = status.HTTP_404_NOT_FOUND
+                return dict(ret=-1, msg="Can't find the car")
+
+        except Exception as e:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return dict(ret=-1, msg="Can't find the car")
+
+        
+        return dict(
+            ret=0,
+            msg="Complete.",
+            data=order
+        )
