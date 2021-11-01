@@ -1,4 +1,4 @@
-import React, {Component,useState} from 'react';
+import React, {Component, useState} from 'react';
 import {
   Text,
   View,
@@ -17,7 +17,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
-
 
 export class RenderPrice extends Component {
   render() {
@@ -41,6 +40,42 @@ export class RenderPrice extends Component {
   }
 }
 export class RenderPayment extends Component {
+  
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       
+    }
+  }
+  
+
+  postDataAPI = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    var raw = JSON.stringify({
+      rental_by_id: this.props.params.rental_by_id,
+      car_id: this.props.params.car_id,
+      price: this.props.params.price,
+      rental_agreement: this.props.params.type,
+      address: 'bkk',
+      address_detail: 'abc village',
+      order_id: this.props.params.order_id,
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    response = await fetch('http://203.150.107.212/tenant/payment', requestOptions)
+    responeText = response.text()
+
+  };
+
   render() {
     return (
       <View
@@ -166,8 +201,7 @@ export default class payment extends Component {
   }
 
   render() {
-    const {username, price} = "";
-    console.log(price);
+    const {rental_by_id, order_id, car_id} = this.props.route.params;
 
     return (
       <KeyboardAvoidingView

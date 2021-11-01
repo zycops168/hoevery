@@ -1,36 +1,56 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   StatusBar,
-  Image
+  Image,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { LinearProgress, Button, Overlay } from 'react-native-elements';
+import {Picker} from '@react-native-picker/picker';
+import {LinearProgress, Button, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Cookie from 'react-native-cookie';
-
+import Geolocation from '@react-native-community/geolocation';
 
 import TypeWorkModel from '../models/TypeWorkModel';
 import WorkController from '../controller/WorkController';
-import { COLORS, SIZES, FONTS, icons, images } from '../constants';
-import { styles } from '../style';
+import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import {styles} from '../style';
 
-const findCar = ({ navigation }) => {
+const findCar = ({navigation}) => {
   const [myCookie, setMyCookie] = useState();
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+  const [error, setError] = useState();
   const getCookie = async () => {
     const cookie = await Cookie.get('203.150.107.212');
     setMyCookie(cookie);
-    console.log("cookie on findCar screen ;", cookie)
-    return cookie
-  }
-  console.log("cookie on findCar loop screen :" ,myCookie)
+    console.log('cookie on findCar screen ;', cookie);
+    return cookie;
+  };
+  console.log('cookie on findCar loop screen :', myCookie);
 
   const [pickerValue, setPickerItemValue] = useState('click..');
   const [visible, setVisible] = useState(false);
-  const toggleOverlay = () => {setVisible(!visible);};
+
+  useEffect(() => {
+    setTimeout(function () {
+      Geolocation.getCurrentPosition(
+        position => {
+          console.log(position);
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        error => setError(error.message),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000},
+      );
+    }, 1000);
+  }, []);
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
 
   var requestOptions = {
     method: 'GET',
@@ -39,13 +59,18 @@ const findCar = ({ navigation }) => {
 
   const getExData = () => {
     var work = new TypeWorkModel();
+    console.log('latidude ' + latitude);
+    console.log('longitude ' + longitude);
     if (pickerValue != 'none') {
       work.workname = pickerValue;
       WorkController.setWork(work);
-      navigation.navigate('listCar',);
+      navigation.navigate('listCar', {
+        lat: latitude,
+        long: longitude,
+      });
     }
   };
-  const unused = () => { 
+  const unused = () => {
     fetch(
       `http://203.150.107.212/tenant/get-car-with-type?typeOfWork=${pickerValue}`,
       requestOptions,
@@ -100,17 +125,22 @@ const findCar = ({ navigation }) => {
       return (
         <View style={styles1.header}>
           <View style={styles1.header_easy_find}>
-            <TouchableOpacity styles={{}}
+            <TouchableOpacity
+              styles={{}}
               onPress={() => navigation.navigate('mainPage')}>
               <Icon name="arrow-left" size={30} />
             </TouchableOpacity>
-            <Text style={[styles.text_header1, { color: COLORS.secondary }]}>EASY</Text>
-            <Text style={[styles.text_header1, { color: COLORS.primary }]}>FIND</Text>
+            <Text style={[styles.text_header1, {color: COLORS.secondary}]}>
+              EASY
+            </Text>
+            <Text style={[styles.text_header1, {color: COLORS.primary}]}>
+              FIND
+            </Text>
           </View>
         </View>
-      )
+      );
     }
-  }
+  };
   const Body = () => {
     return (
       <View style={styles1.body}>
@@ -144,26 +174,22 @@ const findCar = ({ navigation }) => {
           <Picker.Item label="Crowded" value="Crowded" />
         </Picker>
       </View>
-    )
-  }
+    );
+  };
   const Body_find_btn = () => {
     return (
       <View styles={styles1.body2}>
-
-        <TouchableOpacity style={styles1.find_btn}
+        <TouchableOpacity
+          style={styles1.find_btn}
           onPress={() => Check_getExData()}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Find</Text>
+          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Find</Text>
         </TouchableOpacity>
-
       </View>
-    )
-  }
+    );
+  };
   const Footer = () => {
-    return (
-      <View style={styles1.footer}>
-      </View>
-    )
-  }
+    return <View style={styles1.footer}></View>;
+  };
   return (
     // all of body 3 section header/body/footer
     <View style={styles1.container}>
@@ -244,13 +270,13 @@ const styles1 = StyleSheet.create({
   },
   find_btn: {
     backgroundColor: COLORS.primary,
-    width: "25%",
+    width: '25%',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     padding: 10,
     borderRadius: 10,
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: {width: 2, height: 2},
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,

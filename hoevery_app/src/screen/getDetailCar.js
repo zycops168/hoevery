@@ -39,7 +39,7 @@ export default class getDetailCar extends Component {
       car_id: '',
       visible: false,
       loading: true,
-      pickerPrice: '',
+      pickerPrice: {},
       priceDaily: '',
       priceWeekly: '',
       priceMonthly: '',
@@ -75,7 +75,7 @@ export default class getDetailCar extends Component {
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000},
     );
 
-    this.renderLoading();
+    // this.renderLoading();
   }
 
   getDetailCar = async () => {
@@ -94,7 +94,7 @@ export default class getDetailCar extends Component {
         this.setState({
           // loading: false,
           detailCar: result.data,
-          pickerPrice: result.data.price.Daily,
+          pickerPrice: {type: 'Daily', price: result.data.price.Daily},
           priceDaily: result.data.price.Daily,
           priceWeekly: result.data.price.Weekly,
           priceMonthly: result.data.price.Monthly,
@@ -136,32 +136,56 @@ export default class getDetailCar extends Component {
     }
   };
   postOrder = async () => {
-    console.log("postOrder Active")
+    console.log('postOrder Active');
     const cookie = await Cookie.get('203.150.107.212');
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     var raw = JSON.stringify({
       car_id: this.props.route.params.car_id,
       rental_by: cookie['username'],
-      status: "waiting"
-    },
-    );
+      status: 'waiting',
+    });
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
       body: raw,
       redirect: 'follow',
     };
-    const response = await fetch(`http://203.150.107.212/tenant/create-order`, requestOptions)
+    const response = await fetch(
+      `http://203.150.107.212/tenant/create-order`,
+      requestOptions,
+    );
     const json = await response.json();
     console.log(json);
-    this.setState({ isLoading: true });
-    this.props.navigation.navigate('mainPage')
+    this.setState({isLoading: true});
+    console.log("[getDetailCar] pickerPrice.type: " + this.state.pickerPrice.type)
+    console.log("[getDetailCar] pickerPrice.price: " + this.state.pickerPrice.price)
+    this.props.navigation.navigate('myRental', {
+      type: this.state.pickerPrice.type,
+      price: this.state.pickerPrice.price,
+    });
   };
 
+  toggleOverlay = () => {
+    this.setState({visible: !this.state.visible});
+  };
+  fetchTime = (d, t) => {
+    this.setState(state => ({distance: d, time: t.toFixed(2)}));
+  };
 
-   toggleOverlay = () => {
-    this.setState({ visible: !this.state.visible });
+  renderLoading = () => {
+    if (!this.state.loading) return null;
+    console.log('loading ....' + this.state.loading);
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: COLORS.darkGray,
+        }}>
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
   };
 
   render() {
@@ -250,7 +274,7 @@ export default class getDetailCar extends Component {
               console.log('press filter button')
             }></TouchableOpacity>
         </View>
-        
+
         <View style={styles.body}>
           {/* google Map */}
           {this.state.loading ? (
@@ -371,72 +395,75 @@ export default class getDetailCar extends Component {
               {/*  End googleMap */}
             </View>
           )}
-          {/* detail */}
-            <ScrollView
-              contentContainerStyle={[
-                styles.body_text,
-                {backgroundColor: 'red'},
-              ]}>
-              <View style={styles.body_text_inside_detail}>
-                <Text style={styles.text_inside}>
-                  {' '}
-                  ผู้ให้เช่า :
-                  <Text style={styles.text_2inside}>
-                    {' '}
-                    {this.state.detailCar.provider}
-                    {/* {detailCar.provider} */}
-                  </Text>
-                </Text>
-                <Text style={styles.text_inside}>
-                  {' '}
-                  เบอร์โทรศัพท์ :
-                  <Text style={styles.text_2inside}>
-                    {' '}
-                    {this.state.userData.tel}
-                  </Text>
-                </Text>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={styles.text_inside}> รายละเอียด : </Text>
-                  <Text style={{color: COLORS.green}}>
-                    {' '}
-                    {this.state.time} นาที
-                  </Text>
-                  <Text> ({this.state.distance} กิโลเมตร)</Text>
-                </View>
-                <View style={styles.body_detail}>
-                  {/* <View style={styles.body_text_inside}> */}
-                  <Text style={styles.text_inside_detail}>
-                    Function :<Text> {this.state._function}</Text>
-                  </Text>
+        </View>
+
+        <View style={styles.body_text}>
+          <View style={styles.body_text_inside_detail}>
+            <Text style={styles.text_inside}>
+              {' '}
+              ผู้ให้เช่า :
+              <Text style={styles.text_2inside}>
+                {' '}
+                {this.state.detailCar.provider}
+                {/* {detailCar.provider} */}
+              </Text>
+            </Text>
+            <Text style={styles.text_inside}>
+              {' '}
+              เบอร์โทรศัพท์ :
+              <Text style={styles.text_2inside}>
+                {' '}
+                {this.state.userData.tel}
+              </Text>
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.text_inside}> รายละเอียด : </Text>
+              <Text style={{color: COLORS.green}}> {this.state.time} นาที</Text>
+              <Text> ({this.state.distance} กิโลเมตร)</Text>
+            </View>
+            <View style={styles.body_detail}>
+              {/* <View style={styles.body_text_inside}> */}
+              <Text style={styles.text_inside_detail}>
+                Function :<Text> {this.state._function}</Text>
+              </Text>
 
               <Picker
                 style={styles.picker}
                 selectedValue={this.state.pickerPrice}
                 // onValueChange={itemValue => setPickerItemValue(itemValue)}>
                 onValueChange={itemValue =>
-                  this.setState({ pickerPrice: itemValue })
+                  this.setState({pickerPrice: itemValue})
                 }>
-                <Picker.Item label="รายวัน" value={this.state.priceDaily} />
-                <Picker.Item label="รายสัปดาห์" value={this.state.priceWeekly} />
-                <Picker.Item label="รายเดือน" value={this.state.priceMonthly} />
+                <Picker.Item
+                  label="รายวัน"
+                  value={{type: 'Daily', price: this.state.priceDaily}}
+                />
+                <Picker.Item
+                  label="รายสัปดาห์"
+                  value={{type: 'Weekly', price: this.state.priceWeekly}}
+                />
+                <Picker.Item
+                  label="รายเดือน"
+                  value={{type: 'Monthly', price: this.state.priceMonthly}}
+                />
               </Picker>
             </View>
           </View>
         </View>
+
         {/* Render */}
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.btn_readmore}
             onPress={() =>
-              this.props.navigation.navigate('mainPage', { username: username })
+              this.props.navigation.navigate('mainPage', {username: username})
             }>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>หน้าหลัก</Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>หน้าหลัก</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.btn_readmore}
-            onPress={this.postOrder}
-            >
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>ยืนยัน</Text>
+            onPress={this.postOrder}>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>ยืนยัน</Text>
             <Overlay
               isVisible={this.state.visible}
               onBackdropPress={this.toggleOverlay}
@@ -447,28 +474,26 @@ export default class getDetailCar extends Component {
               }}>
               <View style={styles.overlay_container}>
                 <TouchableOpacity
-                  onPress={() => { }}
-                  style={
-                    {
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Icon name="check" size={40} color={COLORS.primary} />
-                    <Text> กำลังดำเนินการ...</Text>
-                  </TouchableOpacity>
-                </View>
-              </Overlay>
-            </TouchableOpacity>
-          </View>
+                  onPress={() => {}}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Icon name="check" size={40} color={COLORS.primary} />
+                  <Text> กำลังดำเนินการ...</Text>
+                </TouchableOpacity>
+              </View>
+            </Overlay>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
   map: {
-    height: '100%',
+    height: '55%',
+    flex: 1,
   },
   // Callout bubble
   bubble: {
@@ -519,31 +544,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  header_text: {
-    padding: 10,
-    width: '100%',
-    height: 68,
-    flexDirection: 'row',
-    backgroundColor: COLORS.primary,
-    borderRadius: 10,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    shadowOffset: {width: 2, height: 2},
-    shadowColor: 'black',
-    shadowOpacity: 5.0,
-    shadowRadius: 5.0,
-    elevation: 10,
-  },
   body: {
-    flex: 7,
+    flex: 1,
     backgroundColor: COLORS.white,
   },
   body_shadow: {
-    flex: 0.8,
+    flex: 2,
   },
   footer: {
-    flex: 0.1,
-    backgroundColor: 'red',
+    flex: 0.2,
+    backgroundColor: COLORS.white,
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
@@ -554,22 +564,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   //another style without header/body/footer
-  scroll_view: {
-    width: '90%',
-    backgroundColor: COLORS.white,
-    marginHorizontal: 20,
-    paddingTop: 12,
-    paddingLeft: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 1.22,
-    elevation: 50,
-    borderRadius: 10,
-  },
   textaddbtn: {
     padding: 7,
     fontSize: 16,
@@ -592,11 +586,13 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   body_text: {
+    flex: 1,
+    height: '50%',
     flexDirection: 'row',
     backgroundColor: '#fff',
     justifyContent: 'center',
     // alignItems: 'center',
-    padding: 10,
+    padding: 5,
   },
   body_detail: {
     flexDirection: 'column',
@@ -617,7 +613,7 @@ const styles = StyleSheet.create({
   },
   body_text_inside_detail: {
     width: '90%',
-    height: 250,
+    height: 280,
     borderRadius: 10,
     backgroundColor: COLORS.white,
     padding: 10,
