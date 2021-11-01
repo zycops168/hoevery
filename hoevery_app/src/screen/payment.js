@@ -26,15 +26,15 @@ export class RenderPrice extends Component {
         <Text
           style={{
             color: COLORS.white,
-            ...FONTS.largeTitle1,
+            ...FONTS.body2,
             fontWeight: 'bold',
             marginTop: 40,
             marginBottom: 20,
           }}>
-          Total
+          ราคา
         </Text>
         <Text style={{color: COLORS.green, ...FONTS.h1}}>
-          ${this.props.price}
+         {this.props.price} บาท
         </Text>
       </View>
     );
@@ -162,13 +162,16 @@ export default class payment extends Component {
 
     this.state = {
       isEnable: true,
+      username : '',
+      price : this.props.route.params.price,
+      price_type : this.props.route.params.type_price,
     };
   }
 
   render() {
-    const {username, price} = "";
-    console.log(price);
-
+    // const {username, price} = "";
+    console.log("price:",this.props.route.params.price);
+    console.log("price:",this.props.route.params.type_price);
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -220,7 +223,7 @@ export default class payment extends Component {
             </View>
 
             <View style={{flex: 0.8}}>
-              <RenderPrice price={price} />
+              <RenderPrice price={this.props.route.params.price} />
             </View>
             <View style={{flex: 1.5, backgroundColor: COLORS.white}}>
               <RenderPayment />
@@ -249,8 +252,9 @@ export default class payment extends Component {
                 }}
                 onPress={() =>
                   this.props.navigation.navigate('afterPayment', {
-                    username: username,
-                    price: price,
+                    username: this.props.route.params.price,
+                    price: this.props.route.params.price,
+                    price_type : this.props.route.params.type_price,
                   })
                 }>
                 <Text style={{color: COLORS.white, ...FONTS.h1}}>ยืนยัน</Text>

@@ -13,7 +13,7 @@ const myRental = ({ navigation,route }) => {
         getListNotifyData();
     }, [])
     const getListNotifyData = async () => {
-
+ 
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -40,8 +40,12 @@ const myRental = ({ navigation,route }) => {
             </View>
         )
     }
-    const _goToPayment = () => {
-        navigation.navigate('payment');
+    const _goToPayment = (price, price_type) => {
+        navigation.navigate('payment', 
+        {
+            price :price,
+            type_price : price_type
+        });
     }
     const _wait = () => {
         alert('Please wait...')
@@ -106,7 +110,7 @@ const myRental = ({ navigation,route }) => {
                                         <View style={styles.flat_total}>
                                             {item.status === "accept" ?
                                                 <TouchableOpacity style={styles.next_button}
-                                               onPress={() => _goToPayment()}
+                                               onPress={() => _goToPayment(item.price, item.price_type)}
                                                 >
                                                     <Text>Next step </Text>
                                                 </TouchableOpacity> : <TouchableOpacity style={styles.wait_button}
