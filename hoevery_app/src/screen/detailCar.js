@@ -65,28 +65,69 @@ const detailCar = ({ navigation }) => {
     console.log("function : ", func);
     console.log("image : ", image);
 
-    var formdata = new FormData();
-    formdata.append("uploaded_file", image, image.path);
-    formdata.append("carname", text_excavator_name);
-    formdata.append("create_by", cookieUsername['username']);
-    formdata.append("type", pickerTypeValue);
-    formdata.append("size", size);
-    formdata.append("Daily",Price_daily);
-    formdata.append("Weekly",Price_weekly);
-    formdata.append("Monthly",Price_monthly);
-    formdata.append("function",func);
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: formdata,
-      redirect: 'follow',
-    };
-    const response = await fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
-    const json = await response.json();
-    console.log(json);
-    navigation.navigate('AddCar');
-  };
+    if (singleFile != null) {
+      // If file selected then create FormData
+      const fileToUpload = singleFile;
 
+      var formdata = new FormData();
+      formdata.append("uploaded_file", singleFile, singleFile.name);
+      formdata.append("carname", text_excavator_name);
+      formdata.append("create_by", cookieUsername['username']);
+      formdata.append("type", pickerTypeValue);
+      formdata.append("size", size);
+      formdata.append("Daily", Price_daily);
+      formdata.append("Weekly", Price_weekly);
+      formdata.append("Monthly", Price_monthly);
+      formdata.append("function", func);
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow',
+      };
+      const response = await fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
+      const json = await response.json();
+      console.log(json);
+      navigation.navigate('AddCar');
+      if (json.status == 1) {
+        alert('Upload Successful');
+      }
+      else {
+        // If no file selected the show alert
+        alert('Please Select File first');
+      }
+    }
+  };
+  const selectFile = async () => {
+    // Opening Document Picker to select one file
+    try {
+      const res = await DocumentPicker.pick({
+        // Provide which type of file you want user to pick
+        type: [DocumentPicker.types.allFiles],
+        // There can me more options as well
+        // DocumentPicker.types.allFiles
+        // DocumentPicker.types.images
+        // DocumentPicker.types.plainText
+        // DocumentPicker.types.audio
+        // DocumentPicker.types.pdf
+      });
+      // Printing the log realted to the file
+      console.log('res : ' + JSON.stringify(res));
+      // Setting the state to show single file attributes
+      setSingleFile(res);
+    } catch (err) {
+      setSingleFile(null);
+      // Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        // If user canceled the document selection
+        alert('Canceled');
+      } else {
+        // For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  };
   const chooseFromLibrary = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -94,10 +135,10 @@ const detailCar = ({ navigation }) => {
     }).then(image => {
       console.log('image :', image);
       setImage(image);
-      image.name = "1_crawler.png"
-      image.uri = image.path;
-      image.type = image.mime;
-      image.dateModified = new Date();
+      // image.uri = image.path;
+      // image.width = image.width;
+      // image.height = image.height;
+      // image.mime = image.mime;
       // console.log("image after : ",image);
       // console.log('uri:', image.uri);
       // console.log('type:', image.type);
@@ -188,7 +229,7 @@ const detailCar = ({ navigation }) => {
                 elevation: 10,
               }
             }
-              onPress={chooseFromLibrary}
+              onPress={selectFile}
             >
               <Text style={{ fontSize: 18 }}>เพิ่มรูปรถจากอัลบั้ม </Text>
             </TouchableOpacity>

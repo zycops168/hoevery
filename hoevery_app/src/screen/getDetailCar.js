@@ -25,6 +25,35 @@ import Cookie from 'react-native-cookie';
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
+const handleNotification = () => {
+  {
+    // PushNotification.cancelAllLocalNotifications()
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: 'Your' + 'order No.999',
+      message: 'READ MORE...',
+      bigText: 'There is a list of products you need to make a decision on.',
+      color: 'orange',
+      playSound: false, // (optional) default: true
+    });
+    PushNotification.localNotificationSchedule({
+      channelId: 'test-channel',
+      title: 'Your' + 'order No.999',
+      message: 'My Notification Message', // (required)
+      date: new Date(Date.now() + 20 * 1000), // in 60 secs
+      actions: ['ReplyInput'],
+      reply_placeholder_text: 'Write your response...', // (required)
+      reply_button_text: 'Reply', // (required)
+      allowWhileIdle: true,
+      playSound: false, // (optional) default: true
+    });
+    PushNotification.getChannels(function (channel_ids) {
+      console.log(channel_ids); // ['channel_id_1']
+    });
+    //  navigation.navigate('myRental', { paramKey: items })
+  }
+};
+
 export default class getDetailCar extends Component {
   constructor(props) {
     super(props);
@@ -39,9 +68,34 @@ export default class getDetailCar extends Component {
       priceDaily: '',
       priceWeekly: '',
       priceMonthly: '',
+      type_price: '',
       _function: '',
       isLoading: false,
+      loadinig_price: false,
     };
+  }
+  check_type = (item) => {
+    if (item === this.state.priceDaily) {
+      this.setState({
+        type_price: "Daily",
+        loadinig_price: true,
+      });
+
+    }
+    else if (item === this.state.priceWeekly) {
+      this.setState({
+        type_price: "Weekly",
+        loadinig_price: true,
+      });
+    }
+    else if (item === this.state.priceMonthly) {
+      this.setState({
+        type_price: "Monthly",
+        loadinig_price: true,
+      });
+    }
+    console.log("hi", this.state.type_price);
+    return this.state.type_price;
   }
 
   componentDidMount() {
@@ -111,7 +165,9 @@ export default class getDetailCar extends Component {
     var raw = JSON.stringify({
       car_id: this.props.route.params.car_id,
       rental_by: cookie['username'],
-      status: "waiting"
+      status: "waiting",
+      price: this.state.pickerPrice,
+      price_type: this.state.type_price,
     },
     );
     var requestOptions = {
@@ -125,44 +181,17 @@ export default class getDetailCar extends Component {
     console.log(json);
     this.setState({ isLoading: true });
     this.props.navigation.navigate('myRental')
+    handleNotification();
   };
 
-   toggleOverlay = () => {
+  toggleOverlay = () => {
     this.setState({ visible: !this.state.visible });
   };
 
+
   render() {
-    const handleNotification = () => {
-      {
-        // PushNotification.cancelAllLocalNotifications()
-        PushNotification.localNotification({
-          channelId: 'test-channel',
-          title: 'Your' + 'order No.999',
-          message: 'READ MORE...',
-          bigText: 'There is a list of products you need to make a decision on.',
-          color: 'orange',
-          playSound: false, // (optional) default: true
-        });
-        PushNotification.localNotificationSchedule({
-          channelId: 'test-channel',
-          title: 'Your' + 'order No.999',
-          message: 'My Notification Message', // (required)
-          date: new Date(Date.now() + 20 * 1000), // in 60 secs
-          actions: ['ReplyInput'],
-          reply_placeholder_text: 'Write your response...', // (required)
-          reply_button_text: 'Reply', // (required)
-          allowWhileIdle: true,
-          playSound: false, // (optional) default: true
-        });
-        PushNotification.getChannels(function (channel_ids) {
-          console.log(channel_ids); // ['channel_id_1']
-        });
-        //  navigation.navigate('myRental', { paramKey: items })
-      }
-    };
 
     const { username } = {};
-
     return (
       <View style={styles.body}>
         {/* header */}
@@ -296,23 +325,33 @@ export default class getDetailCar extends Component {
           <View style={styles.body_text_inside_detail}>
             <Text style={styles.text_inside}> รายละเอียด :</Text>
             <View style={styles.body_detail}>
-              {/* <View style={styles.body_text_inside}> */}
-              <Text style={styles.text_inside_detail}>
-                Function :<Text> {this.state._function}</Text>
-              </Text>
-
-              <Picker
-                style={styles.picker}
-                selectedValue={this.state.pickerPrice}
-                // onValueChange={itemValue => setPickerItemValue(itemValue)}>
-                onValueChange={itemValue =>
-                  this.setState({ pickerPrice: itemValue })
-                }>
-                <Picker.Item label="รายวัน" value={this.state.priceDaily} />
-                <Picker.Item label="รายสัปดาห์" value={this.state.priceWeekly} />
-                <Picker.Item label="รายเดือน" value={this.state.priceMonthly} />
-              </Picker>
-            </View>
+              <ScrollView style={styles.body_function}>
+                {/* <View style={styles.body_text_inside}> */}
+                <Text style={styles.text_inside_detail}>
+                  Function :<Text> {this.state._function}</Text>
+                </Text>
+              </ScrollView>
+              <View style={styles.body_price_select}>
+                <Picker
+                  style={styles.picker}
+                  selectedValue={this.state.pickerPrice}
+                  // onValueChange={itemValue => setPickerItemValue(itemValue)}>
+                  onValueChange={itemValue => {
+                    this.setState({ pickerPrice: itemValue }),
+                      this.check_type(itemValue)
+                  }
+                  }>
+                  <Picker.Item label="ประเภทการชำระเงิน" value={null} />
+                  <Picker.Item label="รายวัน" value={this.state.priceDaily} />
+                  <Picker.Item label="รายสัปดาห์" value={this.state.priceWeekly} />
+                  <Picker.Item label="รายเดือน" value={this.state.priceMonthly} />
+                </Picker>
+                {this.state.loadinig_price  ?
+                  <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 17 }}>ราคา: <Text style={{ fontWeight: 'bold', fontSize: 24 }}> {this.state.pickerPrice} บาท </Text></Text>
+                  </View> : <View><Text style={{ color: '#808080' }}>  -------------- เลือกประเภทการชำระเงิน -------------------</Text></View>}
+              </View>
+            </View> 
           </View>
         </View>
         {/* Render */}
@@ -327,7 +366,7 @@ export default class getDetailCar extends Component {
           <TouchableOpacity
             style={styles.btn_readmore}
             onPress={this.postOrder}
-            >
+          >
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>ยืนยัน</Text>
             <Overlay
               isVisible={this.state.visible}
@@ -496,6 +535,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#fff',
     justifyContent: 'center',
+    padding: 3,
   },
   body_text_inside: {
     width: '90%',
@@ -561,5 +601,16 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: 10,
     borderColor: '#000',
+  },
+  body_function: {
+
+    width: '100%',
+    height: 100,
+    padding: 3,
+  },
+  body_price_select: {
+
+    width: '100%',
+    height: 100,
   },
 });

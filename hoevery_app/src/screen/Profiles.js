@@ -84,57 +84,28 @@ export default function App({ navigation }) {
           </View>
 
           <View style={styles.body_btn_2}>
-            <View style={styles.layer_left}>
-              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
-                onPress={() => navigation.navigate('History')}>
-                <Icon name="history" size={35} color="black" />
-                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
-                  {'\n'}ประวัติการให้เช่ารถ
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.layer_right}>
-              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
-                style={{ justifyContent: 'center', alignItems: 'center' }} >
-                <Icon name="building" size={35} color="black" />
-                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
-                  {'\n'}ที่อยู่
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.body_btn_3}>
-            <View style={styles.layer_left}>
-              <TouchableOpacity onPress={() => navigation.navigate('myRental')}
-                style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Icon name="heart" size={35} color="black" />
-                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
-                  ประวัติการเช่า
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.layer_right}>
-              <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
-                onPress={() => navigation.navigate('PRIVACY')}>
-                <Icon name="eye-slash" size={35} color="black" />
-                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
-                  PRIVACY
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.body_btn_4}>
-            <View style={styles.layer_right}>
-              <TouchableOpacity onPress={() => navigation.navigate('PRIVACY')}
-                style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Icon name="info" size={35} color="black" />
-                <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
-                  HELP
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {/* <View style={styles.layer_left}> */}
+            <TouchableOpacity style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}
+              onPress={() => navigation.navigate('History')}>
+              <Icon name="history" size={33} color="black" />
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
+                ประวัติการให้เช่ารถ{'\n'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}
+              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }} >
+              <Icon name="building" size={33} color="black" />
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
+                ที่อยู่{'\n'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('myRental')}
+              style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+              <Icon name="heart" size={33} color="black" />
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
+                ประวัติการเช่า
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -163,25 +134,25 @@ export default function App({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.header_text}>
-          <TouchableOpacity  style={{width:110,height:"100%"}}
-          onPress={() => {}} >
-          <Image
-            style={
-              {
-                width: 85,
-                height: 85,
-                borderRadius: 50,
+          <TouchableOpacity style={{ width: 110, height: "100%" }}
+            onPress={() => { }} >
+            <Image
+              style={
+                {
+                  width: 85,
+                  height: 85,
+                  borderRadius: 50,
+                }
               }
-            }
-            source={require('../../assets/images/photo/kim.png')}
-          />
+              source={require('../../assets/images/photo/kim.png')}
+            />
           </TouchableOpacity>
           <View style={styles.header_name}>
-          <Text style={{fontWeight:'bold',fontSize:18}}>ID: CHARMUAR{'\n'}</Text>
-          <Text style={{fontWeight:'normal'}}>จำนวนรถในคลัง : </Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>ID: CHARMUAR{'\n'}</Text>
+            <Text style={{ fontWeight: 'normal' }}>จำนวนรถในคลัง : </Text>
+          </View>
         </View>
       </View>
-        </View>  
       {/* Body */}
       <Body />
       {/* Footer */}
@@ -208,7 +179,7 @@ const styles = StyleSheet.create({
     flex: 0.8
   },
   footer: {
-    flex: 0.2,
+    flex: 0.15,
     backgroundColor: COLORS.white,
     justifyContent: 'center',
     alignItems: 'flex-end',
@@ -248,24 +219,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   body_btn_2: {
-    flex: 0.4,
-    flexDirection: 'row',
-    backgroundColor: COLORS.white,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    padding: 5,
-  },
-  body_btn_3: {
-    flex: 0.4,
-    flexDirection: 'row',
-    backgroundColor: COLORS.white,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    padding: 5,
-  },
-  body_btn_4: {
-    flex: 0.4,
-    flexDirection: 'row',
+    flex: 0.7,
+    flexDirection: 'column',
     backgroundColor: COLORS.white,
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -297,37 +252,11 @@ const styles = StyleSheet.create({
     shadowRadius: 5.0,
     elevation: 12,
   },
-  layer_left: {
-    width: 130,
-    height: 100,
-    backgroundColor: COLORS.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    shadowOffset: { width: 3, height: 3 },
-    shadowColor: 'black',
-    shadowOpacity: 5.0,
-    shadowRadius: 5.0,
-    elevation: 10,
-  },
-  layer_right: {
-    width: 130,
-    height: 100,
-    backgroundColor: COLORS.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    shadowOffset: { width: 3, height: 3 },
-    shadowColor: 'black',
-    shadowOpacity: 5.0,
-    shadowRadius: 5.0,
-    elevation: 10,
-  },
   header_name: {
     flex: 1,
-    justifyContent:'center',
-    alignItems:'flex-start',
-    padding:10,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    padding: 10,
   },
 
 });

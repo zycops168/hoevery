@@ -99,7 +99,8 @@ const History = ({ navigation }) => {
                       {/* <Text style={FONTS.body5}>ประเภท : <Text style={{ fontWeight: 'bold' }}>null</Text></Text> */}
                     </View>
                     <View style={styles.flat_status}>
-                    <Text style={FONTS.body5}>ประเภท : <Text style={{ fontWeight: 'bold' }}>null</Text></Text>
+                    <Text style={FONTS.body5}>ผู้ให้เช่า : <Text style={{ fontWeight: 'bold' }}>{item.owner_car}</Text></Text>
+                    <Text style={FONTS.body5}>ประเภทการเช่า : <Text style={{ fontWeight: 'bold' }}>{item.price_type}</Text></Text>
                       {/* <Icon name="money" size={20} color={COLORS.drakGreen} />
                       <Text style={{ color: "#000" }}>  <Text style={{ fontWeight: 'bold' }}> total :</Text> </Text>
                       <Text style={{ fontWeight: 'bold', color: "red" }}>price</Text> */}
@@ -116,7 +117,7 @@ const History = ({ navigation }) => {
                         </TouchableOpacity>} */}
                         <Icon name="money" size={20} color={COLORS.drakGreen} />
                       <Text style={{ color: "#000" }}>  <Text style={{ fontWeight: 'bold' }}> total :</Text> </Text>
-                      <Text style={{ fontWeight: 'bold', color: "red" }}>price</Text>
+                      <Text style={{ fontWeight: 'bold', color: "red" }}>{item.price} <Text style={{color:'black'}}>บาท</Text></Text>
                     </View>
                   </View>
                 </View>
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     backgroundColor: COLORS.white,
-    flexDirection: 'row',
+    flexDirection: 'column',
     padding: 10,
     justifyContent:'center',
     alignItems:'center',
