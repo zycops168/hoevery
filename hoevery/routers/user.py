@@ -108,7 +108,7 @@ async def create(request: schemas.RegisterForm, response: Response):
 @router.get("/{car_id}", tags=["USER"], status_code=200)
 async def find_owner_car(car_id:int, response: Response):    
     with SessionContext() as se:
-        owner_id = se.query(db.carForRent).filter(db.carForRent.id == 1).first().owner_id
+        owner_id = se.query(db.carForRent).filter(db.carForRent.id == car_id).first().owner_id
         owner_tel = se.query(db.user).filter(db.user.id == owner_id).first().tel
         if not owner_tel:
             response.status_code = status.HTTP_404_NOT_FOUND
