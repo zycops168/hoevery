@@ -1,4 +1,4 @@
-import React, {Component, Profiler, useState} from 'react';
+import React, { Component, Profiler, useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,29 +7,37 @@ import {
   Image,
   BackHandler,
   navigation,
+  FlatList
 } from 'react-native';
-import {Overlay} from 'react-native-elements';
+import { colors, Overlay } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import uuid from 'uuid-random';
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import Cookie from 'react-native-cookie';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+<<<<<<< HEAD
 export default function Profiles({navigation}) {
   const [visible, setVisible] = useState(false);
 
   const toggleOverlay = () => {
     setVisible(!visible);
   };
+=======
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
 
-  const close = () => {
-    BackHandler.exitApp();
-    return true;
-  };
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
+export default function App({ navigation }) {
+  const [visible, setVisible] = useState(false);
+  const toggleOverlay = () => { setVisible(!visible) };
+  const [exData, setExData] = useState([]);
+  const [myCookie, setMyCookie] = useState();
   const [items, setItems] = useState([
     { id: uuid(), text: "always" },
     { id: uuid(), text: "green" },
   ])
 
+<<<<<<< HEAD
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -81,8 +89,91 @@ export default function Profiles({navigation}) {
             }}>
             ADDRESS
           </Text>
-        </View>
+=======
+  useEffect(() => {
+    getCookie();
+    getExData();
+  }, [])
 
+  const getCookie = async () => {
+    const cookie = await Cookie.get('203.150.107.212');
+    setMyCookie(cookie);
+    console.log("cookie on Profile screen ;", cookie)
+  }
+  const getExData = async () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    const cookie = await Cookie.get('203.150.107.212');
+    // console.log("cookie on addCar screen ;", cookie)
+    const response = await fetch(`http://203.150.107.212/lessor/my-product?username=${cookie['username']}`, requestOptions);
+    // console.log(response);
+    const result = await response.json();
+    console.log("result : ", result.data.row);
+    try {
+      if (result.ret == 0) {
+        setExData(result.data.row);
+      }
+      else {
+        alert(result.msg);
+      }
+    } catch (err) {
+      alert(err)
+    }
+  }
+  const setAsyncLogout = async () => {
+    try {
+      await AsyncStorage.clear()
+      console.log("asyncStorage logout Active");
+      navigation.navigate('SignInScreen');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  const Body = () => {
+    return (
+      <View style={styles.body}>
+        <View style={styles.margin_body}>
+          <View style={styles.body_btn}>
+            <TouchableOpacity
+              style={styles.rent_btn}
+              onPress={() => navigation.navigate('AddCar')}>
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', fontSize: 18 }}>
+                ลงทะเบียนรถใหม่
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.body_btn_2}>
+            {/* <View style={styles.layer_left}> */}
+            <TouchableOpacity style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}
+              onPress={() => navigation.navigate('History')}>
+              <Icon name="history" size={33} color="black" />
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
+                ประวัติการให้เช่ารถ{'\n'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}
+              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }} >
+              <Icon name="building" size={33} color="black" />
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
+                ที่อยู่{'\n'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('myRental')}
+              style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+              <Icon name="heart" size={33} color="black" />
+              <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold', }}>
+                ประวัติการเช่า
+              </Text>
+            </TouchableOpacity>
+          </View>
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
+        </View>
+      </View>
+
+<<<<<<< HEAD
 
         <View style={{flex: 1, justifyContent: 'center'}}>
           <TouchableOpacity
@@ -168,14 +259,46 @@ export default function Profiles({navigation}) {
             }}>
             LIKE
           </Text>
-        </View>
-
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <TouchableOpacity
-            style={styles.btn5}
-            onPress={() => navigation.navigate('PRIVACY')}>
-            <Icon name="info" size={40} color="black" />
+=======
+    )
+  }
+  const Footer = () => {
+    return (
+      <View style={styles.footer}>
+        <View style={styles.footer_btn}>
+          <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}
+            onPress={() => setAsyncLogout()}>
+            <Icon name="lock" size={40} color="black" />
+            <Text style={{ fontSize: 15, color: 'black', fontWeight: 'bold', }}>
+              LOGOUT
+            </Text>
           </TouchableOpacity>
+
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
+        </View>
+      </View>
+    )
+  }
+  console.log("cookie on Profile loop screen :", myCookie)
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View style={styles.header_text}>
+          <TouchableOpacity style={{ width: 110, height: "100%" }}
+            onPress={() => { }} >
+            <Image
+              style={
+                {
+                  width: 85,
+                  height: 85,
+                  borderRadius: 50,
+                }
+              }
+              source={require('../../assets/images/photo/kim.png')}
+            />
+          </TouchableOpacity>
+<<<<<<< HEAD
           <Text
             style={{
               bottom: 118,
@@ -205,6 +328,18 @@ export default function Profiles({navigation}) {
           LOGOUT
         </Text>
       </View>
+=======
+          <View style={styles.header_name}>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>ID: CHARMUAR{'\n'}</Text>
+            <Text style={{ fontWeight: 'normal' }}>จำนวนรถในคลัง : </Text>
+          </View>
+        </View>
+      </View>
+      {/* Body */}
+      <Body />
+      {/* Footer */}
+      <Footer />
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
     </View>
   );
 }
@@ -212,71 +347,44 @@ export default function Profiles({navigation}) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.gray,
-    alignItems: 'center',
-    height: 750,
+    flex: 1
   },
-
-  modelButton: {
-    flex: 0.1,
-    backgroundColor: COLORS.primary,
-    borderRadius: 100,
-    borderWidth: 1,
-    width: 140,
-    height: 30,
-    top: 350,
-    left: 100,
-    elevation: 10,
-  },
-
-  center: {
+  header: {
+    backgroundColor: COLORS.white,
+    flex: 0.2,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 5,
   },
-
-  text: {
-    fontSize: 23,
-    color: 'black',
-    fontWeight: '600',
-    fontFamily: 'Avenir',
+  body: {
+    backgroundColor: 'white',
+    flex: 0.8
   },
-
-  btnModel: {
-    flex: 1,
-    alignSelf: 'center',
-    margin: 240,
-    top: 200,
-    width: 150,
-    borderRadius: 100 / 2,
-    shadowColor: COLORS.drakGreen,
-    shadowOpacity: 0.5,
+  footer: {
+    flex: 0.15,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    padding: 10,
+  },
+  // another style 
+  header_text: {
+    padding: 10,
+    width: '100%',
+    height: 110,
+    flexDirection: 'row',
     backgroundColor: COLORS.primary,
-    elevation: 10,
-  },
-
-  header: {
-    backgroundColor: COLORS.primary,
-    alignItems: 'flex-start',
+    borderRadius: 10,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    height: 115,
-    width: 400,
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 4,
   },
-
-  Images1: {
-    alignSelf: 'center',
-    borderRadius: 100 / 2,
-    width: 90,
-    height: 90,
-    top: -40,
-    right: 95,
-  },
-
-  name: {
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: 25,
-    top: 25,
-    left: 60,
-  },
+<<<<<<< HEAD
   mail: {
     fontWeight: 'bold',
     color: 'white',
@@ -331,22 +439,14 @@ const styles = StyleSheet.create({
   },
 
   btn_main: {
+=======
+  margin_body: {
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
     flex: 1,
-    margin: 60,
-    left: 30,
-    width: 170,
-    borderRadius: 100 / 2,
-    shadowColor: COLORS.drakGreen,
-    shadowOpacity: 0.5,
-    backgroundColor: COLORS.primary,
-    elevation: 10,
-  },
-
-  inbutton: {
-    // paddingTop:20,
-    // margin: 20,
-    //position: 'absolute',
+    padding: 10,
+    backgroundColor: COLORS.white,
     borderRadius: 10,
+<<<<<<< HEAD
     backgroundColor: COLORS.gray,
     width: 340,
     height: 550,
@@ -368,12 +468,62 @@ const styles = StyleSheet.create({
   btn5: {
     bottom: 125,
     left: 235,
+=======
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'orange',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 10,
   },
-  btn6: {
-    top: 240,
-    left: 150,
+  body_btn: {
+    flex: 0.4,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  body_btn_2: {
+    flex: 0.7,
+    flexDirection: 'column',
+    backgroundColor: COLORS.white,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 5,
+  },
+  footer_btn: {
+    width: 90,
+    height: 90,
+    backgroundColor: COLORS.white,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 10,
+  },
+  rent_btn: {
+    width: 200,
+    height: 80,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 5.0,
+    shadowRadius: 5.0,
+    elevation: 12,
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
+  },
+  header_name: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    padding: 10,
   },
 
+<<<<<<< HEAD
   box1: {
     borderRadius: 100 / 2,
     position: 'absolute',
@@ -385,6 +535,8 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
 
+=======
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
 });
 
 //export default Profiles;

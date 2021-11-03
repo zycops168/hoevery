@@ -8,7 +8,6 @@ import {styles} from '../style';
 import SignInScreen from './src/screen/SignInScreen';
 import SignUpScreen from './src/screen/SignUpScreen';
 import HomeScreen from './src/screen/HomeScreen';
-import getDetail from './src/screen/getDetail';
 import getDetailCar from './src/screen/getDetailCar';
 import detailCar from './src/screen/detailCar';
 import AddCar from './src/screen/addCar';
@@ -21,6 +20,7 @@ import payment from './src/screen/payment';
 import notify from './src/screen/nofity';
 import myRental from './src/screen/myRental';
 import afterPayment from './src/screen/afterPayment';
+<<<<<<< HEAD
 import Profiles from './src/screen/Profiles';
 import History from './src/screen/History';
 import AddressPro from './src/screen/AddressPro';
@@ -28,6 +28,12 @@ import AddressPro from './src/screen/AddressPro';
 import testDeploy from './src/screen/testDeploy';
 import testRegister from './src/screen/testRegister';
 
+=======
+import Profiles from './src/screen/Profiles'
+import testDeploy from './src/screen/testDeploy'
+import testRegister from './src/screen/testRegister'
+import History from './src/screen/History';
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
 
 const Stack = createStackNavigator();
 function MyStack() {
@@ -41,7 +47,6 @@ function MyStack() {
       <Stack.Screen name="SignInScreen" component={SignInScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="getDetail" component={getDetail} />
       <Stack.Screen name="getDetailCar" component={getDetailCar} />
       <Stack.Screen name="detailCar" component={detailCar} />
       <Stack.Screen name="AddCar" component={AddCar} />
@@ -55,11 +60,15 @@ function MyStack() {
       <Stack.Screen name="myRental" component={myRental} />
       <Stack.Screen name="afterPayment" component={afterPayment} />
       <Stack.Screen name="Profiles" component={Profiles} />
+<<<<<<< HEAD
       <Stack.Screen name="History" component={History} />
       <Stack.Screen name="AddressPro" component={AddressPro} />
       
+=======
+>>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
       <Stack.Screen name="testDeploy" component={testDeploy} />
       <Stack.Screen name="testRegister" component={testRegister} />
+      <Stack.Screen name="History" component={History} />
     </Stack.Navigator>
   );
 }
