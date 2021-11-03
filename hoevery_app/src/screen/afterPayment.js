@@ -24,6 +24,7 @@ import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 import {styles} from '../style';
 
 export class ContectYouSender extends Component {
+
   render() {
     return (
       <View style={local_styles.box_contact}>
@@ -51,7 +52,7 @@ export class ContectYouSender extends Component {
             <View style={{flex: 1, flexDirectory: 'row'}}>
               <View style={{flex: 1, flexDirection: 'row'}}>
                 <Text style={{}}>โทร: </Text>
-                <Text style={{}}>084-1234567</Text>
+                <Text style={{}}>{this.props.tel}</Text>
               </View>
             </View>
           </View>
@@ -64,8 +65,9 @@ export class ContectYouSender extends Component {
 export class OrderDetail extends Component {
   render() {
     return (
-      <View style={local_styles.box_order_detail}>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+      <ScrollView style={local_styles.box_order_detail}>
+        <View style={{flex: 1, flexDirection: 'row'
+        }}>
           <Image
             source={icons.bill}
             resizeMode="contain"
@@ -86,19 +88,21 @@ export class OrderDetail extends Component {
             <Text style={{color: COLORS.black, ...FONTS.h3}}>รายละเอียด</Text>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{flex: 1, flexDirection: 'column'}}>
-                <Text style={{}}>your order :</Text>
-                <Text style={{}}>your order form :</Text>
+                <Text style={{}}>Rental By :</Text> 
+                <Text style={{}}>Price :</Text>
                 <Text style={{}}>Delivery address :</Text>
+                <Text style={{}}>created date :</Text>
               </View>
               <View style={{flex: 1, flexDirection: 'column'}}>
-                <Text style={{}}>Long Reach</Text>
-                <Text style={{}}>Ramintra Bangkok</Text>
-                <Text style={{}}>Nong Bon Prawet Bangkok 10250</Text>
+                <Text style={{}}>{this.props.data.rental_by}</Text>
+                <Text style={{}}>{this.props.data.rental_agreement}</Text>
+                <Text style={{}}>{this.props.data.address} {this.props.data.address_detail}</Text>
+                <Text style={{}}>{this.props.data.created_date}</Text>
               </View>
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -138,8 +142,49 @@ export class TotalPrice extends Component {
 }
 
 export default class afterPayment extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       data: ''
+    }
+  }
+
+  getDataAPI = async () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    const response = await fetch(
+      `http://203.150.107.212/tenant/payment?order_id=${this.props.route.params.order_id}`,
+      requestOptions,
+    );
+    const result = await response.json();
+    try {
+      if (result.ret == 0) {
+        this.setState({data: result.data});
+        console.log(this.state.data);
+      } else {
+        alert(result.msg);
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  componentDidMount() {
+    this.getDataAPI();
+  }
+  
   render() {
-    const {username, price} = this.props.route.params;
+    const getCookie = async () => {
+      const cookie = await Cookie.get('203.150.107.212')
+      // console.log("cookie on listCar screen ;", cookie)
+      this.setState({username: cookie})
+    }
+    const {order_id} = this.props.route.params;
+
 
     return (
       <View style={{flex: 1}}>
@@ -158,7 +203,7 @@ export default class afterPayment extends Component {
                 paddingHorizontal: SIZES.padding * 2,
               }}
               onPress={() =>
-                this.props.navigation.navigate('payment', {price:price})
+                this.props.navigation.navigate('mainPage')
               }>
               <Image
                 source={icons.back}
@@ -208,9 +253,9 @@ export default class afterPayment extends Component {
               longitudeDelta: 0.0121,
             }}></MapView>
           <View style={{flex: 1, margin: 10, alignItems: 'center'}}>
-            <ContectYouSender />
-            <OrderDetail />
-            <TotalPrice msg_price={price} />
+            <ContectYouSender tel={this.props.route.params.tel}/>
+            <OrderDetail data={this.state.data}/>
+            <TotalPrice msg_price={this.state.data.price} />
             <TouchableOpacity
               style={{
                 borderRadius: 15,

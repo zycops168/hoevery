@@ -15,6 +15,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import Cookie from 'react-native-cookie';
+import Geolocation from '@react-native-community/geolocation';
 
 import {styles} from '../style';
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
@@ -64,6 +65,7 @@ const RenderHeader = () => {
 };
 
 export default class listCar extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -82,8 +84,10 @@ export default class listCar extends Component {
       redirect: 'follow',
     };
     this.setState({loading: true});
+    // console.log(this.props.params.latitude)
+
     const response = await fetch(
-      `http://203.150.107.212/tenant/get-car-with-type?typeOfWork=${WorkController.Work.workname}`,
+      `http://203.150.107.212/tenant/match-car-nearby?typeOfWork=${WorkController.Work.workname}&latitude=${this.props.route.params.lat}&longitude=${this.props.route.params.long}`,
       requestOptions,
     );
     const result = await response.json();
@@ -141,12 +145,13 @@ export default class listCar extends Component {
   render() {
     const getCookie = async () => {
       const cookie = await Cookie.get('203.150.107.212')
-      console.log("cookie on listCar screen ;", cookie)
+      // console.log("cookie on listCar screen ;", cookie)
       this.setState({username: cookie})
     }
    // getCookie();
+    const {lat, long} = this.props.route.params; 
     const {username} = "";
-    console.log("cookie on username (listcar screen ): ", username);
+    // console.log("cookie on username (listcar screen ): ", username);
     return (
       <View style={styles_local.container}>
         <LinearGradient
@@ -249,7 +254,7 @@ export default class listCar extends Component {
                   />
                   <ListItem.Content>
                     <ListItem.Title>{item.type}</ListItem.Title>
-                    <ListItem.Subtitle>{'location: 0.6 km'}</ListItem.Subtitle>
+                    <ListItem.Subtitle>location: {item.distance} km</ListItem.Subtitle>
                   </ListItem.Content>
                   <ListItem.Chevron color={COLORS.primary} />
                 </ListItem>

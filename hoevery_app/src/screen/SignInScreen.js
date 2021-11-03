@@ -27,7 +27,6 @@ import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
 import UserModel from '../models/UserModel';
 import UserController from '../controller/UserController';
-import AddCar from './addCar';
 import { get } from 'mobx';
 
 const SignInScreen = ({ navigation }) => {
