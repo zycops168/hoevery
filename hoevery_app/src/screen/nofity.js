@@ -232,7 +232,7 @@ export default function nofity({ navigation, route }) {
 
                                     </View>
                                 </View>
-                            )} /> : <View><Text>hi</Text></View>}
+                            )} /> : <View><Text> not found</Text></View>}
                 </View>
             </View>
             {/* footer */}

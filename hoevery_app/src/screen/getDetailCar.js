@@ -29,6 +29,35 @@ import MapViewDirections from 'react-native-maps-directions';
 import {COLORS, SIZES, FONTS, icons, images} from '../constants';
 import {GOOGLE_MAP_KEY} from '../constants/API_KEY';
 
+const handleNotification = () => {
+  {
+    // PushNotification.cancelAllLocalNotifications()
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: 'Your' + 'order No.999',
+      message: 'READ MORE...',
+      bigText: 'There is a list of products you need to make a decision on.',
+      color: 'orange',
+      playSound: false, // (optional) default: true
+    });
+    PushNotification.localNotificationSchedule({
+      channelId: 'test-channel',
+      title: 'Your' + 'order No.999',
+      message: 'My Notification Message', // (required)
+      date: new Date(Date.now() + 20 * 1000), // in 60 secs
+      actions: ['ReplyInput'],
+      reply_placeholder_text: 'Write your response...', // (required)
+      reply_button_text: 'Reply', // (required)
+      allowWhileIdle: true,
+      playSound: false, // (optional) default: true
+    });
+    PushNotification.getChannels(function (channel_ids) {
+      console.log(channel_ids); // ['channel_id_1']
+    });
+    //  navigation.navigate('myRental', { paramKey: items })
+  }
+};
+
 export default class getDetailCar extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +72,7 @@ export default class getDetailCar extends Component {
       priceDaily: '',
       priceWeekly: '',
       priceMonthly: '',
+      type_price: '',
       _function: '',
       isLoading: false,
       latitude: 0,
@@ -53,10 +83,31 @@ export default class getDetailCar extends Component {
       distance: '',
       time: '',
       showInfo: true,
+      loadinig_price: false,
     };
     this.mapRef = React.createRef();
     this.makerRef = React.createRef();
   }
+  check_type = item => {
+    if (item === this.state.priceDaily) {
+      this.setState({
+        type_price: 'Daily',
+        loadinig_price: true,
+      });
+    } else if (item === this.state.priceWeekly) {
+      this.setState({
+        type_price: 'Weekly',
+        loadinig_price: true,
+      });
+    } else if (item === this.state.priceMonthly) {
+      this.setState({
+        type_price: 'Monthly',
+        loadinig_price: true,
+      });
+    }
+    console.log('hi', this.state.type_price);
+    return this.state.type_price;
+  };
 
   componentDidMount() {
     this.getDetailCar();
@@ -144,7 +195,10 @@ export default class getDetailCar extends Component {
       car_id: this.props.route.params.car_id,
       rental_by: cookie['username'],
       status: 'waiting',
+      price: this.state.pickerPrice,
+      price_type: this.state.type_price,
     });
+    console.log('raw' + raw);
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -158,8 +212,12 @@ export default class getDetailCar extends Component {
     const json = await response.json();
     console.log(json);
     this.setState({isLoading: true});
-    console.log("[getDetailCar] pickerPrice.type: " + this.state.pickerPrice.type)
-    console.log("[getDetailCar] pickerPrice.price: " + this.state.pickerPrice.price)
+    console.log(
+      '[getDetailCar] pickerPrice.type: ' + this.state.pickerPrice.type,
+    );
+    console.log(
+      '[getDetailCar] pickerPrice.price: ' + this.state.pickerPrice.price,
+    );
     this.props.navigation.navigate('myRental', {
       type: this.state.pickerPrice.type,
       price: this.state.pickerPrice.price,
@@ -422,31 +480,60 @@ export default class getDetailCar extends Component {
               <Text> ({this.state.distance} กิโลเมตร)</Text>
             </View>
             <View style={styles.body_detail}>
-              {/* <View style={styles.body_text_inside}> */}
-              <Text style={styles.text_inside_detail}>
-                Function :<Text> {this.state._function}</Text>
-              </Text>
-
-              <Picker
-                style={styles.picker}
-                selectedValue={this.state.pickerPrice}
-                // onValueChange={itemValue => setPickerItemValue(itemValue)}>
-                onValueChange={itemValue =>
-                  this.setState({pickerPrice: itemValue})
-                }>
-                <Picker.Item
-                  label="รายวัน"
-                  value={{type: 'Daily', price: this.state.priceDaily}}
-                />
-                <Picker.Item
-                  label="รายสัปดาห์"
-                  value={{type: 'Weekly', price: this.state.priceWeekly}}
-                />
-                <Picker.Item
-                  label="รายเดือน"
-                  value={{type: 'Monthly', price: this.state.priceMonthly}}
-                />
-              </Picker>
+              <ScrollView style={styles.body_function}>
+                {/* <View style={styles.body_text_inside}> */}
+                <Text style={styles.text_inside_detail}>
+                  Function :
+                  <Text style={{fontSize: 12, fontWeight: 'normal'}}>
+                    {' '}
+                    {this.state._function}
+                  </Text>
+                </Text>
+              </ScrollView>
+              <View style={styles.body_price_select}>
+                <Picker
+                  style={styles.picker}
+                  selectedValue={this.state.pickerPrice}
+                  // onValueChange={itemValue => setPickerItemValue(itemValue)}>
+                  onValueChange={itemValue => {
+                    this.setState({pickerPrice: itemValue}),
+                      this.check_type(itemValue);
+                  }}>
+                  <Picker.Item label="ประเภทการชำระเงิน" value={null} />
+                  <Picker.Item label="รายวัน" value={this.state.priceDaily} />
+                  <Picker.Item
+                    label="รายสัปดาห์"
+                    value={this.state.priceWeekly}
+                  />
+                  <Picker.Item
+                    label="รายเดือน"
+                    value={this.state.priceMonthly}
+                  />
+                </Picker>
+                {this.state.loadinig_price ? (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{fontSize: 17}}>
+                      ราคา:{' '}
+                      <Text style={{fontWeight: 'bold', fontSize: 24}}>
+                        {' '}
+                        {this.state.pickerPrice} บาท{' '}
+                      </Text>
+                    </Text>
+                  </View>
+                ) : (
+                  <View>
+                    <Text style={{color: '#808080'}}>
+                      {' '}
+                      -------------- เลือกประเภทการชำระเงิน -------------------
+                    </Text>
+                  </View>
+                )}
+              </View>
             </View>
           </View>
         </View>
@@ -552,7 +639,7 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   footer: {
-    flex: 0.2,
+    flex: 0.15,
     backgroundColor: COLORS.white,
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -598,6 +685,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#fff',
     justifyContent: 'center',
+    padding: 3,
   },
   body_text_inside: {
     width: '90%',
@@ -613,7 +701,7 @@ const styles = StyleSheet.create({
   },
   body_text_inside_detail: {
     width: '90%',
-    height: 280,
+    height: 300,
     borderRadius: 10,
     backgroundColor: COLORS.white,
     padding: 10,
@@ -632,7 +720,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   text_inside_detail: {
-    fontSize: 12,
+    fontSize: 16,
+    fontWeight: 'bold',
     padding: 10,
   },
   text: {
@@ -663,5 +752,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: 10,
     borderColor: '#000',
+  },
+  body_function: {
+    width: '100%',
+    height: 100,
+    padding: 3,
+  },
+  body_price_select: {
+    width: '100%',
+    height: 100,
   },
 });

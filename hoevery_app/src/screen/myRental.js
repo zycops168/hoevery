@@ -50,13 +50,13 @@ const myRental = ({navigation}) => {
       </View>
     );
   };
-  const _goToPayment = (rental_by_id, order_id, car_id) => {
+  const _goToPayment = (rental_by_id, order_id, car_id, price, price_type) => {
     navigation.navigate('payment', {
       rental_by_id: rental_by_id,
       order_id: order_id,
       car_id: car_id,
-      type: this.props.params.type,
-      price: this.props.params.price
+      price: price, 
+      price_type: price_type
     });
   };
   const _wait = () => {
@@ -147,6 +147,8 @@ const myRental = ({navigation}) => {
                               item.rental_by_id,
                               item.id,
                               item.car_id,
+                              item.price,
+                              item.price_type
                             )
                           }>
                           <Text>Next step </Text>
