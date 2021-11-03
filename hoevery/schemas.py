@@ -93,7 +93,7 @@ class RentalForm(BaseModel):
     car_id: int
     rental_by: str
     status: str
-    price: float
+    price: str
     price_type: str
 
     class Config:
@@ -103,7 +103,7 @@ class RentalForm(BaseModel):
                 car_id=1,
                 rental_by="admin",
                 status="waiting",
-                price= 123,
+                price= "123",
                 price_type="Daily"
             )
         )
@@ -121,7 +121,7 @@ class InsertImageCarForm(BaseModel):
 class PaymentForm(BaseModel):
     rental_by_id : int
     car_id : int
-    price : int
+    price : str
     rental_agreement : str
     address : str
     address_detail : str
@@ -132,7 +132,7 @@ class PaymentForm(BaseModel):
         schema_extra = dict(example=dict(
             rental_by_id = 1,
             car_id = 1,
-            price = 123,
+            price = "123",
             rental_agreement = 'Daily',
             address = "bkk",
             address_detail = 'abc village',
