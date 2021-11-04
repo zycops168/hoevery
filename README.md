@@ -7,5 +7,7 @@
 
 
 <h1> Hardware </h1>
+<h2>Device</h2>
+<img src="hw/de.jpg" width="500">
 <h2>Diagram</h2>
-<img src="hw/diagram.jpg" width="500">
+<img src="hw/di.jpg" width="500">
