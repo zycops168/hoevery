@@ -1,3 +1,5 @@
+#include <SPI.h>
+#include <LoRa.h>
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include <ESPmDNS.h>
@@ -5,18 +7,19 @@
 #include <ArduinoOTA.h>
 #include <WiFiManager.h>
 #include <PubSubClient.h>
-#include <TinyGPS++.h>
-#include <HardwareSerial.h>
-#define RXPin (16)
-#define TXPin (17)
-////////////////////////////////////////////////////////////////////////////////////////
-TaskHandle_t Task1;
-TaskHandle_t Task2;
-const int buttonPin = 2;
-int buttonState = 0;
+
+//define the pins used by the transceiver module
+#define ss 5
+#define rst 15
+#define dio0 2
 ////////////////////////////////////////////////////////////////////////////////////////
 unsigned long last_time = 0;
 unsigned long period = 5000;
+////////////////////////////////////////////////////////////////////////////////////////
+TaskHandle_t Task1;
+TaskHandle_t Task2;
+const int buttonPin = 4;
+int buttonState = 0;
 ////////////////////////////////////////////////////////////////////////////////////////
 const char* mqttServer = "203.150.107.212";
 const int mqttPort = 1883;
@@ -25,56 +28,9 @@ const char* mqttPassword = "";
 WiFiClient espClient;
 PubSubClient client(espClient);
 ////////////////////////////////////////////////////////////////////////////////////////
-//gps
-static const uint32_t GPSBaud = 9600;
-TinyGPSPlus gps;
-HardwareSerial ss(2);
 //led
-int LED = 2;
-int LEDWIFI = 19;
-int LEDMQTT = 21;
-////////////////////////////////////////////////////////////////////////////////////////
-void displayInfo()
-{
-  if ( millis() - last_time > period) {
-    last_time = millis();
-    Serial.print(F("Location: "));
-    if (gps.location.isValid())
-    {
-      Serial.print(gps.location.lat(), 6);
-      Serial.print(F(","));
-      Serial.print(gps.location.lng(), 6);
-    }
-    else
-    {
-      Serial.print(F("INVALID"));
-    }
-    Serial.println();
-  }
-}
-////////////////////////////////////////////////////////////////////////////////////////
-void pub_mqtt() {
-  if ( millis() - last_time > period) {
-    last_time = millis();
-    StaticJsonBuffer<300> JSONbuffer;
-    JsonObject& JSONencoder = JSONbuffer.createObject();
-
-    JSONencoder["car_id"] = "26";
-    JSONencoder["latitude"] = gps.location.lat(), 6;
-    JSONencoder["longitude"] = gps.location.lng(), 6;
-
-
-    char JSONmessageBuffer[100];
-    JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
-    Serial.println("Sending message to MQTT topic..");
-    Serial.println(JSONmessageBuffer);
-    if (client.publish("excavator/location", JSONmessageBuffer) == true) {
-      Serial.println("Success sending message");
-    } else {
-      Serial.println("Error sending message");
-    }
-  }
-}
+int LEDWIFI = 21;
+int LEDMQTT = 22;
 ////////////////////////////////////////////////////////////////////////////////////////
 void mqtt() {
   // mqtt
@@ -121,8 +77,6 @@ void ota() {
 ////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
   Serial.begin(115200);
-  ss.begin(GPSBaud, SERIAL_8N1, RXPin, TXPin, false);
-  pinMode(LED, OUTPUT);
   pinMode(LEDWIFI, OUTPUT);
   pinMode(LEDMQTT, OUTPUT);
   pinMode(buttonPin, INPUT);
@@ -135,7 +89,7 @@ void setup() {
     1,           /* priority of the task */
     &Task1,      /* Task handle to keep track of created task */
     0);          /* pin task to core 0 */
-  delay(2000);
+  delay(5000);
   //task 2
   xTaskCreatePinnedToCore(
     TaskB,   /* Task function. */
@@ -145,7 +99,7 @@ void setup() {
     1,           /* priority of the task */
     &Task2,      /* Task handle to keep track of created task */
     1);          /* pin task to core 1 */
-  delay(2000);
+  delay(5000);
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 void TaskA( void * pvParameters ) {
@@ -172,13 +126,12 @@ void TaskA( void * pvParameters ) {
     buttonState = digitalRead(buttonPin);
     if (buttonState == HIGH) {
       digitalWrite(LEDWIFI, LOW),
-      wm.resetSettings();
+                   wm.resetSettings();
     } else {
     }
     if (client.connect("ESP32Client", mqttUser, mqttPassword )) {
       //Led
       digitalWrite(LEDMQTT, HIGH);
-      pub_mqtt();
     } else {
       //led
       digitalWrite(LEDMQTT, LOW);
@@ -189,10 +142,53 @@ void TaskA( void * pvParameters ) {
 void TaskB( void * pvParameters ) {
   Serial.print("Task2 running on core ");
   Serial.println(xPortGetCoreID());
+  while (!Serial);
+  Serial.println("LoRa Receiver");
 
+  //setup LoRa transceiver module
+  LoRa.setPins(ss, rst, dio0);
+  
+  //replace the LoRa.begin(---E-) argument with your location's frequency 
+  //433E6 for Asia
+  //866E6 for Europe
+  //915E6 for North America
+  while (!LoRa.begin(433E6)) {
+    Serial.println(".");
+    delay(500);
+  }
+  // Change sync word (0xF3) to match the receiver
+  // The sync word assures you don't get LoRa messages from other LoRa transceivers
+  // ranges from 0-0xFF
+  LoRa.setSyncWord(0xF3);
+  Serial.println("LoRa Initializing OK!");
+  
   while (true) {
-    if (gps.encode(ss.read()))
-      displayInfo();
+    int packetSize = LoRa.parsePacket();
+    if (packetSize) {
+    // received a packet
+    Serial.print("Received packet ");
+    // read packet
+    while (LoRa.available()) {
+    String LoRaData = LoRa.readString();
+      Serial.print(LoRaData);
+      StaticJsonBuffer<300> JSONbuffer;
+     JsonObject& JSONencoder = JSONbuffer.createObject();
+    JSONencoder["car_id"]= 26;
+    JSONencoder["location"] = LoRaData;
+    char JSONmessageBuffer[100];
+    JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
+    Serial.println("Sending message to MQTT topic..");
+    Serial.println(JSONmessageBuffer);
+    if (client.publish("excavator/location", JSONmessageBuffer) == true) {
+      Serial.println("Success sending message");
+    } else {
+      Serial.println("Error sending message");
+    }
+    // print RSSI of packet
+    Serial.print(" with RSSI ");
+    Serial.println(LoRa.packetRssi());
+  }
+  }
   }
 }
 void loop() {
