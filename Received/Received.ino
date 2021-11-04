@@ -20,6 +20,11 @@ TaskHandle_t Task1;
 TaskHandle_t Task2;
 const int buttonPin = 4;
 int buttonState = 0;
+String currentcar_id;
+String currentlat;
+String currentlng;
+float sum_lat;
+float sum_lng;
 ////////////////////////////////////////////////////////////////////////////////////////
 const char* mqttServer = "203.150.107.212";
 const int mqttPort = 1883;
@@ -147,8 +152,8 @@ void TaskB( void * pvParameters ) {
 
   //setup LoRa transceiver module
   LoRa.setPins(ss, rst, dio0);
-  
-  //replace the LoRa.begin(---E-) argument with your location's frequency 
+
+  //replace the LoRa.begin(---E-) argument with your location's frequency
   //433E6 for Asia
   //866E6 for Europe
   //915E6 for North America
@@ -161,34 +166,46 @@ void TaskB( void * pvParameters ) {
   // ranges from 0-0xFF
   LoRa.setSyncWord(0xF3);
   Serial.println("LoRa Initializing OK!");
-  
+
   while (true) {
     int packetSize = LoRa.parsePacket();
     if (packetSize) {
-    // received a packet
-    Serial.print("Received packet ");
-    // read packet
-    while (LoRa.available()) {
-    String LoRaData = LoRa.readString();
-      Serial.print(LoRaData);
-      StaticJsonBuffer<300> JSONbuffer;
-     JsonObject& JSONencoder = JSONbuffer.createObject();
-    JSONencoder["car_id"]= 26;
-    JSONencoder["location"] = LoRaData;
-    char JSONmessageBuffer[100];
-    JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
-    Serial.println("Sending message to MQTT topic..");
-    Serial.println(JSONmessageBuffer);
-    if (client.publish("excavator/location", JSONmessageBuffer) == true) {
-      Serial.println("Success sending message");
-    } else {
-      Serial.println("Error sending message");
+      // received a packet
+      Serial.print("Received packet ");
+      // read packet
+      while (LoRa.available()) {
+        currentcar_id = LoRa.readStringUntil('|');
+        Serial.println(currentcar_id);
+        currentlat = LoRa.readStringUntil('|');
+        sum_lat = currentlat.toFloat();
+        char lati[20];
+        sprintf(lati, "%06f", sum_lat);
+        Serial.println(sum_lat,6);
+        currentlng = LoRa.readStringUntil('|');
+        sum_lng = currentlng.toFloat();
+        Serial.println(sum_lng,6);
+        char longi[20];
+        sprintf(longi, "%06f", sum_lng);
+        
+        StaticJsonBuffer<300> JSONbuffer;
+        JsonObject& JSONencoder = JSONbuffer.createObject();
+        JSONencoder["car_id"]   =currentcar_id;
+        JSONencoder["latitude"] =lati;
+        JSONencoder["longitude"]=longi;
+        char JSONmessageBuffer[100];
+        JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
+        Serial.println("Sending message to MQTT topic..");
+        Serial.println(JSONmessageBuffer);
+        if (client.publish("excavator/location", JSONmessageBuffer) == true) {
+          Serial.println("Success sending message");
+        } else {
+          Serial.println("Error sending message");
+        }
+        // print RSSI of packet
+        Serial.print(" with RSSI ");
+        Serial.println(LoRa.packetRssi());
+      }
     }
-    // print RSSI of packet
-    Serial.print(" with RSSI ");
-    Serial.println(LoRa.packetRssi());
-  }
-  }
   }
 }
 void loop() {
