@@ -12,8 +12,9 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
 import { Input } from 'react-native-elements';
 import Cookie from 'react-native-cookie';
+import { launchImageLibrary } from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
-import DocumentPicker from 'react-native-document-picker';
+import DocumentPicker from 'react-native-document-picker'
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import { styles } from '../style';
@@ -36,10 +37,7 @@ const detailCar = ({ navigation }) => {
   const [Price_weekly, setPrice_weekly] = useState();
   const [Price_monthly, setPrice_monthly] = useState();
   const [func, setFunc] = useState();
-  const [image, setImage] = useState('');
-
-  const [singleFile, setSingleFile] = useState(null);
-
+  const [photo, setPhoto] = useState(null);
 
   const onChangeName = textValue => setText_excavator_name(textValue);
   const onChangeSize = textValue => setSize(textValue);
@@ -48,109 +46,124 @@ const detailCar = ({ navigation }) => {
   const onChangeMonthly = textValue => setPrice_monthly(textValue);
   const onChangeFunc = textvalue => setFunc(textvalue);
 
+
   const InsertExData = async () => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
     const cookieUsername = await Cookie.get('203.150.107.212');
     setCreate(cookieUsername['username']);
+    const data = new FormData();
 
-    console.log("name : ", text_excavator_name);
-    console.log("create by : ", cookieUsername['username']);
-    console.log("size : ", size);
-    console.log("type : ", pickerTypeValue);
-    console.log("Daily : ", Price_daily);
-    console.log("Week : ", Price_weekly);
-    console.log("Monthly : ", Price_monthly);
-    console.log("function : ", func);
-    console.log("image : ", image);
+    data.append("carname", text_excavator_name);
+    data.append("type", pickerTypeValue);
+    data.append("size", size);
+    data.append("Daily", Price_daily);
+    data.append("Weekly", Price_weekly);
+    data.append("Monthly", Price_monthly);
+    data.append("function", func);
+    data.append("create_by", cookieUsername['username']);
 
-    if (singleFile != null) {
-      // If file selected then create FormData
-      const fileToUpload = singleFile;
-
-      var formdata = new FormData();
-      formdata.append("uploaded_file", singleFile, singleFile.name);
-      formdata.append("carname", text_excavator_name);
-      formdata.append("create_by", cookieUsername['username']);
-      formdata.append("type", pickerTypeValue);
-      formdata.append("size", size);
-      formdata.append("Daily", Price_daily);
-      formdata.append("Weekly", Price_weekly);
-      formdata.append("Monthly", Price_monthly);
-      formdata.append("function", func);
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow',
-      };
-      const response = await fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
-      const json = await response.json();
-      console.log(json);
+    // data.append("uploaded_file",{
+    //   uri: photo.uri, 
+    //   name: photo.name, 
+    //   type: photo.type
+    // });
+    data.append("uploaded_file",photo, photo.name);
+    console.log("formData : ", data);
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: data,
+      redirect: 'follow',
+    };
+    const response = await fetch('http://203.150.107.212/lessor/insert-car', requestOptions)
+    const json = await response.json();
+    console.log("json : ", json);
+    if (json.status == 1) {
+      alert('Upload Successful');
+      console.log('Upload Successful');
       navigation.navigate('AddCar');
-      if (json.status == 1) {
-        alert('Upload Successful');
-      }
-      else {
-        // If no file selected the show alert
-        alert('Please Select File first');
-      }
+    }
+    else {
+      // If no file selected the show alert
+      alert('Please Select File first');
     }
   };
-  const selectFile = async () => {
-    // Opening Document Picker to select one file
-    try {
-      const res = await DocumentPicker.pick({
-        // Provide which type of file you want user to pick
-        type: [DocumentPicker.types.allFiles],
-        // There can me more options as well
-        // DocumentPicker.types.allFiles
-        // DocumentPicker.types.images
-        // DocumentPicker.types.plainText
-        // DocumentPicker.types.audio
-        // DocumentPicker.types.pdf
-      });
-      // Printing the log realted to the file
-      console.log('res : ' + JSON.stringify(res));
-      // Setting the state to show single file attributes
-      setSingleFile(res);
-    } catch (err) {
-      setSingleFile(null);
-      // Handling any exception (If any)
-      if (DocumentPicker.isCancel(err)) {
-        // If user canceled the document selection
-        alert('Canceled');
-      } else {
-        // For Unknown Error
-        alert('Unknown Error: ' + JSON.stringify(err));
-        throw err;
+
+  const handleChoosePhoto = async () => {
+    // launchImageLibrary({ noData: true }, (response) => {
+    //   // console.log(response);
+    //   if (response) {
+    //     setPhoto(response);
+    //     console.log("photo : ", photo);
+
+    //   }
+    // });
+
+    // ImagePicker.openPicker({
+    //   width: 300,
+    //   height: 400,
+    //   cropping: false
+    // }).then(image => {
+    //   console.log(image);
+    //   setPhoto(image);
+    //   console.log("phpto", photo);
+      // photo.uri = photo.path;
+      // photo.name = "1_crawler.png";
+      // photo.type = photo.mime;
+      // photo.dateModified = new Date();
+    // });
+    // try {
+    //   const res = await DocumentPicker.pick({
+    //     type: [DocumentPicker.types.images],
+    //   })
+    //   console.log(
+    //     res.uri,
+    //     res.type, // mime type
+    //     res.name,
+    //     res.size,
+    //   )
+    // } catch (err) {
+    //   if (DocumentPicker.isCancel(err)) {
+    //     // User cancelled the picker, exit any dialogs or menus and move on
+    //   } else {
+    //     throw err
+    //   }
+    // }
+
+      //Opening Document Picker for selection of one file
+      try {
+        const res = await DocumentPicker.pick({
+          type: [DocumentPicker.types.allFiles],
+          //There can me more options as well
+          // DocumentPicker.types.allFiles
+          // DocumentPicker.types.images
+          // DocumentPicker.types.plainText
+          // DocumentPicker.types.audio
+          // DocumentPicker.types.pdf
+        });
+        setPhoto(res);
+        //Printing the log realted to the file  
+      } catch (err) {
+        //Handling any exception (If any)
+        if (DocumentPicker.isCancel(err)) {
+          //If user canceled the document selection
+          alert('Canceled from single doc picker');
+        } else {
+          //For Unknown Error
+          alert('Unknown Error: ' + JSON.stringify(err));
+          throw err;
+        }
       }
-    }
   };
-  const chooseFromLibrary = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-    }).then(image => {
-      console.log('image :', image);
-      setImage(image);
-      // image.uri = image.path;
-      // image.width = image.width;
-      // image.height = image.height;
-      // image.mime = image.mime;
-      // console.log("image after : ",image);
-      // console.log('uri:', image.uri);
-      // console.log('type:', image.type);
-      // console.log('date:', image.dateModified);
-      // console.log(image);
-    });
-  }
+  console.log("photo:" , photo);
+
   const uploadImage = async () => {
     console.log('upload image active!')
     var formdata = new FormData();
-    formdata.append("uploaded_file", image, image.uri);
-
+    // formdata.append("uploaded_file", photo, photo.name);
+    formdata.append('uploaded_file', photo)
     var requestOptions = {
       method: 'PUT',
       body: formdata,
@@ -158,7 +171,7 @@ const detailCar = ({ navigation }) => {
     };
     const cookie = await Cookie.get('203.150.107.212');
     console.log('cookie : ', cookie);
-    const response = await fetch(`http://203.150.107.212/file/upload-file-car?car_id=22&username=${cookie['username']}`, requestOptions);
+    const response = await fetch(`http://203.150.107.212/file/update-picture-car?car_id=27&username=${cookie['username']}`, requestOptions);
     console.log('response: ', response);
     const result = response.json();
     console.log('result', result);
@@ -170,7 +183,11 @@ const detailCar = ({ navigation }) => {
         alert(result.msg);
       }
 
-    } catch (err) { () => console.log(err) }
+    } catch (err) { () => {
+      console.log(err);
+      throw error;
+    }
+     }
 
   };
 
@@ -186,7 +203,7 @@ const detailCar = ({ navigation }) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Image
+            {/* <Image
               style={
                 {
                   width: 100,
@@ -195,12 +212,12 @@ const detailCar = ({ navigation }) => {
               }
               source={
                 {
-                  uri: image.uri
+                  uri: {}
                 }
               }
               onPress={() => { }}
               borderRadius={10}
-            />
+            /> */}
           </TouchableOpacity>
           <View style={
             {
@@ -229,7 +246,7 @@ const detailCar = ({ navigation }) => {
                 elevation: 10,
               }
             }
-              onPress={selectFile}
+              onPress={handleChoosePhoto}
             >
               <Text style={{ fontSize: 18 }}>เพิ่มรูปรถจากอัลบั้ม </Text>
             </TouchableOpacity>
@@ -276,7 +293,7 @@ const detailCar = ({ navigation }) => {
             onValueChange={itemValue => setPickerTypeValue(itemValue)}>
             <Picker.Item label="Select..." value="none" />
             <Picker.Item label="Crawler" value="Crawler" />
-            <Picker.Item label="Drag Line" value="Drag Line" />
+            <Picker.Item label="Drag Line" value="DragLine" />
             <Picker.Item label="Suction" value="Suction" />
             <Picker.Item label="Skid Steel" value="Skid Steel" />
             <Picker.Item label="Long Reach" value="Long Reach" />

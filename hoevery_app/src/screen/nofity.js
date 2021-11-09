@@ -19,9 +19,13 @@ export default function nofity({ navigation, route }) {
 
     useEffect(() => {
         getNotiData();
-        getCountNoti
-        // const dataInterval = setInterval(() => getUserData(), 5 * 1000);
-        // return () => clearInterval(dataInterval);
+        getCountNoti();
+        const dataInterval = setInterval(() => getNotiData(), 5 * 1000);
+        const countInterval = setInterval(() => getCountNoti(), 5 * 1000);
+        return () => {
+            clearInterval(dataInterval);
+            clearInterval(countInterval);
+        };
     }, []);
 
     const getCountNoti = async () => {

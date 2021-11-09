@@ -22,8 +22,12 @@ export default function AddCar({ navigation, route }) {
   useEffect(() => {
     getExData();
     getNotiData();
-    // const dataInterval = setInterval(() => getExData(), 5 * 1000);
-    // return () => clearInterval(dataInterval);
+    const dataInterval = setInterval(() => getNotiData(), 5 * 1000);
+    const notiInterval = setInterval(() => getNotiData(), 5 * 1000);
+    return () => {
+      clearInterval(dataInterval);
+      clearInterval(notiInterval);
+    };
   }, []);
   const getExData = async () => {
     var requestOptions = {
@@ -117,32 +121,32 @@ export default function AddCar({ navigation, route }) {
             onPress={() => navigation.navigate('notify')}>
             <Icon name="bell" size={30} />
             <FlatList
-            data={count}
-            renderItem={({item}) => (
-              <View style={
-                {
-                  width: 19,
-                  height: 19,
-                  borderRadius: 18,
-                  backgroundColor: 'red',
-                  position: 'absolute',
-                  left: 15,
-                  top: -5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }
-              }>
-                <Text style={
+              data={count}
+              renderItem={({ item }) => (
+                <View style={
                   {
-                    color: "#fff",
-                    fontSize: 13,
+                    width: 19,
+                    height: 19,
+                    borderRadius: 18,
+                    backgroundColor: 'red',
+                    position: 'absolute',
+                    left: 15,
+                    top: -5,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }
                 }>
-                  {item.waiting}
-                </Text>
-        
-              </View>
-            )}
+                  <Text style={
+                    {
+                      color: "#fff",
+                      fontSize: 13,
+                    }
+                  }>
+                    {item.waiting}
+                  </Text>
+
+                </View>
+              )}
             />
           </TouchableOpacity>
         </View>
@@ -227,8 +231,7 @@ export default function AddCar({ navigation, route }) {
                       flexDirection: 'row',
                       paddingRight: 15,
                     }
-                  }
-                  >
+                  }>
                     <View>
                       <Image
                         style={
@@ -237,7 +240,9 @@ export default function AddCar({ navigation, route }) {
                             height: 50,
                           }
                         }
-                        source={require('../../assets/images/type_ex/1_crawler.png')}
+                        source={{
+                          uri: `http://203.150.107.212/static/files/upload/${item.image}`
+                        }}
                         onPress={() => { }}
                         borderRadius={10}
                       />
@@ -248,8 +253,8 @@ export default function AddCar({ navigation, route }) {
                         padding: 5,
                       }
                     }>
-                      <Text style={{ fontSize: 18 }}><Text style={{ fontWeight: 'bold' }}>Car ID : </Text>{item.id}</Text>
-                      <Text style={{ fontSize: 18 }}><Text style={{ fontWeight: 'bold' }}>Type : </Text>{item.type} </Text>
+                      <Text style={{ fontSize: 18 }}><Text style={{ fontWeight: 'bold' }}>CAR ID : </Text>{item.id}</Text>
+                      <Text style={{ fontSize: 17 }}><Text style={{ fontWeight: 'bold' }}>ประเภท: </Text>{item.type} </Text>
                     </TouchableOpacity>
                     <View style={
                       {
@@ -260,7 +265,7 @@ export default function AddCar({ navigation, route }) {
                         alignItems: 'center',
                       }
                     }>
-                      <TouchableOpacity style={
+                      {count.waiting !== "accept" ? <TouchableOpacity style={
                         {
                           width: 50,
                           height: 20,
@@ -275,8 +280,25 @@ export default function AddCar({ navigation, route }) {
                             fontSize: 13,
                             fontWeight: 'bold',
                           }
-                        }> alway </Text>
-                      </TouchableOpacity>
+                        }> ว่าง </Text>
+                      </TouchableOpacity> :
+                        <TouchableOpacity style={
+                          {
+                            width: 50,
+                            height: 20,
+                            backgroundColor: COLORS.red,
+                            borderRadius: 5,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }
+                        }>
+                          <Text style={
+                            {
+                              fontSize: 13,
+                              fontWeight: 'bold',
+                            }
+                          }> ไม่ว่าง </Text>
+                        </TouchableOpacity>}
                       <TouchableOpacity
                         style={
                           {

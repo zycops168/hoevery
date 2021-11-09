@@ -11,6 +11,10 @@ const History = ({ navigation }) => {
 
   useEffect(() => {
     getListNotifyData();
+    const getListNotifyDataInterval = setInterval(() => getListNotifyData(), 5 * 1000);
+    return () => {
+        clearInterval(getListNotifyDataInterval);
+    };
   }, [])
   const getListNotifyData = async () => {
 
@@ -32,7 +36,7 @@ const History = ({ navigation }) => {
       <View style={styles.header}>
         <View style={styles.header_text}>
           <TouchableOpacity styles={{}}
-            onPress={() => navigation.navigate('mainPage')}>
+            onPress={() => navigation.navigate('Profiles')}>
             <Icon name="arrow-left" size={30} />
           </TouchableOpacity>
           <Text style={styles.text}>                 ประวัติการให้เช่ารถ</Text>

@@ -24,6 +24,8 @@ target 'hoevery_app' do
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'hoevery_appTests' do
     inherit! :complete
     # Pods for testing

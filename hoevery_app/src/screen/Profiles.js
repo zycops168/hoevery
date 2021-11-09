@@ -45,13 +45,13 @@ export default function App({ navigation }) {
     };
     const cookie = await Cookie.get('203.150.107.212');
     // console.log("cookie on addCar screen ;", cookie)
-    const response = await fetch(`http://203.150.107.212/lessor/my-product?username=${cookie['username']}`, requestOptions);
+    const response = await fetch(`http://203.150.107.212/user/info/${cookie['username']}`, requestOptions);
     // console.log(response);
     const result = await response.json();
-    console.log("result : ", result.data.row);
+    console.log("result : ", result.data);
     try {
       if (result.ret == 0) {
-        setExData(result.data.row);
+        setExData(result.data);
       }
       else {
         alert(result.msg);
@@ -129,6 +129,7 @@ export default function App({ navigation }) {
     )
   }
   console.log("cookie on Profile loop screen :", myCookie)
+  console.log(exData);
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -144,12 +145,18 @@ export default function App({ navigation }) {
                   borderRadius: 50,
                 }
               }
-              source={require('../../assets/images/photo/kim.png')}
+              source={require('../../assets/images/banner/user_onMap.png')}
             />
           </TouchableOpacity>
           <View style={styles.header_name}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>ID: CHARMUAR{'\n'}</Text>
-            <Text style={{ fontWeight: 'normal' }}>จำนวนรถในคลัง : </Text>
+            <FlatList 
+            data={exData}
+            renderitem={({item}) => (
+              <View style={{flex:1,backgroundColor:'red'}}>
+                <Text >{item.firstname}hi</Text>
+              </View>
+            )}/>
+            <Text style={{ fontWeight: 'bold', fontSize: 18 }}> ชื่อบัญชี : charmuar{'\n'}</Text>
           </View>
         </View>
       </View>
