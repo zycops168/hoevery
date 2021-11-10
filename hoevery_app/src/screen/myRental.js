@@ -42,7 +42,7 @@ const myRental = ({navigation}) => {
         <View style={styles.header_text}>
           <TouchableOpacity
             styles={{}}
-            onPress={() => navigation.navigate('mainPage')}>
+            onPress={() => navigation.navigate('Profiles')}>
             <Icon name="arrow-left" size={30} />
           </TouchableOpacity>
           <Text style={styles.text}> สถานะรายการเช่ารถ</Text>

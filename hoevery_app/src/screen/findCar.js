@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, {useState} from 'react';
-=======
 import React, {useState, useEffect} from 'react';
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
 import {
   StyleSheet,
   Text,
@@ -123,70 +119,6 @@ const findCar = ({navigation}) => {
       alert('Select Type Work');
     }
   };
-<<<<<<< HEAD
-  return (
-    // all of body 3 section header/body/footer
-    <View style={styles1.container}>
-      <StatusBar backgroundColor={COLORS.primary} barStyle="light-content" />
-      {/* header */}
-      <View style={{flexDirection: 'row', backgroundColor: COLORS.primary}}>
-        <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: SIZES.padding * 0,
-            marginBottom: SIZES.padding * 1,
-            paddingHorizontal: SIZES.padding * 2,
-          }}
-          onPress={() => navigation.goBack()}>
-          <Image
-            source={icons.back}
-            resizeMode="contain"
-            style={{width: 20, height: 20, tintColor: COLORS.white}}
-          />
-
-          <Text
-            style={{
-              marginLeft: SIZES.padding * 1.5,
-              color: COLORS.white,
-              ...FONTS.h4,
-            }}>
-            {/* Back */}
-          </Text>
-        </TouchableOpacity>
-        <Text
-          style={{
-            flexDirection: 'row',
-            color: COLORS.white,
-            ...FONTS.h3,
-            fontWeight: 'bold',
-            right: -85,
-            top: 5,
-          }}>
-          ค้นหารถ
-        </Text>
-        <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: SIZES.padding * 0,
-            marginBottom: SIZES.padding * 1,
-            paddingHorizontal: SIZES.padding * 2,
-          }}
-          onPress={() => console.log('press filter button')}></TouchableOpacity>
-      </View>
-      <View style={styles1.header}>
-        <View style={styles1.header_easy_find}>
-          <Text style={[styles.text_header1, {color: COLORS.secondary}]}>
-            EASY
-          </Text>
-          <Text style={[styles.text_header1, {color: COLORS.primary}]}>
-            FIND
-          </Text>
-        </View>
-      </View>
-      {/* body */}
-=======
 
   const Header = () => {
     {
@@ -211,7 +143,6 @@ const findCar = ({navigation}) => {
   };
   const Body = () => {
     return (
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
       <View style={styles1.body}>
         <Picker
           style={styles1.picker}
@@ -243,27 +174,6 @@ const findCar = ({navigation}) => {
           <Picker.Item label="Crowded" value="Crowded" />
         </Picker>
       </View>
-<<<<<<< HEAD
-      <View styles={styles1.body2}>
-        {/* <TouchableOpacity style={styles1.btn_readmore}
-                    onPress={() => navigation.navigate('googleMap')}>
-                        <Icon name="arrow-right" size={30}/>  
-                    </TouchableOpacity>
-                    <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-                        <View style={{width:50,height:50, backgroundColor:'red'}}></View>
-                    </Overlay> */}
-      </View>
-      {/* footer */}
-      <View style={styles1.footer}>
-        <TouchableOpacity
-          style={styles1.btn_readmore}
-          onPress={() => Check_getExData(pickerValue)}>
-          {/* <Icon name="arrow-right" size={30} /> */}
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Next</Text>
-        </TouchableOpacity>
-      </View>
-      <LinearProgress color={COLORS.pink} />
-=======
     );
   };
   const Body_find_btn = () => {
@@ -291,7 +201,6 @@ const findCar = ({navigation}) => {
       <Body_find_btn />
       {/* footer */}
       <Footer />
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
     </View>
   );
 };
@@ -356,34 +265,19 @@ const styles1 = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 12,
   },
-<<<<<<< HEAD
-  btn_readmore: {
-    backgroundColor: COLORS.primary,
-    width: '25%',
-    justifyContent: 'flex-end',
-=======
   find_btn: {
     backgroundColor: COLORS.primary,
     width: '25%',
     justifyContent: 'center',
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
     alignItems: 'center',
     alignSelf: 'flex-end',
     padding: 10,
     borderRadius: 10,
-<<<<<<< HEAD
-    shadowOffset: {width: -10, height: -10},
-    shadowColor: '#000',
-    shadowOpacity: 2.0,
-    shadowRadius: 2.0,
-    elevation: 50,
-=======
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
     elevation: 10,
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
   },
 });
 

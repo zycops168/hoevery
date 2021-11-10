@@ -41,18 +41,36 @@ const AddressPro = ({navigation}) => {
           });
         }
       };
-    
-      // const handlePasswordChange = val => {
-      //   setData({
-      //     ...data,
-      //     password: val,
-      //   });
-      // };
-    
-      const updateSecureTextEntry = () => {
+
+      const handleStreetChange = val => {
         setData({
           ...data,
-          secureTextEntry: !data.secureTextEntry,
+          streetaddress: val,
+        });
+      };
+      const handleCityChange = val => {
+        setData({
+          ...data,
+          city: val,
+        });
+      };
+    
+      const handleStateChange = val => {
+        setData({
+          ...data,
+          state: val,
+        });
+      };
+      const handleZipChange = val => {
+        setData({
+          ...data,
+          zip: val,
+        });
+      };
+      const handleTelChange = val => {
+        setData({
+          ...data,
+          tel: val,
         });
       };
     
@@ -156,9 +174,8 @@ const AddressPro = ({navigation}) => {
                         style={styles.textInput}
                         placeholder=" *Street Address"
                         autoCapitalize="none"
-                        onChangeText={val => textInputChange(val)}
-                        value={data.firstname}
-                        autoCapitalize="word"
+                        onChangeText={val => handleStreetChange(val)}
+                        value={data.streetaddress}
                         autoCompleteType="off"
                       />
                     </View>
@@ -175,8 +192,8 @@ const AddressPro = ({navigation}) => {
                         style={styles.textInput}
                         placeholder=" *City"
                         autoCapitalize="none"
-                        onChangeText={val => textInputChange(val)}
-                        value={data.lastname}
+                        onChangeText={val => handleCityChange(val)}
+                        value={data.city}
                         autoCompleteType="off"
                       />
                     </View>
@@ -194,9 +211,8 @@ const AddressPro = ({navigation}) => {
                         style={styles.textInput}
                         placeholder=" *State/Province/Region"
                         autoCapitalize="none"
-                        secureTextEntry={data.secureTextEntry ? true : false}
-                        onChangeText={val => handlePasswordChange(val)}
-                        value={data.password}
+                        onChangeText={val => handleStateChange(val)}
+                        value={data.state}
                         autoCompleteType="off"
                       />
                     </View>
@@ -213,10 +229,10 @@ const AddressPro = ({navigation}) => {
                       <TextInput
                         style={styles.textInput}
                         placeholder=" *Zip/Postal Code"
-                        //autoCapitalize="none"
-                        secureTextEntry={data.secureTextEntry ? true : false}
-                        onChangeText={val => handlePasswordChange(val)}
-                        value={data.confirmPassword}
+                        autoCapitalize="none"
+                        onChangeText={val => handleZipChange(val)}
+                        value={data.zip}
+                        keyboardType="numeric"
                         autoCompleteType="off"
                       />
                     </View>
@@ -234,7 +250,7 @@ const AddressPro = ({navigation}) => {
                         style={styles.textInput}
                         placeholder=" *Number Phone"
                         //autoCapitalize="none"
-                        onChangeText={val => textInputChange(val)}
+                        onChangeText={val => handleTelChange(val)}
                         value={data.tel}
                         keyboardType="numeric"
                         autoCompleteType="tel"

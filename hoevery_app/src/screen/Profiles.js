@@ -7,6 +7,7 @@ import {
   Image,
   BackHandler,
   navigation,
+  ImageBackground,
   FlatList
 } from 'react-native';
 import { colors, Overlay } from 'react-native-elements';
@@ -15,19 +16,18 @@ import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-<<<<<<< HEAD
-export default function Profiles({navigation}) {
-  const [visible, setVisible] = useState(false);
+import {useTheme} from 'react-native-paper';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
+import ImagePicker from 'react-native-image-crop-picker';
 
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-=======
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
-export default function App({ navigation }) {
+
+
+export default function Profiles({ navigation }) {
+
   const [visible, setVisible] = useState(false);
   const toggleOverlay = () => { setVisible(!visible) };
   const [exData, setExData] = useState([]);
@@ -37,59 +37,6 @@ export default function App({ navigation }) {
     { id: uuid(), text: "green" },
   ])
 
-<<<<<<< HEAD
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.name}>MochiMochi</Text>
-        <Text style={styles.mail}>kim_mo27@hotmail.com</Text>
-        <Image
-          style={styles.Images1}
-          source={require('../../assets/images/photo/kim.png')}
-        />
-      </View>
-
-      <View style={styles.inside}>
-        <TouchableOpacity
-          style={[styles.btn_main, styles.center]}
-          onPress={() => navigation.navigate('AddCar',  { paramKey: items })}>
-          <Text style={styles.text}>ให้เช่า</Text>
-        </TouchableOpacity>
-
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <TouchableOpacity style={styles.btn1}
-          onPress={() => navigation.navigate('History')}>
-            <Icon name="history" size={40}/>  
-          </TouchableOpacity>
-          <Text
-            style={{
-              bottom: 10,
-              left: 65,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            HISTORY
-          </Text>
-        </View>
-
-
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <TouchableOpacity
-            style={styles.btn2}
-            onPress={() => navigation.navigate('AddressPro')}>
-            <Icon name="building" size={40} color="black" />
-          </TouchableOpacity>
-
-          <Text
-            style={{
-              bottom: 85,
-              left: 213,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            ADDRESS
-          </Text>
-=======
   useEffect(() => {
     getCookie();
     getExData();
@@ -155,7 +102,8 @@ export default function App({ navigation }) {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}
-              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }} >
+              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }} 
+              onPress={() => navigation.navigate('AddressPro')}>
               <Icon name="building" size={33} color="black" />
               <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
                 ที่อยู่{'\n'}
@@ -169,97 +117,9 @@ export default function App({ navigation }) {
               </Text>
             </TouchableOpacity>
           </View>
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
         </View>
       </View>
 
-<<<<<<< HEAD
-
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <TouchableOpacity
-            style={styles.btn4}
-            onPress={toggleOverlay}>  
-            <Icon name="heart" size={35} color="black" />
-            <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-            <View style={styles.inbutton}>
-
-              <View style={styles.insideHis} top={5}>
-              <Image style={styles.imHis}
-              source={require('../../images/type_ex/1_crawler.png')}
-              top={10}
-              borderRadius={100/2}/>        
-              <Text style={styles.t1} >Lonh Reach</Text>     
-              <Text style={styles.totalHis} >
-               <Icon name="money" size={25} color="black"/>
-                  Total :
-              </Text> 
-              </View> 
-
-              <View style={styles.insideHis} top={115}>
-              <Image style={styles.imHis}
-              source={require('../../images/type_ex/1_crawler.png')}
-              top={10}
-              borderRadius={100/2}/>        
-              <Text style={styles.t1} >Lonh Reach</Text>     
-              <Text style={styles.totalHis} >
-               <Icon name="money" size={25} color="black"/>
-                  Total : </Text> 
-              </View> 
-
-              <View style={styles.insideHis} top={225}>
-              <Image style={styles.imHis}
-              source={require('../../images/type_ex/1_crawler.png')}
-              top={10}
-              borderRadius={100/2}/>        
-              <Text style={styles.t1} >Lonh Reach</Text>     
-              <Text style={styles.totalHis} >
-               <Icon name="money" size={25} color="black"/>
-                  Total :</Text> 
-              </View>                
-
-
-              <View style={styles.insideHis} top={335}>
-              <Image style={styles.imHis}
-              source={require('../../images/type_ex/1_crawler.png')}
-              top={10}
-              borderRadius={100/2}/>        
-              <Text style={styles.t1} >Lonh Reach</Text>     
-              <Text style={styles.totalHis} >
-               <Icon name="money" size={25} color="black"/>
-                  Total : </Text> 
-              </View>     
-
-              <View style={styles.insideHis} top={445}>
-              <Image style={styles.imHis}
-              source={require('../../images/type_ex/1_crawler.png')}
-              top={10}
-              borderRadius={100/2}/>        
-              <Text style={styles.t1} >Lonh Reach</Text>     
-              <Text style={styles.totalHis} >
-               <Icon name="money" size={25} color="black"/>
-                  Total : </Text> 
-              </View> 
-                 
-
-              {/* <TouchableOpacity style={[styles.btnModel_Save,styles.center]} 
-              onPress={() => navigation.navigate('Profiles')}>
-                <Text style={{ color: 'black', fontWeight: 'bold'}}>SAVE</Text> 
-              </TouchableOpacity>   */}
-
-             </View>
-          </Overlay>             
-          </TouchableOpacity>
-
-          <Text
-            style={{
-              bottom: 40,
-              left: 80,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            LIKE
-          </Text>
-=======
     )
   }
   const Footer = () => {
@@ -274,80 +134,154 @@ export default function App({ navigation }) {
             </Text>
           </TouchableOpacity>
 
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
         </View>
       </View>
     )
   }
+
+
+
+
+  const [image, setImage] = useState('https://api.adorable.io/avatars/80/abott@adorable.png');
+  const { colors } = useTheme();
+
+  const takePhotoFromCamera = () => {
+    ImagePicker.openCamera({
+      compressImageMaxWidth: 300,
+      compressImageMaxHeight: 300,
+      cropping: true,
+      compressImageQuality: 0.7
+    }).then(image => {
+      console.log(image);
+      setImage(image.path);
+      this.bs.current.snapTo(1);
+    });
+  }
+  const choosePhotoFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7
+    }).then(image => {
+      console.log(image);
+      setImage(image.path);
+      this.bs.current.snapTo(1);
+    });
+  }
+
+  renderInner = () => (
+    <View style={styles.panel}>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.panelTitle}>Upload Photo</Text>
+        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+      </View>
+      <TouchableOpacity style={styles.panelButton} onPress={takePhotoFromCamera}>
+        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton} onPress={choosePhotoFromLibrary}>
+        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.cancelButton}
+        onPress={() => this.bs.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  ),
+
+    renderHeader = () => (
+      <View style={styles.header}>
+        <View style={styles.header_name} />
+      </View>
+    )
+
+  bs = React.createRef();
+  fall = new Animated.Value(1);
+
   console.log("cookie on Profile loop screen :", myCookie)
+
+
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.header_text}>
-          <TouchableOpacity style={{ width: 110, height: "100%" }}
-            onPress={() => { }} >
-            <Image
-              style={
-                {
-                  width: 85,
-                  height: 85,
-                  borderRadius: 50,
-                }
-              }
-              source={require('../../assets/images/photo/kim.png')}
-            />
-          </TouchableOpacity>
-<<<<<<< HEAD
-          <Text
-            style={{
-              bottom: 118,
-              left: 227,
-              color: COLORS.drakGreen,
-              fontWeight: 'bold',
-            }}>
-            HELP
-          </Text>
-        </View>
-      </View>
 
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <TouchableOpacity
-          style={styles.btn6}
-          onPress={() => navigation.navigate('SignInScreen')}>
-          <Icon name="lock" size={40} color="black" />
-        </TouchableOpacity>
-        <Text
-          style={{
-            top: 240,
-            left: 135,
-            fontSize: 15,
-            color: 'black',
-            fontWeight: 'bold',
-          }}>
-          LOGOUT
-        </Text>
-      </View>
-=======
-          <View style={styles.header_name}>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>ID: CHARMUAR{'\n'}</Text>
-            <Text style={{ fontWeight: 'normal' }}>จำนวนรถในคลัง : </Text>
+      <BottomSheet
+        ref={this.bs}
+        snapPoints={[330, 0]}
+        renderContent={this.renderInner}
+        renderHeader={this.renderHeader}
+        initialSnap={1}
+        callbackNode={this.fall}
+        enabledGestureInteraction={true}
+      />
+
+        <View style={styles.header}>
+          <View style={styles.header_text}>
+
+        <Animated.View style={{
+          margin: 20,
+          opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+        }}>
+
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => this.bs.current.snapTo(0)}>
+              <View
+                style={{ height: 100, width: 100, borderRadius: 15, top: 50, justifyContent: 'center', alignItems: 'center', }}>
+                <ImageBackground
+                  source={{ uri: image }}
+                  style={{ height: 90, width: 90, bottom: 5}}
+                  imageStyle={{ borderRadius: 50}}>
+                  <View
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Icon name="camera" size={45} color="#fff"
+                      style={{
+                        opacity: 0.7, alignItems: 'center', justifyContent: 'center',
+                        borderWidth: 1, borderColor: '#fff', borderRadius: 10
+                      }}
+                    />
+                  </View>
+                </ImageBackground>
+              </View>
+            </TouchableOpacity>
+
+            <Text style={{
+              left: 150, bottom: 40, padding: 10, fontWeight: 'bold', fontSize: 18
+            }}> ID: CHARMUAR{'\n'}</Text>
+            <Text style={{
+              left: 140, bottom: 70, padding: 10, fontWeight: 'bold', fontSize: 15, fontWeight: 'normal'
+            }}> จำนวนรถในคลัง : </Text> 
+
           </View>
+          
+    
+        </Animated.View>
+
+          </View>
+
         </View>
-      </View>
-      {/* Body */}
-      <Body />
-      {/* Footer */}
-      <Footer />
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
-    </View>
+        <Body/>
+        <Footer/>
+
+
+    </View >
+
   );
-}
+};
+
+
+
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.gray,
     flex: 1
+  },
+  inside: {
+    backgroundColor: COLORS.white,
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10,
+    paddingBottom: 5,
   },
   header: {
     backgroundColor: COLORS.white,
@@ -384,91 +318,11 @@ const styles = StyleSheet.create({
     shadowRadius: 5.0,
     elevation: 4,
   },
-<<<<<<< HEAD
-  mail: {
-    fontWeight: 'bold',
-    color: 'white',
-    fontSize: 15,
-    top: 30,
-    left: 77,
-  },
-
-  inside: {
-    backgroundColor: 'white',
-    borderRadius: 100 / 2,
-    position: 'absolute',
-    top: 133,
-    height: 500,
-    width: 350,
-  },
-
-  insideHis: {
-    backgroundColor: 'white',
-    position: 'absolute',
-    left: 5,
-    top: 20,
-    height: 100,
-    width: 330,
-    borderRadius: 50/ 2,
-    elevation: 10
-  },
-
-  imHis:{
-    position: 'absolute',
-    left: 25,
-    height: 80,
-    width: 80
-  },
-
-  t1: {
-    color: 'black',
-    position: 'absolute',
-    fontWeight: 'bold',
-    top: 20,
-    fontSize: 20,
-    left: 150
-  },
-
-  totalHis: {
-    color: 'black',
-    position: 'absolute',
-    fontWeight: 'bold',
-    top: 50,
-    fontSize: 18,
-    left: 150
-  },
-
-  btn_main: {
-=======
   margin_body: {
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
     flex: 1,
     padding: 10,
     backgroundColor: COLORS.white,
     borderRadius: 10,
-<<<<<<< HEAD
-    backgroundColor: COLORS.gray,
-    width: 340,
-    height: 550,
-    alignSelf: 'center',
-  },
-
-  btn1: {
-    bottom: 20,
-    left: 80,
-  },
-  btn2: {
-    bottom: 95,
-    left: 230,
-  },
-  btn4: {
-    bottom: 50,
-    left: 78,
-  },
-  btn5: {
-    bottom: 125,
-    left: 235,
-=======
     shadowOffset: { width: 2, height: 2 },
     shadowColor: 'orange',
     shadowOpacity: 5.0,
@@ -514,7 +368,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
     elevation: 12,
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
   },
   header_name: {
     flex: 1,
@@ -523,20 +376,50 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-<<<<<<< HEAD
-  box1: {
-    borderRadius: 100 / 2,
-    position: 'absolute',
-    top: 133,
-    height: 500,
-    width: 350,
-    top: 0,
-    backgroundColor: COLORS.pink,
-    elevation: 10,
+
+
+
+  panel: {
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 20,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    marginVertical: 7,
+  },
+  cancelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: '#FF6347',
+    alignItems: 'center',
+    marginVertical: 7,
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
   },
 
-=======
->>>>>>> ee5092470b6961960cbf160f2dfa9b35d1c7eece
 });
 
 //export default Profiles;
