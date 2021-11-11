@@ -7,6 +7,7 @@ import {
   Image,
   BackHandler,
   navigation,
+  ImageBackground,
   FlatList
 } from 'react-native';
 import { colors, Overlay } from 'react-native-elements';
@@ -15,10 +16,18 @@ import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import {useTheme} from 'react-native-paper';
+import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from 'react-native-reanimated';
+import ImagePicker from 'react-native-image-crop-picker';
+
 
 import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 
-export default function App({ navigation }) {
+
+
+export default function Profiles({ navigation }) {
+
   const [visible, setVisible] = useState(false);
   const toggleOverlay = () => { setVisible(!visible) };
   const [exData, setExData] = useState([]);
@@ -93,7 +102,8 @@ export default function App({ navigation }) {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}
-              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }} >
+              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }} 
+              onPress={() => navigation.navigate('AddressPro')}>
               <Icon name="building" size={33} color="black" />
               <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
                 ที่อยู่{'\n'}
@@ -128,50 +138,150 @@ export default function App({ navigation }) {
       </View>
     )
   }
+
+
+
+
+  const [image, setImage] = useState('https://api.adorable.io/avatars/80/abott@adorable.png');
+  const { colors } = useTheme();
+
+  const takePhotoFromCamera = () => {
+    ImagePicker.openCamera({
+      compressImageMaxWidth: 300,
+      compressImageMaxHeight: 300,
+      cropping: true,
+      compressImageQuality: 0.7
+    }).then(image => {
+      console.log(image);
+      setImage(image.path);
+      this.bs.current.snapTo(1);
+    });
+  }
+  const choosePhotoFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7
+    }).then(image => {
+      console.log(image);
+      setImage(image.path);
+      this.bs.current.snapTo(1);
+    });
+  }
+
+  renderInner = () => (
+    <View style={styles.panel}>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.panelTitle}>Upload Photo</Text>
+        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+      </View>
+      <TouchableOpacity style={styles.panelButton} onPress={takePhotoFromCamera}>
+        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton} onPress={choosePhotoFromLibrary}>
+        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.cancelButton}
+        onPress={() => this.bs.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  ),
+
+    renderHeader = () => (
+      <View style={styles.header}>
+        <View style={styles.header_name} />
+      </View>
+    )
+
+  bs = React.createRef();
+  fall = new Animated.Value(1);
+
   console.log("cookie on Profile loop screen :", myCookie)
-  console.log(exData);
+
+
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.header_text}>
-          <TouchableOpacity style={{ width: 110, height: "100%" }}
-            onPress={() => { }} >
-            <Image
-              style={
-                {
-                  width: 85,
-                  height: 85,
-                  borderRadius: 50,
-                }
-              }
-              source={require('../../assets/images/banner/user_onMap.png')}
-            />
-          </TouchableOpacity>
-          <View style={styles.header_name}>
-            <FlatList 
-            data={exData}
-            renderitem={({item}) => (
-              <View style={{flex:1,backgroundColor:'red'}}>
-                <Text >{item.firstname}hi</Text>
+
+      <BottomSheet
+        ref={this.bs}
+        snapPoints={[330, 0]}
+        renderContent={this.renderInner}
+        renderHeader={this.renderHeader}
+        initialSnap={1}
+        callbackNode={this.fall}
+        enabledGestureInteraction={true}
+      />
+
+        <View style={styles.header}>
+          <View style={styles.header_text}>
+
+        <Animated.View style={{
+          margin: 20,
+          opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+        }}>
+
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => this.bs.current.snapTo(0)}>
+              <View
+                style={{ height: 100, width: 100, borderRadius: 15, top: 50, justifyContent: 'center', alignItems: 'center', }}>
+                <ImageBackground
+                  source={{ uri: image }}
+                  style={{ height: 90, width: 90, bottom: 5}}
+                  imageStyle={{ borderRadius: 50}}>
+                  <View
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Icon name="camera" size={45} color="#fff"
+                      style={{
+                        opacity: 0.7, alignItems: 'center', justifyContent: 'center',
+                        borderWidth: 1, borderColor: '#fff', borderRadius: 10
+                      }}
+                    />
+                  </View>
+                </ImageBackground>
               </View>
-            )}/>
-            <Text style={{ fontWeight: 'bold', fontSize: 18 }}> ชื่อบัญชี : charmuar{'\n'}</Text>
+            </TouchableOpacity>
+
+            <Text style={{
+              left: 150, bottom: 40, padding: 10, fontWeight: 'bold', fontSize: 18
+            }}> ID: CHARMUAR{'\n'}</Text>
+            <Text style={{
+              left: 140, bottom: 70, padding: 10, fontWeight: 'bold', fontSize: 15, fontWeight: 'normal'
+            }}> จำนวนรถในคลัง : </Text> 
+
           </View>
+          
+    
+        </Animated.View>
+
+          </View>
+
         </View>
-      </View>
-      {/* Body */}
-      <Body />
-      {/* Footer */}
-      <Footer />
-    </View>
+        <Body/>
+        <Footer/>
+
+
+    </View >
+
   );
-}
+};
+
+
+
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.gray,
     flex: 1
+  },
+  inside: {
+    backgroundColor: COLORS.white,
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10,
+    paddingBottom: 5,
   },
   header: {
     backgroundColor: COLORS.white,
@@ -264,6 +374,50 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     padding: 10,
+  },
+
+
+
+
+  panel: {
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 20,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    marginVertical: 7,
+  },
+  cancelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: '#FF6347',
+    alignItems: 'center',
+    marginVertical: 7,
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: 'gray',
+    height: 30,
+    marginBottom: 10,
   },
 
 });

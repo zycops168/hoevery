@@ -20,10 +20,11 @@ import payment from './src/screen/payment';
 import notify from './src/screen/nofity';
 import myRental from './src/screen/myRental';
 import afterPayment from './src/screen/afterPayment';
-import Profiles from './src/screen/Profiles'
-import testDeploy from './src/screen/testDeploy'
-import testRegister from './src/screen/testRegister'
+import Profiles from './src/screen/Profiles';
+import testDeploy from './src/screen/testDeploy';
+import testRegister from './src/screen/testRegister';
 import History from './src/screen/History';
+import AddressPro from './src/screen/AddressPro';
 
 const Stack = createStackNavigator();
 function MyStack() {
@@ -53,6 +54,7 @@ function MyStack() {
       <Stack.Screen name="testDeploy" component={testDeploy} />
       <Stack.Screen name="testRegister" component={testRegister} />
       <Stack.Screen name="History" component={History} />
+      <Stack.Screen name="AddressPro" component={AddressPro} />
     </Stack.Navigator>
   );
 }

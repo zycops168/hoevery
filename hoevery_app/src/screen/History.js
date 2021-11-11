@@ -39,7 +39,8 @@ const History = ({ navigation }) => {
             onPress={() => navigation.navigate('Profiles')}>
             <Icon name="arrow-left" size={30} />
           </TouchableOpacity>
-          <Text style={styles.text}>                 ประวัติการให้เช่ารถ</Text>
+          <Text style={styles.text}>                 
+          ประวัติการให้เช่ารถ</Text>
         </View>
       </View>
     )

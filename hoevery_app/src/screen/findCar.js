@@ -232,11 +232,8 @@ const styles1 = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   body2: {
-    flex: 0.5,
-    flexDirection: 'row',
+    flex: 0.1,
     backgroundColor: COLORS.white,
-    justifyContent: 'space-around',
-    alignItems: 'center',
     padding: 10,
   },
   footer: {
@@ -273,7 +270,7 @@ const styles1 = StyleSheet.create({
     width: '25%',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     padding: 10,
     borderRadius: 10,
     shadowOffset: {width: 2, height: 2},
