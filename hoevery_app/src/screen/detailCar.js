@@ -63,17 +63,10 @@ const detailCar = ({ navigation }) => {
     data.append("Monthly", Price_monthly);
     data.append("function", func);
     data.append("create_by", cookieUsername['username']);
-
-    // data.append("uploaded_file",{
-    //   uri: photo.uri, 
-    //   name: photo.name, 
-    //   type: photo.type
-    // });
-    data.append("uploaded_file",photo, photo.name);
+    data.append("uploaded_file",photo[0], photo[0].uri);
     console.log("formData : ", data);
     var requestOptions = {
       method: 'POST',
-      headers: myHeaders,
       body: data,
       redirect: 'follow',
     };
@@ -92,46 +85,7 @@ const detailCar = ({ navigation }) => {
   };
 
   const handleChoosePhoto = async () => {
-    // launchImageLibrary({ noData: true }, (response) => {
-    //   // console.log(response);
-    //   if (response) {
-    //     setPhoto(response);
-    //     console.log("photo : ", photo);
-
-    //   }
-    // });
-
-    // ImagePicker.openPicker({
-    //   width: 300,
-    //   height: 400,
-    //   cropping: false
-    // }).then(image => {
-    //   console.log(image);
-    //   setPhoto(image);
-    //   console.log("phpto", photo);
-      // photo.uri = photo.path;
-      // photo.name = "1_crawler.png";
-      // photo.type = photo.mime;
-      // photo.dateModified = new Date();
-    // });
-    // try {
-    //   const res = await DocumentPicker.pick({
-    //     type: [DocumentPicker.types.images],
-    //   })
-    //   console.log(
-    //     res.uri,
-    //     res.type, // mime type
-    //     res.name,
-    //     res.size,
-    //   )
-    // } catch (err) {
-    //   if (DocumentPicker.isCancel(err)) {
-    //     // User cancelled the picker, exit any dialogs or menus and move on
-    //   } else {
-    //     throw err
-    //   }
-    // }
-
+   
       //Opening Document Picker for selection of one file
       try {
         const res = await DocumentPicker.pick({

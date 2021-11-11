@@ -22,7 +22,7 @@ export default function AddCar({ navigation, route }) {
   useEffect(() => {
     getExData();
     getNotiData();
-    const dataInterval = setInterval(() => getNotiData(), 5 * 1000);
+    const dataInterval = setInterval(() => getExData(), 5 * 1000);
     const notiInterval = setInterval(() => getNotiData(), 5 * 1000);
     return () => {
       clearInterval(dataInterval);
