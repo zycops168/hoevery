@@ -5,8 +5,6 @@
 #include <ArduinoOTA.h>
 #include <WiFiManager.h>
 #include <PubSubClient.h>
-#include <TinyGPS++.h>
-#include <HardwareSerial.h>
 #define RXPin (16)
 #define TXPin (17)
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -25,33 +23,10 @@ const char* mqttPassword = "";
 WiFiClient espClient;
 PubSubClient client(espClient);
 ////////////////////////////////////////////////////////////////////////////////////////
-//gps
-static const uint32_t GPSBaud = 9600;
-TinyGPSPlus gps;
-HardwareSerial ss(2);
 //led
 int LED = 2;
 int LEDWIFI = 19;
 int LEDMQTT = 21;
-////////////////////////////////////////////////////////////////////////////////////////
-void displayInfo()
-{
-  if ( millis() - last_time > period) {
-    last_time = millis();
-    Serial.print(F("Location: "));
-    if (gps.location.isValid())
-    {
-      Serial.print(gps.location.lat(), 6);
-      Serial.print(F(","));
-      Serial.print(gps.location.lng(), 6);
-    }
-    else
-    {
-      Serial.print(F("INVALID"));
-    }
-    Serial.println();
-  }
-}
 ////////////////////////////////////////////////////////////////////////////////////////
 void pub_mqtt() {
   if ( millis() - last_time > period) {
@@ -59,10 +34,12 @@ void pub_mqtt() {
     StaticJsonBuffer<300> JSONbuffer;
     JsonObject& JSONencoder = JSONbuffer.createObject();
 
+//ส่งค่า
     JSONencoder["car_id"] = "26";
-    JSONencoder["latitude"] = gps.location.lat(), 6;
-    JSONencoder["longitude"] = gps.location.lng(), 6;
-
+    JSONencoder["latitude"] =  "6";
+    JSONencoder["longitude"] = " 6";
+     JSONencoder["longitude"] = " 6";
+//
 
     char JSONmessageBuffer[100];
     JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
@@ -121,7 +98,6 @@ void ota() {
 ////////////////////////////////////////////////////////////////////////////////////////
 void setup() {
   Serial.begin(115200);
-  ss.begin(GPSBaud, SERIAL_8N1, RXPin, TXPin, false);
   pinMode(LED, OUTPUT);
   pinMode(LEDWIFI, OUTPUT);
   pinMode(LEDMQTT, OUTPUT);
@@ -158,31 +134,18 @@ void TaskA( void * pvParameters ) {
   res = wm.autoConnect();
   if (!res) {
     Serial.println("Failed to connect");
-    digitalWrite(LEDWIFI, LOW);
+   
     ESP.restart();
   }
   else {
     Serial.println("connected...yeey :)");
-    digitalWrite(LEDWIFI, HIGH);
+   
   }
   ota();
   mqtt();
   while (true) {
     ArduinoOTA.handle();
-    buttonState = digitalRead(buttonPin);
-    if (buttonState == HIGH) {
-      digitalWrite(LEDWIFI, LOW),
-      wm.resetSettings();
-    } else {
-    }
-    if (client.connect("ESP32Client", mqttUser, mqttPassword )) {
-      //Led
-      digitalWrite(LEDMQTT, HIGH);
-      pub_mqtt();
-    } else {
-      //led
-      digitalWrite(LEDMQTT, LOW);
-    }
+    
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -191,8 +154,7 @@ void TaskB( void * pvParameters ) {
   Serial.println(xPortGetCoreID());
 
   while (true) {
-    if (gps.encode(ss.read()))
-      displayInfo();
+//
   }
 }
 void loop() {

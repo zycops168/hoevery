@@ -2,6 +2,7 @@
 #include <LoRa.h>
 #include <TinyGPS++.h>
 #include <HardwareSerial.h>
+
 /////////////////////////////////////////////////////////////////////////
 //gps
 #define RXPin (16)
@@ -17,6 +18,8 @@
 //866E6 for Europe
 //915E6 for North America
 #define BAND 433E6
+int car_id =26;
+#define SECONDS_DS(seconds) ((seconds)*1000000UL)
 /////////////////////////////////////////////////////////////////////////
 //gps
 static const uint32_t GPSBaud = 9600;
@@ -60,11 +63,14 @@ void senddata()
     Serial.println(gps.location.lng(), 6);
     //lora
     Serial.print("Sending packet: ");
+    Serial.print(car_id);
+    Serial.print(F(","));
     Serial.print(gps.location.lat(), 6);
     Serial.print(F(","));
     Serial.print(gps.location.lng(), 6);
     //Send LoRa packet to receiver
     LoRa.beginPacket();
+      LoRa.print(car_id);
     LoRa.print(gps.location.lat(), 6);
     LoRa.print(",");
     LoRa.print(gps.location.lng(), 6);
@@ -77,4 +83,9 @@ void senddata()
     delay(2000);
   }
   Serial.println();
+}
+void sleep()
+{
+  Serial.println("Sleeping");
+ESP.deepSleep(SECONDS_DS(10));
 }
