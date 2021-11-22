@@ -1,0 +1,29 @@
+List of packages install on hoevery-app
+
+- @react-native-async-storage/async-storage
+- @react-native-community/checkbox
+- @react-native-community/geolocation
+- @react-native-picker/picker
+- @react-navigation/native
+- @react-navigation/stack
+- react-native-animatable
+- react-native-cookie
+- react-native-document-picker
+- react-native-dropdown-picker
+- react-native-elements
+- react-native-gesture-handler
+- react-native-image-crop-picker
+- react-native-image-picker
+- react-native-linear-gradient
+- react-native-maps
+- react-native-maps-directions
+- react-native-paper
+- react-native-push-notification
+- react-native-reanimated
+- react-native-safe-area
+- react-native-safe-area-context
+- react-native-screens
+- react-native-touchable-scale
+- react-native-vector-icons
+- reanimated-bottom-sheet
+- uuid-random

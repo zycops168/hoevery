@@ -16,7 +16,7 @@ import uuid from 'uuid-random';
 import Cookie from 'react-native-cookie';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { useTheme } from 'react-native-paper';
+import {useTheme} from 'react-native-paper';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from 'react-native-reanimated';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -102,7 +102,7 @@ export default function Profiles({ navigation }) {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}
-              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }}
+              style={{ padding: 10, justifyContent: 'center', alignItems: 'center' }} 
               onPress={() => navigation.navigate('AddressPro')}>
               <Icon name="building" size={33} color="black" />
               <Text style={{ color: COLORS.drakGreen, fontWeight: 'bold' }}>
@@ -191,10 +191,8 @@ export default function Profiles({ navigation }) {
   ),
 
     renderHeader = () => (
-      <View style={styles.headerBot}>
-        <View style={styles.panelHeader}>
-          <View style={styles.panelHandle} />
-        </View>
+      <View style={styles.header}>
+        <View style={styles.header_name} />
       </View>
     )
 
@@ -217,52 +215,52 @@ export default function Profiles({ navigation }) {
         enabledGestureInteraction={true}
       />
 
-      <View style={styles.header}>
-        <View style={styles.header_text}>
+        <View style={styles.header}>
+          <View style={styles.header_text}>
 
-          <Animated.View style={{
-            margin: 20,
-            opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
-          }}>
+        <Animated.View style={{
+          margin: 20,
+          opacity: Animated.add(0.1, Animated.multiply(this.fall, 1.0)),
+        }}>
 
-            <View style={{ alignItems: 'center' }}>
-              <TouchableOpacity onPress={() => this.bs.current.snapTo(0)}>
-                <View
-                  style={{ height: 100, width: 100, borderRadius: 15, top: 50, justifyContent: 'center', alignItems: 'center', }}>
-                  <ImageBackground
-                    source={{ uri: image }}
-                    style={{ height: 90, width: 90, bottom: 5 }}
-                    imageStyle={{ borderRadius: 50 }}>
-                    <View
-                      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Icon name="camera" size={45} color="#fff"
-                        style={{
-                          opacity: 0.7, alignItems: 'center', justifyContent: 'center',
-                          borderWidth: 1, borderColor: '#fff', borderRadius: 10
-                        }}
-                      />
-                    </View>
-                  </ImageBackground>
-                </View>
-              </TouchableOpacity>
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => this.bs.current.snapTo(0)}>
+              <View
+                style={{ height: 100, width: 100, borderRadius: 15, top: 50, justifyContent: 'center', alignItems: 'center', }}>
+                <ImageBackground
+                  source={{ uri: image }}
+                  style={{ height: 90, width: 90, bottom: 5}}
+                  imageStyle={{ borderRadius: 50}}>
+                  <View
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Icon name="camera" size={45} color="#fff"
+                      style={{
+                        opacity: 0.7, alignItems: 'center', justifyContent: 'center',
+                        borderWidth: 1, borderColor: '#fff', borderRadius: 10
+                      }}
+                    />
+                  </View>
+                </ImageBackground>
+              </View>
+            </TouchableOpacity>
 
-              <Text style={{
-                left: 150, bottom: 40, padding: 10, fontWeight: 'bold', fontSize: 18
-              }}> ID: CHARMUAR{'\n'}</Text>
-              <Text style={{
-                left: 140, bottom: 70, padding: 10, fontWeight: 'bold', fontSize: 15, fontWeight: 'normal'
-              }}> จำนวนรถในคลัง : </Text>
+            <Text style={{
+              left: 150, bottom: 40, padding: 10, fontWeight: 'bold', fontSize: 18
+            }}> ID: CHARMUAR{'\n'}</Text>
+            <Text style={{
+              left: 140, bottom: 70, padding: 10, fontWeight: 'bold', fontSize: 15, fontWeight: 'normal'
+            }}> จำนวนรถในคลัง : </Text> 
 
-            </View>
+          </View>
+          
+    
+        </Animated.View>
 
-
-          </Animated.View>
+          </View>
 
         </View>
-
-      </View>
-      <Body />
-      <Footer />
+        <Body/>
+        <Footer/>
 
 
     </View >
@@ -386,27 +384,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingTop: 20,
   },
-  headerBot: {
-    backgroundColor: '#EAEAEA',
-    shadowColor: '#333333',
-    shadowOffset: {width: -1, height: -3},
-    shadowRadius: 10,
-    shadowOpacity: 0.4,
-    paddingTop: 20,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
-  },
-  panelHeader: {
-    alignItems: 'center',
-  },
-  panelHandle: {
-    width: 40,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#00000040',
-    marginBottom: 10,
-    elevation: 10 
-  },
   panelSubtitle: {
     fontSize: 14,
     color: 'gray',
@@ -414,9 +391,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   panelButton: {
-    padding: 10,
+    padding: 13,
     borderRadius: 10,
-    backgroundColor: COLORS.primary,
+    backgroundColor: 'black',
     alignItems: 'center',
     marginVertical: 7,
   },
@@ -433,7 +410,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   panelTitle: {
-    fontSize: 24,
+    fontSize: 27,
     height: 35,
   },
   panelSubtitle: {
