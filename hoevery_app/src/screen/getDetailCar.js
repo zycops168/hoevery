@@ -350,11 +350,12 @@ export default class getDetailCar extends Component {
                 ref={this.mapRef}
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
+                showsTraffic={true}
                 region={{
                   latitude: this.state.latitude,
                   longitude: this.state.longitude,
                   latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
+                  longitudeDelta: 0.0321,
                 }}>
                 <Marker
                   coordinate={{
@@ -424,7 +425,7 @@ export default class getDetailCar extends Component {
                     latitude: this.state.latitude,
                     longitude: this.state.longitude,
                   }}
-                  radius={1500}
+                  radius={10000}
                   fillColor={'rgba(200, 300, 200, 0.5)'}
                   strokeWidth={0}
                 />
@@ -450,9 +451,9 @@ export default class getDetailCar extends Component {
                 </Callout>
               </Marker> */}
               </MapView>
-              {/*  End googleMap */}
             </View>
           )}
+              {/*  End googleMap */}
         </View>
 
         <View style={styles.body_text}>
