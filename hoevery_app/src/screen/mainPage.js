@@ -15,20 +15,20 @@ import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 const Header_looking = () => {
   return (
     <View style={styles1.header}>
-      <Text style={[styles.text_header1, { color: '#800080' }]}>L </Text>
-      <Text style={[styles.text_header1, { color: '#00008b' }]}>O </Text>
+      <Text style={[styles.text_header1, { color: '#362222' }]}>LOOKING </Text>
+      {/* <Text style={[styles.text_header1, { color: '#00008b' }]}>O </Text>
       <Text style={[styles.text_header1, { color: '#00ced1' }]}>O </Text>
       <Text style={[styles.text_header1, { color: '#00ff7f' }]}>K </Text>
       <Text style={[styles.text_header1, { color: '#ffff00' }]}>I </Text>
       <Text style={[styles.text_header1, { color: '#ff8c00' }]}>N </Text>
-      <Text style={[styles.text_header1, { color: '#DA1503' }]}>G </Text>
+      <Text style={[styles.text_header1, { color: '#DA1503' }]}>G </Text> */}
     </View>
   );
 };
 const Header_for = () => {
   return (
     <View style={styles1.header2}>
-      <Text style={[styles.text_header1, { color: '#362222' }]}>FOR ? </Text>
+      <Text style={[styles.text_header1, { color: COLORS.primary }]}>FOR ? </Text>
     </View>
   );
 };

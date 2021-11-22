@@ -48,9 +48,6 @@ const detailCar = ({ navigation }) => {
 
 
   const InsertExData = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-
     const cookieUsername = await Cookie.get('203.150.107.212');
     setCreate(cookieUsername['username']);
     const data = new FormData();
@@ -63,7 +60,7 @@ const detailCar = ({ navigation }) => {
     data.append("Monthly", Price_monthly);
     data.append("function", func);
     data.append("create_by", cookieUsername['username']);
-    data.append("uploaded_file",photo[0], photo[0].uri);
+    data.append("uploaded_file", photo[0], photo[0].uri);
     console.log("formData : ", data);
     var requestOptions = {
       method: 'POST',
@@ -74,44 +71,44 @@ const detailCar = ({ navigation }) => {
     const json = await response.json();
     console.log("json : ", json);
     if (json.status == 1) {
+      alert('Please Select File first');
+    }
+    else {
+      // If no file selected the show alert
       alert('Upload Successful');
       console.log('Upload Successful');
       navigation.navigate('AddCar');
     }
-    else {
-      // If no file selected the show alert
-      alert('Please Select File first');
-    }
   };
 
   const handleChoosePhoto = async () => {
-   
-      //Opening Document Picker for selection of one file
-      try {
-        const res = await DocumentPicker.pick({
-          type: [DocumentPicker.types.allFiles],
-          //There can me more options as well
-          // DocumentPicker.types.allFiles
-          // DocumentPicker.types.images
-          // DocumentPicker.types.plainText
-          // DocumentPicker.types.audio
-          // DocumentPicker.types.pdf
-        });
-        setPhoto(res);
-        //Printing the log realted to the file  
-      } catch (err) {
-        //Handling any exception (If any)
-        if (DocumentPicker.isCancel(err)) {
-          //If user canceled the document selection
-          alert('Canceled from single doc picker');
-        } else {
-          //For Unknown Error
-          alert('Unknown Error: ' + JSON.stringify(err));
-          throw err;
-        }
+
+    //Opening Document Picker for selection of one file
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+        //There can me more options as well
+        // DocumentPicker.types.allFiles
+        // DocumentPicker.types.images
+        // DocumentPicker.types.plainText
+        // DocumentPicker.types.audio
+        // DocumentPicker.types.pdf
+      });
+      setPhoto(res);
+      //Printing the log realted to the file  
+    } catch (err) {
+      //Handling any exception (If any)
+      if (DocumentPicker.isCancel(err)) {
+        //If user canceled the document selection
+        alert('Canceled from single doc picker');
+      } else {
+        //For Unknown Error
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
       }
+    }
   };
-  console.log("photo:" , photo);
+  console.log("photo:", photo);
 
   const uploadImage = async () => {
     console.log('upload image active!')
@@ -137,11 +134,12 @@ const detailCar = ({ navigation }) => {
         alert(result.msg);
       }
 
-    } catch (err) { () => {
-      console.log(err);
-      throw error;
+    } catch (err) {
+      () => {
+        console.log(err);
+        throw error;
+      }
     }
-     }
 
   };
 
