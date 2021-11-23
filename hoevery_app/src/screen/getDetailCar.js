@@ -57,7 +57,27 @@ const handleNotification = () => {
     //  navigation.navigate('myRental', { paramKey: items })
   }
 };
-
+const Header = () => {
+  {
+    return (
+      <View style={styles1.header}>
+        <View style={styles1.header_easy_find}>
+          <TouchableOpacity
+            styles={{}}
+            onPress={() => navigation.navigate('mainPage')}>
+            <Icon name="arrow-left" size={30} />
+          </TouchableOpacity>
+          <Text style={[styles.text_header1, {color: COLORS.secondary}]}>
+            EASY
+          </Text>
+          <Text style={[styles.text_header1, {color: COLORS.primary}]}>
+            FIND
+          </Text>
+        </View>
+      </View>
+    );
+  }
+};
 export default class getDetailCar extends Component {
   constructor(props) {
     super(props);

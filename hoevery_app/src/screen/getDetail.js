@@ -292,7 +292,7 @@ export default class getDetail extends Component {
               paddingHorizontal: SIZES.padding * 2,
             }}
             onPress={() =>
-              this.props.navigation.navigate('listCar', {username: username})
+              this.props.navigation.navigate('myRental')
             }>
             <Image
               source={icons.back}
