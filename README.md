@@ -1,8 +1,3 @@
-<h1> Hoevery Project </h1>
-<b>Application</b> <i><b>สำหรับเช่าเครื่องจักรประเภทของรถขุด</b></i><br>
-         
-         
-         
          
          - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         | COMPUTER ENGINEERING 61  | SRIPATUM UVIVERSITY        |
@@ -16,7 +11,10 @@
          - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-
+<h1> Hoevery Project </h1>
+<b>Application</b> <i><b>สำหรับเช่าเครื่องจักรประเภทของรถขุด</b></i><br>
+         
+         
 <br><h2> Application </h2>
 ตัวอย่าง Application
 <ul>
