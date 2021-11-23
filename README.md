@@ -1,17 +1,39 @@
-<h1> Hoevery</h1>
-<h2>ตัวอย่างการสร้างกล่องใส่อุปกรณ์</h2>
-<p>กล่องใส่อุปกรณ์ GPS Module</p>
-<<<<<<< HEAD
-<img src="hardware_design/NEO6.JPG" width="500">
-<p>กล่องใส่อุปกรณ์ esp32</p>
+<h1> Hoevery Project </h1>
+<b>Application</b> <i><b>สำหรับเช่าเครื่องจักรประเภทของรถขุด</b></i>
+
+<br><h2> Application </h2>
+ตัวอย่าง Application
+<ul>
+<b>แสดงรายการรถขุดที่อยู่ใกล้</b><br>
+<img src="hardware_design/listcar.png" width="350"><br><br>
+<b>รายละเอียดของรถที่ให้เช่า</b><br>
+<img src="hardware_design/detailcar.png" width="350"><br>
+</ul>
+
+<br><h2> Hardware </h2>
+<h3>กล่องใส่อุปกรณ์</h3>
+<ul>
+<b>กล่องใส่อุปกรณ์ GPS Module</b><br>
+<img src="hardware_design/NEO6.JPG" width="500"><br>
+<b>กล่องใส่อุปกรณ์ esp32</b><br>
 <img src="hardware_design/esp32.png" width="500">
-=======
-<img src="ref/NEO6.JPG" width="500">
-<p>กล่องใส่อุปกรณ์ esp32</p>
-<img src="ref/esp32.png" width="500">
->>>>>>> 8da9bc611c0fb3597d7e8b8a535d9944c9e9e4e3
+</ul>
 
+<ul>
+<b>Sender</b><br><br>
+<img src="hardware_design/sender_diagram.png" width="500">
+<img src="hardware_design/sender_device.jpg" width="500"><br>
+<b>Receive</b><br><br>
+<img src="hardware_design/receive_diagram.png" width="500">
+<img src="hardware_design/receive_device.jpg" width="500"><br>
+</ul>
 
-<h1> Hardware </h1>
-<h2>Diagram</h2>
-<img src="hw/diagram.jpg" width="500">
+<h2>Database (PostgreSQL)</h2>
+<b>ER Diagram</b><br><br>
+<img src="hardware_design/er_db.png" width="500"><br>
+<b>Database Table</b><br><br>
+<img src="hardware_design/db.JPG" width="900"><br>
+
+<h2>API Framework (FastAPI)</h2>
+<b>API Example</b><br><br>
+<img src="hardware_design/API.JPG" width="900"><br>
