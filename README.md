@@ -1,9 +1,9 @@
 <h1> Hoevery</h1>
 <h2>ตัวอย่างการสร้างกล่องใส่อุปกรณ์</h2>
 <p>กล่องใส่อุปกรณ์ GPS Module</p>
-<img src="hoevery/hardware_design/NEO6.JPG" width="500">
+<img src="hardware_design/NEO6.JPG" width="500">
 <p>กล่องใส่อุปกรณ์ esp32</p>
-<img src="hoevery/hardware_design/esp32.png" width="500">
+<img src="hardware_design/esp32.png" width="500">
 
 
 <h1> Hardware </h1>
