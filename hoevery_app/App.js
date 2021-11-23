@@ -25,7 +25,7 @@ import testDeploy from './src/screen/testDeploy';
 import testRegister from './src/screen/testRegister';
 import History from './src/screen/History';
 import AddressPro from './src/screen/AddressPro';
-
+import getDetail from './src/screen/getDetail';
 const Stack = createStackNavigator();
 function MyStack() {
   return (
@@ -55,6 +55,7 @@ function MyStack() {
       <Stack.Screen name="testRegister" component={testRegister} />
       <Stack.Screen name="History" component={History} />
       <Stack.Screen name="AddressPro" component={AddressPro} />
+      <Stack.Screen name="getDetail" component={getDetail} />
     </Stack.Navigator>
   );
 }

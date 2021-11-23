@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,11 +8,11 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import {COLORS, SIZES, FONTS, icons, images} from '../constants';
+import { COLORS, SIZES, FONTS, icons, images } from '../constants';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Cookie from 'react-native-cookie';
 
-const myRental = ({navigation}) => {
+const myRental = ({ navigation }) => {
   const [NotifyData, setNotifyData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,7 +20,7 @@ const myRental = ({navigation}) => {
     getListNotifyData();
     const getListNotifyDataInterval = setInterval(() => getListNotifyData(), 5 * 1000);
     return () => {
-        clearInterval(getListNotifyDataInterval);
+      clearInterval(getListNotifyDataInterval);
     };
   }, []);
   const getListNotifyData = async () => {
@@ -59,7 +59,7 @@ const myRental = ({navigation}) => {
       rental_by_id: rental_by_id,
       order_id: order_id,
       car_id: car_id,
-      price: price, 
+      price: price,
       price_type: price_type
     });
   };
@@ -79,7 +79,7 @@ const myRental = ({navigation}) => {
             backgroundColor: '#fff',
             alignItems: 'center',
             borderRadius: 15,
-            shadowOffset: {width: 2, height: 2},
+            shadowOffset: { width: 2, height: 2 },
             shadowColor: COLORS.black,
             shadowOpacity: 5.0,
             shadowRadius: 5.0,
@@ -88,7 +88,7 @@ const myRental = ({navigation}) => {
           <FlatList
             data={NotifyData}
             getListNotifyData={getListNotifyData}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <View
                 style={{
                   flex: 1,
@@ -103,13 +103,13 @@ const myRental = ({navigation}) => {
                         height: 70,
                       }}
                       source={require('../../assets/images/type_ex/1_crawler.png')}
-                      onPress={() => {}}
+                      onPress={() => { }}
                       borderRadius={10}
                     />
-                    <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
                       {' '}
                       {'\n'}วัน/เวลาทำการ {'\n'}{' '}
-                      <Text style={{fontSize: 12, fontWeight: 'normal'}}>
+                      <Text style={{ fontSize: 12, fontWeight: 'normal' }}>
                         {item.created_date}
                       </Text>
                     </Text>
@@ -129,21 +129,22 @@ const myRental = ({navigation}) => {
                       </Text>
                       <Text style={FONTS.body5}>
                         เจ้าของ:{' '}
-                        <Text style={{fontWeight: 'bold'}}>
+                        <Text style={{ fontWeight: 'bold' }}>
                           {item.owner_car}
                         </Text>
                       </Text>
                     </View>
                     <View style={styles.flat_status}>
                       <Icon name="truck" size={20} color="#2BC978" />
-                      <Text style={{color: '#000'}}> สถานะ : </Text>
-                      <Text style={{fontWeight: 'bold', color: 'red'}}>
+                      <Text style={{ color: '#000' }}> สถานะ : </Text>
+                      <Text style={{ fontWeight: 'bold', color: 'red' }}>
                         {' '}
                         {item.status}
                       </Text>
                     </View>
                     <View style={styles.flat_total}>
                       {item.status === 'accept' ? (
+                         <View style={styles.flat_box}>
                         <TouchableOpacity
                           style={styles.next_button}
                           onPress={() =>
@@ -157,23 +158,32 @@ const myRental = ({navigation}) => {
                           }>
                           <Text>Next step </Text>
                         </TouchableOpacity>
-                      ) : (
                         <TouchableOpacity
-                          style={styles.wait_button}
-                          onPress={() => _wait()}>
-                          <Text>Waiting.. </Text>
+                          style={styles.detail_btn}
+                          onPress={() => navigation.navigate('getDetail', 
+                          {
+                            car_id :item.car_id
+                          })}>
+                          <Text style={{fontSize:10, fontWeight:'bold'}}>ตำแหน่ง{'\n'}ของรถ</Text>
                         </TouchableOpacity>
+                        </View>
+                    ) : (
+                    <TouchableOpacity
+                      style={styles.wait_button}
+                      onPress={() => _wait()}>
+                      <Text>Waiting.. </Text>
+                    </TouchableOpacity>
                       )}
-                    </View>
                   </View>
                 </View>
               </View>
+              </View>
             )}
           />
-        </View>
       </View>
-      {/* Footer */}
     </View>
+      {/* Footer */ }
+    </View >
   );
 };
 
@@ -211,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -233,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: { width: 2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 5.0,
     shadowRadius: 5.0,
@@ -282,7 +292,7 @@ const styles = StyleSheet.create({
   },
   next_button: {
     backgroundColor: COLORS.green,
-    width: 90,
+    width: 77,
     height: 35,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -298,6 +308,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
+  detail_btn: {
+    width: 47,
+    height: 35,
+    borderRadius: 10,
+    backgroundColor: COLORS.primary,
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  flat_box :{
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+  }
 });
 
 export default myRental;

@@ -178,7 +178,7 @@ const findCar = ({navigation}) => {
   };
   const Body_find_btn = () => {
     return (
-      <View styles={styles1.body2}>
+      <View style={styles1.body2}>
         <TouchableOpacity
           style={styles1.find_btn}
           onPress={() => Check_getExData()}>
@@ -232,15 +232,16 @@ const styles1 = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   body2: {
-    flex: 0.1,
+    flex: 0.2,
     backgroundColor: COLORS.white,
-    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   footer: {
     flex: 0.08,
     backgroundColor: COLORS.white,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     padding: 10,
   },
   picker: {
@@ -270,7 +271,6 @@ const styles1 = StyleSheet.create({
     width: '25%',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-end',
     padding: 10,
     borderRadius: 10,
     shadowOffset: {width: 2, height: 2},

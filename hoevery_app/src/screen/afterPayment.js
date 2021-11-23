@@ -178,14 +178,6 @@ export default class afterPayment extends Component {
   }
   
   render() {
-    const getCookie = async () => {
-      const cookie = await Cookie.get('203.150.107.212')
-      // console.log("cookie on listCar screen ;", cookie)
-      this.setState({username: cookie})
-    }
-    const {order_id} = this.props.route.params;
-
-
     return (
       <View style={{flex: 1}}>
         <LinearGradient colors={[COLORS.white, COLORS.white]} style={{flex: 1}}>
@@ -274,10 +266,10 @@ export default class afterPayment extends Component {
                 },
                 shadowOpacity: 0.22,
                 shadowRadius: 1.22,
-                elevation: 2,
+                elevation: 2, 
                 marginTop: 10,
               }}
-              onPress={() => this.props.navigation.navigate('mainPage', {username,username})}>
+              onPress={() => this.props.navigation.navigate('mainPage')}>
               <Text style={{color: COLORS.white, ...FONTS.h1}}>Home</Text>
             </TouchableOpacity>
           </View>
