@@ -57,7 +57,7 @@
         | CPE405(T), CPE405(L), ICT493(T),CPE451(T)             |
          - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         | Aumpu simanon            |       61033125             |
-        | Bussayamas Precharburana |       610                  |
-        | Panupong Aerbaim         |       610                  |
+        | Bussayamas Precharburana |       61037416             |
+        | Panupong Aerbaim         |       61009558             |
         | Parkin Thanantthanachon  |       61043845             |
          - - - - - - - - - - - - - - - - - - - - - - - - - - - -
