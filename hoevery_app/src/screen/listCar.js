@@ -253,7 +253,7 @@ export default class listCar extends Component {
                     onPress={() => console.log('Freature => Pop image')}
                   />
                   <ListItem.Content>
-                    <ListItem.Title>{item.type}</ListItem.Title>
+                    <ListItem.Title>{item.carname}</ListItem.Title>
                     <ListItem.Subtitle>location: {item.distance} km</ListItem.Subtitle>
                   </ListItem.Content>
                   <ListItem.Chevron color={COLORS.primary} />
